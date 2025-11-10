@@ -38,7 +38,7 @@ This dashboard empowers sales reps and retention managers to understand subscrib
 - One-click action triggers with auto-action toggle
 - Interactive AI prompts for campaign deployment
 
-### 6. **Retention Copilot (AI Chat)**
+### 6. **Agentforce (AI Chat)**
 - Einstein-style conversational assistant
 - Real-time segment analysis and recommendations
 - Quick action buttons for common queries
@@ -66,7 +66,7 @@ This dashboard empowers sales reps and retention managers to understand subscrib
 ## 🎨 Design System
 
 - **Theme**: Deep navy (#0a1929) with vibrant Sky blue gradients (#0ea5e9)
-- **Style**: Salesforce Lightning + Einstein Copilot inspired
+- **Style**: Salesforce Lightning + Einstein Agent inspired
 - **Effects**: Glassmorphism, smooth animations, micro-interactions
 - **Icons**: Lucide React icons for consistency
 - **Layout**: 3-column adaptive grid (Overview / Insights / Actions)
@@ -112,7 +112,7 @@ sky-tv-retention-intelligence/
 │   ├── MultiSignalMatrix.tsx  # Churn signals grid
 │   ├── DecisionLayer.tsx   # Segment prioritization
 │   ├── ActionCenter.tsx    # AI recommendations
-│   ├── RetentionCopilot.tsx  # AI chat assistant
+│   ├── RetentionCopilot.tsx  # AI chat agent
 │   ├── ABExperimentation.tsx  # A/B test results
 │   ├── ChurnValidation.tsx  # Model performance
 │   ├── FeedbackWidget.tsx  # Exit feedback
@@ -136,7 +136,7 @@ sky-tv-retention-intelligence/
 
 ## 💬 AI Voice & Tone
 
-The AI assistant (Einstein Copilot) is:
+The AI agent (Einstein Agent) is:
 - **Empathetic**: Understanding subscriber challenges
 - **Confident**: Providing data-backed recommendations
 - **Conversational**: Clear, jargon-free communication

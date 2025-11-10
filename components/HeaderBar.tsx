@@ -1,8 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Users, AlertTriangle, DollarSign, Activity, Sparkles } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, AlertTriangle, DollarSign, Activity, Sparkles, Sun, Moon } from 'lucide-react';
 import { formatNumber } from '@/lib/utils';
+import { useTheme } from '@/app/providers';
+import { useState, useEffect } from 'react';
 
 interface MetricCardProps {
   title: string;
@@ -11,9 +13,10 @@ interface MetricCardProps {
   icon: React.ReactNode;
   hasAIInsight?: boolean;
   tooltip?: string;
+  gradient: string;
 }
 
-const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip }: MetricCardProps) => {
+const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip, gradient }: MetricCardProps) => {
   const isPositive = change > 0;
   const isNegativeMetric = title.includes('Risk') || title.includes('Churn');
   const trendColor = isNegativeMetric ? (isPositive ? 'text-red-400' : 'text-green-400') : (isPositive ? 'text-green-400' : 'text-red-400');
@@ -23,23 +26,10 @@ const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip }: Metri
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(14, 165, 233, 0.4)' }}
-      className="glass-card rounded-xl p-6 relative overflow-hidden group cursor-pointer"
+      className="glass-card rounded-xl p-6 relative overflow-hidden group cursor-pointer h-[200px] flex flex-col"
     >
-      {hasAIInsight && (
-        <div className="absolute top-3 right-3">
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex items-center gap-1 text-xs bg-gradient-to-r from-sky-400 to-blue-500 text-white px-2 py-1 rounded-full"
-          >
-            <Sparkles size={12} />
-            <span>AI Insight</span>
-          </motion.div>
-        </div>
-      )}
-      
       <div className="flex items-start justify-between mb-3">
-        <div className="p-2 rounded-lg bg-sky-500/20 text-sky-400">
+        <div className={`p-3 rounded-lg bg-gradient-to-br ${gradient} kpi-icon-wrapper`}>
           {icon}
         </div>
         <div className={`flex items-center gap-1 ${trendColor}`}>
@@ -49,13 +39,23 @@ const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip }: Metri
       </div>
       
       <h3 className="text-gray-400 text-sm mb-1">{title}</h3>
-      <p className="text-3xl font-bold text-white">{value}</p>
+      <p className="text-3xl font-bold text-white mb-3">{value}</p>
+      
+      {/* AI Insight Badge - Fixed position */}
+      <div className="mt-auto">
+        {hasAIInsight && (
+          <div className="inline-flex items-center gap-1 text-xs bg-gradient-to-r from-sky-400 to-blue-500 text-white px-2 py-1 rounded-full">
+            <Sparkles size={12} />
+            <span>AI Insight</span>
+          </div>
+        )}
+      </div>
       
       {tooltip && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           whileHover={{ opacity: 1, height: 'auto' }}
-          className="mt-3 pt-3 border-t border-sky-500/20 text-xs text-sky-300 hidden group-hover:block"
+          className="absolute bottom-3 left-3 right-3 pt-3 border-t border-sky-500/30 text-xs text-white hidden group-hover:block bg-gray-900/95 backdrop-blur-sm rounded-b-lg px-2 pb-2"
         >
           💡 {tooltip}
         </motion.div>
@@ -65,6 +65,13 @@ const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip }: Metri
 };
 
 export default function HeaderBar() {
+  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
   const metrics = [
     {
       title: 'Total Subscribers',
@@ -72,6 +79,7 @@ export default function HeaderBar() {
       change: 3,
       icon: <Users size={24} />,
       hasAIInsight: false,
+      gradient: 'from-blue-500 to-cyan-500',
     },
     {
       title: 'High-Risk Segment',
@@ -80,6 +88,7 @@ export default function HeaderBar() {
       icon: <AlertTriangle size={24} />,
       hasAIInsight: true,
       tooltip: 'Churn rising in first 45 days. Personalize onboarding.',
+      gradient: 'from-red-500 to-orange-500',
     },
     {
       title: 'CLTV/CAC Ratio',
@@ -87,6 +96,7 @@ export default function HeaderBar() {
       change: 5,
       icon: <DollarSign size={24} />,
       hasAIInsight: false,
+      gradient: 'from-green-500 to-emerald-500',
     },
     {
       title: 'Engagement Score',
@@ -95,6 +105,7 @@ export default function HeaderBar() {
       icon: <Activity size={24} />,
       hasAIInsight: true,
       tooltip: 'Drop in live TV viewing hours detected.',
+      gradient: 'from-purple-500 to-pink-500',
     },
     {
       title: 'Early Lifecycle Churn',
@@ -103,6 +114,7 @@ export default function HeaderBar() {
       icon: <TrendingDown size={24} />,
       hasAIInsight: true,
       tooltip: '80% of churners show inactivity in first 6 weeks.',
+      gradient: 'from-orange-500 to-yellow-500',
     },
   ];
 
@@ -113,11 +125,9 @@ export default function HeaderBar() {
         animate={{ opacity: 1, x: 0 }}
         className="mb-6"
       >
-        <h1 className="text-4xl font-bold text-gradient mb-2">
-          Sky TV Retention Intelligence
-        </h1>
-        <p className="text-gray-400 text-lg">
-          Powered by Salesforce Einstein · Real-time predictive analytics
+        <h2 className="text-2xl font-bold text-white mb-1">Overview Metrics</h2>
+        <p className="text-gray-400">
+          Real-time key performance indicators powered by Salesforce Einstein
         </p>
       </motion.div>
 

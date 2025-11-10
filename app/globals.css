@@ -8,6 +8,28 @@
   --background-end-rgb: 12, 74, 110;
 }
 
+:root.light {
+  /* Clean Modern Light Theme */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255; /* Pure white */
+  --background-end-rgb: 248, 250, 252; /* Very light blue-gray */
+  
+  /* Brand Colors */
+  --brand-blue: #0ea5e9;
+  --brand-blue-dark: #0284c7;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  /* Borders */
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  
+  /* Backgrounds */
+  --bg-card: #ffffff;
+  --bg-page: #f8fafc;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -21,6 +43,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 @layer utilities {
@@ -36,6 +59,62 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+
+  /* Clean Light Theme Cards */
+  .light .glass-effect {
+    background: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .light .glass-card {
+    background: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .light .glass-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+  
+  /* Force white text on ALL blue elements in light mode */
+  .light button,
+  .light button *,
+  .light button span,
+  .light button svg,
+  .light .bg-gradient-to-r,
+  .light .bg-gradient-to-r *,
+  .light .bg-gradient-to-r span,
+  .light .bg-gradient-to-r svg,
+  .light .bg-sky-500,
+  .light .bg-sky-500 *,
+  .light .bg-sky-400,
+  .light .bg-sky-400 *,
+  .light .bg-blue-500,
+  .light .bg-blue-500 *,
+  .light .bg-blue-600,
+  .light .bg-blue-600 *,
+  .light span.rounded-full,
+  .light span.rounded-full *,
+  .light .inline-flex,
+  .light .inline-flex * {
+    color: #FFFFFF !important;
+  }
+  
+  .light button svg,
+  .light button svg *,
+  .light .bg-gradient-to-r svg,
+  .light .bg-gradient-to-r svg * {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
   }
 
   .text-gradient {

@@ -16,7 +16,7 @@ export default function RetentionCopilot() {
     {
       id: '1',
       role: 'ai',
-      content: "Hi! I'm your Retention AI Copilot. I can help you identify at-risk subscribers and suggest targeted retention strategies. What would you like to explore?",
+      content: "Hi! I'm your Retention AI Agent. I can help you identify at-risk subscribers and suggest targeted retention strategies. What would you like to explore?",
       actions: [
         { label: 'Show trial-phase risks', onClick: () => {} },
         { label: 'High-value churners', onClick: () => {} },
@@ -89,11 +89,24 @@ export default function RetentionCopilot() {
           transition={{ duration: 3, repeat: Infinity }}
           className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center"
         >
-          <Bot size={24} className="text-white" />
+          {/* Salesforce Agentforce Icon */}
+          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Main Agent Symbol - Stylized "A" with modern tech design */}
+            <path d="M24 4L8 14V28L24 38L40 28V14L24 4Z" fill="white" fillOpacity="0.9"/>
+            <path d="M24 12L16 17V27L24 32L32 27V17L24 12Z" fill="url(#agentGradient)"/>
+            <circle cx="24" cy="20" r="3" fill="white"/>
+            <path d="M24 24L18 28H30L24 24Z" fill="white"/>
+            <defs>
+              <linearGradient id="agentGradient" x1="16" y1="12" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#0ea5e9" stopOpacity="0.3"/>
+                <stop offset="1" stopColor="#3b82f6" stopOpacity="0.3"/>
+              </linearGradient>
+            </defs>
+          </svg>
         </motion.div>
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            Retention Copilot
+            Agentforce
             <Sparkles size={16} className="text-sky-400" />
           </h2>
           <p className="text-gray-400 text-sm">Powered by Einstein AI</p>

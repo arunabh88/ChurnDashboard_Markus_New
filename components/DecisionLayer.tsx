@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight } from 'lucide-react';
+import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Crown, Tag, Film, Wrench, ShoppingCart } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
 interface Segment {
@@ -12,6 +12,8 @@ interface Segment {
   aiSuggestion: string;
   priority: 'save-first' | 'low-roi' | 'needs-attention';
   count: number;
+  icon: React.ReactNode;
+  iconColor: string;
 }
 
 export default function DecisionLayer() {
@@ -24,6 +26,8 @@ export default function DecisionLayer() {
       aiSuggestion: 'Loyalty discount + exclusive content',
       priority: 'save-first',
       count: 8400,
+      icon: <Crown size={24} />,
+      iconColor: 'from-yellow-400 to-orange-500',
     },
     {
       name: 'Price-sensitive',
@@ -33,6 +37,8 @@ export default function DecisionLayer() {
       aiSuggestion: 'Flexible plan + ad-supported tier',
       priority: 'needs-attention',
       count: 15200,
+      icon: <Tag size={24} />,
+      iconColor: 'from-green-400 to-emerald-500',
     },
     {
       name: 'Content-fatigued',
@@ -42,6 +48,8 @@ export default function DecisionLayer() {
       aiSuggestion: 'Recommend new series + personalized playlists',
       priority: 'save-first',
       count: 6800,
+      icon: <Film size={24} />,
+      iconColor: 'from-purple-400 to-pink-500',
     },
     {
       name: 'Tech-frustrated',
@@ -51,6 +59,8 @@ export default function DecisionLayer() {
       aiSuggestion: 'Proactive support + device upgrade offer',
       priority: 'needs-attention',
       count: 4200,
+      icon: <Wrench size={24} />,
+      iconColor: 'from-blue-400 to-cyan-500',
     },
     {
       name: 'Competitive shoppers',
@@ -60,6 +70,8 @@ export default function DecisionLayer() {
       aiSuggestion: 'Price match + bundle discount',
       priority: 'low-roi',
       count: 9600,
+      icon: <ShoppingCart size={24} />,
+      iconColor: 'from-red-400 to-pink-500',
     },
   ];
 
@@ -67,22 +79,22 @@ export default function DecisionLayer() {
     switch (priority) {
       case 'save-first':
         return (
-          <span className="flex items-center gap-1 text-xs bg-red-500 text-white px-3 py-1 rounded-full font-semibold">
-            <Sparkles size={12} />
-            Save First
+          <span className="flex items-center gap-1 text-xs bg-red-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+            <Sparkles size={12} className="text-white" />
+            <span className="text-white">Save First</span>
           </span>
         );
       case 'low-roi':
         return (
-          <span className="text-xs bg-gray-600 text-gray-300 px-3 py-1 rounded-full font-semibold">
-            Low ROI
+          <span className="text-xs bg-gray-600 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+            <span className="text-white">Low ROI</span>
           </span>
         );
       case 'needs-attention':
         return (
-          <span className="flex items-center gap-1 text-xs bg-orange-500 text-white px-3 py-1 rounded-full font-semibold">
-            <AlertCircle size={12} />
-            Needs Attention
+          <span className="flex items-center gap-1 text-xs bg-orange-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+            <AlertCircle size={12} className="text-white" />
+            <span className="text-white">Needs Attention</span>
           </span>
         );
       default:
@@ -106,11 +118,11 @@ export default function DecisionLayer() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow"
+          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow decision-layer-button"
         >
-          <Sparkles size={20} />
-          View All Segments
-          <ArrowRight size={20} />
+          <Sparkles size={20} className="text-white" />
+          <span className="text-white">View All Segments</span>
+          <ArrowRight size={20} className="text-white" />
         </motion.button>
       </div>
 
@@ -128,8 +140,8 @@ export default function DecisionLayer() {
               {/* Segment Name & Count */}
               <div className="md:col-span-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-white font-bold">
-                    {segment.name.charAt(0)}
+                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
+                    {segment.icon}
                   </div>
                   <div>
                     <h3 className="text-white font-semibold text-lg">{segment.name}</h3>

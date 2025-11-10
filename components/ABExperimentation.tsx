@@ -88,9 +88,9 @@ export default function ABExperimentation() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow"
+          className="bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow new-experiment-button"
         >
-          + New Experiment
+          <span className="text-white">+ New Experiment</span>
         </motion.button>
       </div>
 
@@ -180,7 +180,7 @@ export default function ABExperimentation() {
           <Lightbulb size={24} className="text-purple-400" />
           <div>
             <p className="text-white font-semibold">Experiment. Learn. Iterate.</p>
-            <p className="text-gray-300 text-sm">
+            <p className="text-gray-300 text-sm ab-testing-subtitle">
               Continuous testing has improved retention by <span className="text-purple-400 font-bold">+24%</span> over 6 months
             </p>
           </div>

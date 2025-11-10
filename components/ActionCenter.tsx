@@ -124,10 +124,10 @@ export default function ActionCenter() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleTriggerAction(action.id)}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold"
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold action-center-button"
               >
                 <Play size={16} />
-                Trigger Action Now
+                <span className="text-white">Trigger Action Now</span>
               </motion.button>
             </div>
           </motion.div>

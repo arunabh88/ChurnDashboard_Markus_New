@@ -123,7 +123,7 @@ export default function MultiSignalMatrix() {
                     </td>
                     <td className="py-4 px-4 text-gray-300">{signal.keySignal}</td>
                     <td className="py-4 px-4">
-                      <span className="text-xs bg-navy-800 text-sky-300 px-2 py-1 rounded">
+                      <span className="text-xs bg-navy-800 text-sky-300 px-2 py-1 rounded source-tag">
                         {signal.source}
                       </span>
                     </td>

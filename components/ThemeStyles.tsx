@@ -560,27 +560,27 @@ export default function ThemeStyles() {
           color: var(--slds-text-primary) !important;
         }
         
-        /* SLDS Tooltip - Clean and Professional */
+        /* SLDS Tooltip - Clean and Professional with White Text */
         .light .recharts-tooltip-wrapper {
-          color: var(--slds-text-primary) !important;
+          color: #FFFFFF !important;
         }
         
         .light .recharts-default-tooltip {
-          background: var(--slds-bg-primary) !important;
-          border: 1px solid var(--slds-border-primary) !important;
+          background: rgba(0, 0, 0, 0.9) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
           border-radius: 0.25rem !important;
           padding: 0.75rem !important;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12) !important;
-          color: var(--slds-text-primary) !important;
+          box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.3) !important;
+          color: #FFFFFF !important;
         }
         
         .light .recharts-default-tooltip * {
-          color: var(--slds-text-primary) !important;
+          color: #FFFFFF !important;
         }
         
         .light .recharts-tooltip-label,
         .light .recharts-tooltip-label * {
-          color: var(--slds-text-primary) !important;
+          color: #FFFFFF !important;
           font-weight: 700 !important;
           margin-bottom: 0.5rem !important;
         }
@@ -589,7 +589,7 @@ export default function ThemeStyles() {
         .light .recharts-tooltip-item *,
         .light .recharts-tooltip-item-value,
         .light .recharts-tooltip-item-name {
-          color: var(--slds-text-body) !important;
+          color: #FFFFFF !important;
         }
         
         .light .recharts-tooltip-item-list {
@@ -598,7 +598,7 @@ export default function ThemeStyles() {
         }
         
         .light .recharts-tooltip-item-list li {
-          color: var(--slds-text-body) !important;
+          color: #FFFFFF !important;
         }
         
         /* SLDS Card and Panel Text */

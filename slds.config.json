@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Sky TV Churn Dashboard - SLDS Theme",
+  "version": "1.0.0",
+  "description": "Salesforce Lightning Design System implementation for Sky TV Retention Intelligence Dashboard",
+  "identifier": "salesforce.salesforcedx-vscode-lwc",
+  "sldsVersion": "2.22.0",
+  "compatibility": {
+    "salesforce": "Winter '24",
+    "lightning": "58.0",
+    "lwc": "^2.0.0"
+  },
+  "theme": {
+    "mode": "light",
+    "brandColor": "#0176D3",
+    "brandColorDark": "#014486",
+    "fontFamily": "Salesforce Sans, Arial, sans-serif",
+    "useNativeSLDSComponents": true
+  },
+  "design": {
+    "system": "Salesforce Lightning Design System (SLDS)",
+    "tokens": "./styles/slds-tokens.css",
+    "guidelines": [
+      "Follow SLDS spacing guidelines (8px grid system)",
+      "Use SLDS color palette exclusively",
+      "Implement SLDS typography scale",
+      "Apply SLDS shadows and borders",
+      "Follow SLDS component patterns"
+    ]
+  },
+  "components": {
+    "buttons": {
+      "variants": ["brand", "neutral", "outline", "destructive"],
+      "sizes": ["small", "medium", "large"],
+      "borderRadius": "0.25rem"
+    },
+    "cards": {
+      "background": "#FFFFFF",
+      "border": "1px solid #DDDBDA",
+      "shadow": "0 2px 4px 0 rgba(0, 0, 0, 0.07)",
+      "borderRadius": "0.25rem",
+      "padding": {
+        "small": "0.75rem",
+        "medium": "1rem",
+        "large": "1.5rem"
+      }
+    },
+    "tables": {
+      "headerBackground": "#FAFAF9",
+      "rowHover": "#F3F2F2",
+      "border": "#DDDBDA",
+      "cellPadding": "0.5rem"
+    },
+    "forms": {
+      "inputHeight": "2.125rem",
+      "borderColor": "#DDDBDA",
+      "focusBorderColor": "#0176D3",
+      "focusShadow": "0 0 0 3px rgba(1, 118, 211, 0.1)"
+    },
+    "badges": {
+      "height": "1.25rem",
+      "borderRadius": "0.25rem",
+      "fontSize": "0.75rem",
+      "fontWeight": 700
+    },
+    "tooltips": {
+      "background": "rgba(0, 0, 0, 0.9)",
+      "color": "#FFFFFF",
+      "border": "1px solid rgba(255, 255, 255, 0.1)",
+      "shadow": "0 4px 12px 0 rgba(0, 0, 0, 0.3)",
+      "borderRadius": "0.25rem"
+    },
+    "navigation": {
+      "background": "#FFFFFF",
+      "borderBottom": "1px solid #DDDBDA",
+      "activeColor": "#0176D3",
+      "hoverBackground": "#FAFAF9"
+    }
+  },
+  "statusColors": {
+    "success": {
+      "background": "#ECFAEC",
+      "text": "#027E46",
+      "border": "#027E46"
+    },
+    "warning": {
+      "background": "#FEF6EC",
+      "text": "#DD7A01",
+      "border": "#FFB75D"
+    },
+    "error": {
+      "background": "#FEDED8",
+      "text": "#EA001E",
+      "border": "#EA001E"
+    },
+    "info": {
+      "background": "#EEF4FF",
+      "text": "#0176D3",
+      "border": "#0176D3"
+    }
+  },
+  "accessibility": {
+    "wcagLevel": "AA",
+    "contrastRatio": {
+      "normalText": "4.5:1",
+      "largeText": "3:1"
+    },
+    "keyboardNavigation": true,
+    "screenReaderSupport": true,
+    "focusIndicators": true
+  },
+  "responsive": {
+    "breakpoints": {
+      "mobile": "320px",
+      "tablet": "768px",
+      "desktop": "1024px",
+      "large": "1440px"
+    },
+    "grid": {
+      "columns": 12,
+      "gutter": "1rem"
+    }
+  },
+  "references": {
+    "documentation": "https://www.lightningdesignsystem.com/",
+    "tokenizer": "https://github.com/salesforce-ux/design-system/tree/master/design-tokens",
+    "componentBlueprints": "https://www.lightningdesignsystem.com/components/overview/",
+    "vscodeExtension": "https://marketplace.visualstudio.com/items?itemName=salesforce.salesforcedx-vscode-lwc"
+  }
+}
+

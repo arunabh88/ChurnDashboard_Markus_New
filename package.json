@@ -2,6 +2,16 @@
   "name": "sky-tv-retention-intelligence",
   "version": "2.0.0",
   "private": true,
+  "description": "Salesforce SLDS-compliant retention intelligence dashboard",
+  "slds": {
+    "version": "2.22.0",
+    "identifier": "salesforce.salesforcedx-vscode-lwc",
+    "theme": "Salesforce Lightning Design System",
+    "compatibility": {
+      "salesforce": "Winter '24",
+      "lightning": "58.0"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "../styles/slds-tokens.css";
 import { ThemeProvider } from "./providers";
 
 export const metadata: Metadata = {

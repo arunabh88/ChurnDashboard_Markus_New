@@ -1,0 +1,194 @@
+/**
+ * Salesforce Lightning Design System (SLDS) Design Tokens
+ * Reference: salesforce.salesforcedx-vscode-lwc
+ * 
+ * This file contains the official SLDS design tokens for consistent theming
+ * across the entire dashboard application.
+ */
+
+:root {
+  /* ============================================
+     SLDS Brand Colors
+     ============================================ */
+  --slds-brand-primary: #0176D3;
+  --slds-brand-primary-active: #014486;
+  --slds-brand-primary-hover: #005FB2;
+  --slds-brand-accessible: #0176D3;
+  --slds-brand-disabled: #DDDBDA;
+  --slds-brand-light: #EEF4FF;
+  
+  /* ============================================
+     SLDS Background Colors
+     ============================================ */
+  --slds-color-background: #FAFAF9;
+  --slds-color-background-alt: #FFFFFF;
+  --slds-color-background-alt-inverse: #16325C;
+  --slds-color-background-row-hover: #F3F2F2;
+  --slds-color-background-row-selected: #E3F3FF;
+  --slds-color-background-inverse: #181818;
+  
+  /* ============================================
+     SLDS Border Colors
+     ============================================ */
+  --slds-color-border: #DDDBDA;
+  --slds-color-border-light: #E5E5E5;
+  --slds-color-border-brand: #0176D3;
+  --slds-color-border-error: #EA001E;
+  --slds-color-border-success: #027E46;
+  --slds-color-border-warning: #FFB75D;
+  
+  /* ============================================
+     SLDS Text Colors
+     ============================================ */
+  --slds-color-text-default: #181818;
+  --slds-color-text-weak: #706E6B;
+  --slds-color-text-placeholder: #DDDBDA;
+  --slds-color-text-inverse: #FFFFFF;
+  --slds-color-text-inverse-weak: #FFFFFF;
+  --slds-color-text-link: #0176D3;
+  --slds-color-text-link-hover: #014486;
+  --slds-color-text-brand: #0176D3;
+  --slds-color-text-error: #EA001E;
+  --slds-color-text-success: #027E46;
+  --slds-color-text-warning: #DD7A01;
+  
+  /* ============================================
+     SLDS Status Colors
+     ============================================ */
+  --slds-color-background-success: #ECFAEC;
+  --slds-color-background-success-dark: #027E46;
+  --slds-color-background-error: #FEDED8;
+  --slds-color-background-error-dark: #EA001E;
+  --slds-color-background-warning: #FEF6EC;
+  --slds-color-background-warning-dark: #FFB75D;
+  --slds-color-background-info: #EEF4FF;
+  --slds-color-background-info-dark: #0176D3;
+  
+  /* ============================================
+     SLDS Spacing Scale
+     ============================================ */
+  --slds-spacing-xxx-small: 0.125rem;   /* 2px */
+  --slds-spacing-xx-small: 0.25rem;     /* 4px */
+  --slds-spacing-x-small: 0.5rem;       /* 8px */
+  --slds-spacing-small: 0.75rem;        /* 12px */
+  --slds-spacing-medium: 1rem;          /* 16px */
+  --slds-spacing-large: 1.5rem;         /* 24px */
+  --slds-spacing-x-large: 2rem;         /* 32px */
+  --slds-spacing-xx-large: 3rem;        /* 48px */
+  
+  /* ============================================
+     SLDS Typography
+     ============================================ */
+  --slds-font-family: 'Salesforce Sans', Arial, sans-serif;
+  --slds-font-size-1: 0.625rem;         /* 10px */
+  --slds-font-size-2: 0.75rem;          /* 12px */
+  --slds-font-size-3: 0.8125rem;        /* 13px */
+  --slds-font-size-4: 0.875rem;         /* 14px */
+  --slds-font-size-5: 1rem;             /* 16px */
+  --slds-font-size-6: 1.125rem;         /* 18px */
+  --slds-font-size-7: 1.25rem;          /* 20px */
+  --slds-font-size-8: 1.5rem;           /* 24px */
+  --slds-font-size-9: 1.75rem;          /* 28px */
+  --slds-font-size-10: 2rem;            /* 32px */
+  --slds-font-size-11: 2.625rem;        /* 42px */
+  
+  --slds-font-weight-light: 300;
+  --slds-font-weight-regular: 400;
+  --slds-font-weight-bold: 700;
+  
+  --slds-line-height-heading: 1.25;
+  --slds-line-height-text: 1.5;
+  
+  /* ============================================
+     SLDS Border Radius
+     ============================================ */
+  --slds-border-radius-none: 0;
+  --slds-border-radius-small: 0.125rem;  /* 2px */
+  --slds-border-radius-medium: 0.25rem;  /* 4px */
+  --slds-border-radius-large: 0.5rem;    /* 8px */
+  --slds-border-radius-circle: 50%;
+  --slds-border-radius-pill: 15rem;
+  
+  /* ============================================
+     SLDS Shadows
+     ============================================ */
+  --slds-shadow-button: 0 2px 2px 0 rgba(0, 0, 0, 0.07);
+  --slds-shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+  --slds-shadow-dropdown: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  --slds-shadow-modal: 0 0 3px 0 rgba(0, 0, 0, 0.16);
+  --slds-shadow-popup: 0 0 3px 0 rgba(0, 0, 0, 0.16);
+  
+  /* ============================================
+     SLDS Z-Index Scale
+     ============================================ */
+  --slds-z-index-default: 1;
+  --slds-z-index-docked: 4;
+  --slds-z-index-dropdown: 7000;
+  --slds-z-index-dialog: 9000;
+  --slds-z-index-popup: 5000;
+  --slds-z-index-overlay: 8000;
+  --slds-z-index-modal: 9001;
+  --slds-z-index-spinner: 9050;
+  --slds-z-index-toast: 10000;
+  
+  /* ============================================
+     SLDS Animation Durations
+     ============================================ */
+  --slds-duration-instantly: 0s;
+  --slds-duration-immediately: 0.05s;
+  --slds-duration-quickly: 0.1s;
+  --slds-duration-promptly: 0.2s;
+  --slds-duration-slowly: 0.4s;
+  --slds-duration-paused: 3.2s;
+  
+  /* ============================================
+     SLDS Component Specific Tokens
+     ============================================ */
+  
+  /* Buttons */
+  --slds-button-line-height: 1.875rem;
+  --slds-button-spacing-horizontal: 1rem;
+  
+  /* Cards */
+  --slds-card-spacing-small: 0.75rem;
+  --slds-card-spacing-medium: 1rem;
+  --slds-card-spacing-large: 1.5rem;
+  
+  /* Tables */
+  --slds-table-cell-spacing: 0.5rem;
+  --slds-table-row-height: 2.5rem;
+  
+  /* Forms */
+  --slds-input-height: 2.125rem;
+  --slds-input-spacing-horizontal: 0.75rem;
+  
+  /* Badges */
+  --slds-badge-height: 1.25rem;
+  --slds-badge-spacing-horizontal: 0.5rem;
+  
+  /* ============================================
+     SLDS Utility Colors (Extended Palette)
+     ============================================ */
+  --slds-color-utility-1: #FF5D2D;
+  --slds-color-utility-2: #FFB75D;
+  --slds-color-utility-3: #FCC003;
+  --slds-color-utility-4: #01C6C7;
+  --slds-color-utility-5: #3A97C4;
+  --slds-color-utility-6: #0176D3;
+  --slds-color-utility-7: #5F3DBD;
+  --slds-color-utility-8: #B450BA;
+  --slds-color-utility-9: #E3066A;
+  --slds-color-utility-10: #EA001E;
+}
+
+/* ============================================
+   SLDS Dark Mode Overrides (Future Ready)
+   ============================================ */
+[data-theme="dark"] {
+  --slds-color-background: #16325C;
+  --slds-color-background-alt: #0B2399;
+  --slds-color-text-default: #FFFFFF;
+  --slds-color-text-weak: #C9C7C5;
+  --slds-color-border: #514F4D;
+}
+

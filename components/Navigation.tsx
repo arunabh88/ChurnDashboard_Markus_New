@@ -28,8 +28,8 @@ export default function Navigation({
   const ActiveIcon = useMemo(() => tabs.find((tab) => tab.id === activeTab)?.icon ?? Sparkles, [activeTab]);
 
   return (
-    <header className="sticky top-0 z-30 mt-6 flex justify-center px-1 sm:px-2">
-      <div className="glass-panel mx-auto flex w-full max-w-[min(1440px,100%)] items-center justify-between rounded-[28px] border border-white/10 bg-white/10 px-4 py-3 text-[13px] text-slate-100 sm:px-6 sm:text-sm">
+    <header className="sticky top-0 z-30 mt-6 flex w-full justify-center px-1 sm:px-2">
+      <div className="glass-panel mx-auto flex w-full max-w-none items-center justify-between rounded-[28px] border border-white/10 bg-white/10 px-3 py-3 text-[13px] text-slate-100 sm:px-6 sm:text-sm lg:max-w-[min(1440px,100%)]">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-3 py-2 text-white shadow-lg shadow-sky-500/40 sm:px-4">
             <LayoutDashboard size={18} className="hidden sm:block" />
@@ -40,7 +40,7 @@ export default function Navigation({
           </div>
         </div>
 
-        <nav className="hidden items-center gap-3 xl:flex">
+        <nav className="hidden items-center gap-3 lg:flex">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
             const Icon = tab.icon;
@@ -128,19 +128,7 @@ export default function Navigation({
           </div>
         </div>
       </div>
-      <motion.div
-        key={activeTab}
-        className="pointer-events-none absolute inset-x-0 top-[12px] mx-auto hidden w-full max-w-[min(1440px,100%)] justify-start px-8 lg:flex"
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-200 backdrop-blur">
-          <ActiveIcon size={14} />
-          Navigating · {tabs.find((tab) => tab.id === activeTab)?.label ?? 'Home'}
-        </div>
-      </motion.div>
-
-      <nav className="glass-panel mx-auto mt-4 flex w-full max-w-[min(1440px,100%)] items-center justify-between rounded-[24px] border border-white/10 bg-white/10 px-3 py-3 text-xs text-slate-200 backdrop-blur md:hidden">
+      <nav className="glass-panel mx-auto mt-4 flex w-full max-w-none items-center justify-between rounded-[24px] border border-white/10 bg-white/10 px-3 py-3 text-xs text-slate-200 backdrop-blur md:hidden">
         <div className="flex flex-1 items-center gap-2 overflow-x-auto">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;

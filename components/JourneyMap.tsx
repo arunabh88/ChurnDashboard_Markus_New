@@ -161,15 +161,6 @@ export default function JourneyMap() {
               </linearGradient>
             </defs>
 
-            {/* Intake Flow - Trials per Day */}
-            <motion.g
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-            >
-              <path d="M 10 140 L 50 140" stroke="#38bdf8" strokeWidth="3" markerEnd="url(#arrowBlue)"/>
-              <text x="15" y="125" textAnchor="start" fill="#38bdf8" fontSize="11" fontWeight="bold">100 Trials / day</text>
-            </motion.g>
-
             {/* Trial Users - Funnel Stage 1 */}
             <motion.g
               initial={{ opacity: 0, x: -20 }}
@@ -195,15 +186,7 @@ export default function JourneyMap() {
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <path d="M 165 270 L 165 305" stroke="#ef4444" strokeWidth="2" markerEnd="url(#arrowRed)" opacity="0.6"/>
-                <motion.circle
-                  cx="165"
-                  cy="312"
-                  r="4"
-                  fill="#ef4444"
-                  animate={{ opacity: [0.8, 0.3, 0.8], scale: [1, 1.1, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <text x="165" y="325" textAnchor="middle" fill="#ef4444" fontSize="10">70% leak</text>
+                <text x="165" y="320" textAnchor="middle" fill="#ef4444" fontSize="10">70% leak</text>
               </motion.g>
             </motion.g>
 
@@ -213,7 +196,7 @@ export default function JourneyMap() {
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               <path d="M 280 140 L 540 140" stroke="#38bdf8" strokeWidth="3" markerEnd="url(#arrowBlue)"/>
-              <text x="410" y="130" textAnchor="middle" fill="#38bdf8" fontSize="11" fontWeight="bold">30 New / day</text>
+              <text x="410" y="130" textAnchor="middle" fill="#38bdf8" fontSize="9" fontWeight="bold">30%</text>
             </motion.g>
 
             {/* New Users - Funnel Stage 2 */}
@@ -241,15 +224,7 @@ export default function JourneyMap() {
                 transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
               >
                 <path d="M 660 250 L 660 295" stroke="#f97316" strokeWidth="2" markerEnd="url(#arrowOrange)" opacity="0.6"/>
-                <motion.circle
-                  cx="660"
-                  cy="300"
-                  r="4"
-                  fill="#f97316"
-                  animate={{ opacity: [0.8, 0.3, 0.8], scale: [1, 1.1, 1] }}
-                  transition={{ duration: 1.7, repeat: Infinity }}
-                />
-                <text x="660" y="315" textAnchor="middle" fill="#f97316" fontSize="10">20% leak</text>
+                <text x="660" y="310" textAnchor="middle" fill="#f97316" fontSize="10">20% leak</text>
               </motion.g>
             </motion.g>
 
@@ -259,7 +234,7 @@ export default function JourneyMap() {
               transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
             >
               <path d="M 780 140 L 1040 140" stroke="#38bdf8" strokeWidth="3" markerEnd="url(#arrowBlue)"/>
-              <text x="910" y="130" textAnchor="middle" fill="#38bdf8" fontSize="11" fontWeight="bold">19 Established / day</text>
+              <text x="910" y="130" textAnchor="middle" fill="#38bdf8" fontSize="9" fontWeight="bold">65%</text>
             </motion.g>
 
             {/* Established Users - Funnel Stage 3 */}
@@ -286,16 +261,8 @@ export default function JourneyMap() {
                 animate={{ y: [0, 5, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
               >
-                <path d="M 1160 230 L 1160 285" stroke="#f87171" strokeWidth="2" markerEnd="url(#arrowRed)" opacity="0.5"/>
-                <motion.circle
-                  cx="1160"
-                  cy="290"
-                  r="3"
-                  fill="#f87171"
-                  animate={{ opacity: [0.7, 0.2, 0.7], scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2.1, repeat: Infinity }}
-                />
-                <text x="1160" y="305" textAnchor="middle" fill="#fca5a5" fontSize="10">0.85% churn</text>
+                <path d="M 1160 230 L 1160 285" stroke="#10b981" strokeWidth="2" markerEnd="url(#arrowGreen)" opacity="0.6"/>
+                <text x="1160" y="300" textAnchor="middle" fill="#10b981" fontSize="10">0.85% leak</text>
               </motion.g>
             </motion.g>
 

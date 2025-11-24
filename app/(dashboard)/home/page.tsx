@@ -1,6 +1,7 @@
 import KpiStrip from '@/components/home/KpiStrip';
-import JourneySummary from '@/components/home/JourneySummary';
 import AttentionAlerts from '@/components/home/AttentionAlerts';
+import JourneySummary from '@/components/home/JourneySummary';
+import FullJourney from '@/components/home/FullJourney';
 
 export default function HomePage() {
   return (
@@ -21,6 +22,7 @@ export default function HomePage() {
 
       <KpiStrip />
       <JourneySummary />
+      <FullJourney />
       <AttentionAlerts />
     </div>
   );

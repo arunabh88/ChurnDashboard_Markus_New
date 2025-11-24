@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: false,
-  experimental: {
-    forceSwcTransforms: false,
+  turbopack: {
+    // Ensure Turbopack resolves the framework from the workspace root
+    root: __dirname,
   },
 }
 

@@ -99,7 +99,8 @@ export default function AnalyticsPage() {
               <YAxis stroke="#94a3b8" label={{ value: 'Hours', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                labelStyle={{ color: '#e2e8f0' }}
+                labelStyle={{ color: '#ffffff' }}
+                itemStyle={{ color: '#ffffff' }}
               />
               <Legend />
               <Bar dataKey="liveTV" stackId="a" fill="#0ea5e9" name="Live TV" />
@@ -136,6 +137,8 @@ export default function AnalyticsPage() {
                 </Pie>
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
+                  labelStyle={{ color: '#ffffff' }}
+                  itemStyle={{ color: '#ffffff' }}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -169,7 +172,8 @@ export default function AnalyticsPage() {
               <YAxis yAxisId="right" orientation="right" stroke="#94a3b8" label={{ value: 'ARPU (£)', angle: 90, position: 'insideRight', fill: '#94a3b8' }} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                labelStyle={{ color: '#e2e8f0' }}
+                labelStyle={{ color: '#ffffff' }}
+                itemStyle={{ color: '#ffffff' }}
               />
               <Legend />
               <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="#0ea5e9" strokeWidth={3} name="Revenue (£M)" />

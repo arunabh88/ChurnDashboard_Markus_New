@@ -1,0 +1,305 @@
+<template>
+    <div class="dashboard slds-p-around_large">
+        <template if:true={dashboard}>
+            <section class="slds-card slds-m-bottom_large hero-card">
+                <header class="slds-card__header slds-grid slds-grid_align-spread slds-p-around_medium">
+                    <div>
+                        <h2 class="slds-text-heading_large slds-text-color_inverse">Subscriber Journey: From Funnel to Retention</h2>
+                        <p class="slds-text-body_regular slds-text-color_inverse-alt">
+                            Visualizing inflow, churn, and growth across the Sky TV lifecycle
+                        </p>
+                    </div>
+                    <div class="insight slds-m-left_large">
+                        <div class="slds-text-title slds-text-color_inverse">AI Insight</div>
+                        <p class="slds-text-heading_medium slds-text-color_inverse">{dashboard.summary.aiInsight}</p>
+                    </div>
+                </header>
+                <div class="slds-card__body slds-card__body_inner slds-grid slds-wrap slds-grid_vertical-align-center hero-body">
+                    <div class="hero-stat">
+                        <div class="slds-text-title_caps slds-text-color_inverse-alt">Daily Inflow</div>
+                        <div class="slds-text-heading_large slds-text-color_inverse">{dashboard.summary.dailyTrials}</div>
+                        <div class="slds-text-title_caps slds-text-color_inverse-alt slds-m-top_small">
+                            {dashboard.summary.trialToNew} to New
+                        </div>
+                        <div class="slds-text-title_caps slds-text-color_inverse-alt">
+                            {dashboard.summary.newToEstablished} to Established
+                        </div>
+                    </div>
+                    <div class="hero-pills">
+                        <template for:each={dashboard.journeyPhases} for:item="phase">
+                            <div key={phase.name} class="phase-pill">
+                                <div class="slds-text-title_caps">{phase.name}</div>
+                                <div class="pill-value">
+                                    <span class="slds-text-heading_medium">{phase.volume}</span>
+                                    <span class="slds-text-body_small">{phase.duration}</span>
+                                </div>
+                                <div class="slds-text-body_small">
+                                    <strong>{phase.engagement}</strong> engagement
+                                </div>
+                                <div class="slds-text-body_small">
+                                    <strong>{phase.churnLabel}</strong>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </section>
+
+            <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_large">
+                <article class="slds-card slds-size_1-of-1 slds-large-size_2-of-3 slds-p-around_none slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-strategy" title="Churn progress">
+                                    <lightning-icon icon-name="standard:strategy" alternative-text="Strategy" size="small"></lightning-icon>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title">Established Churn Progress</h2>
+                                <p class="slds-text-body_small">
+                                    Goal: keep churn below {dashboard.journeyProgress.goal}% for sustainable growth
+                                </p>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning-progress-ring value={dashboard.journeyProgress.currentRing} variant="warning" size="large"
+                                    class="slds-m-bottom_small"></lightning-progress-ring>
+                                <p class="slds-text-title_caps">Established churn</p>
+                                <p class="slds-text-heading_medium">{dashboard.journeyProgress.current}%</p>
+                            </div>
+                            <div class="slds-size_1-of-1 slds-medium-size_1-of-2 slds-grid slds-wrap slds-grid_vertical">
+                                <template for:each={dashboard.riskBands} for:item="band">
+                                    <div key={band.label} class="slds-grid slds-grid_align-spread risk-row">
+                                        <span class="slds-text-body_regular">{band.label}</span>
+                                        <span class="slds-text-body_regular">{band.value}</span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <article class="slds-card slds-size_1-of-1 slds-large-size_1-of-3 slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <h2 class="slds-card__header-title">Highest Risk Phase</h2>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <p class="slds-text-heading_medium">{dashboard.journeyProgress.highestRisk.label}</p>
+                        <p class="slds-text-body_regular slds-m-vertical_small">{dashboard.journeyProgress.highestRisk.description}</p>
+                        <lightning-progress-bar value={dashboard.journeyProgress.highestRisk.churnPercentage} size="large"></lightning-progress-bar>
+                    </div>
+                </article>
+            </div>
+
+            <section class="slds-card slds-m-bottom_large">
+                <header class="slds-card__header slds-p-around_medium">
+                    <h2 class="slds-card__header-title">Multi-Signal Churn Matrix</h2>
+                    <p class="slds-text-body_small">Understanding why subscribers leave</p>
+                </header>
+                <div class="slds-card__body slds-card__body_inner slds-p-around_none">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col">Dimension</th>
+                                <th scope="col">Key Signal</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">Severity</th>
+                                <th scope="col">Weight %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={dashboard.matrix} for:item="row">
+                                <tr key={row.dimension}>
+                                    <td data-label="Dimension">{row.dimension}</td>
+                                    <td data-label="Key Signal">{row.signal}</td>
+                                    <td data-label="Source">{row.source}</td>
+                                    <td data-label="Severity">
+                                        <span class={row.badgeClass}>{row.severity}</span>
+                                    </td>
+                                    <td data-label="Weight">
+                                        <lightning-formatted-number value={row.weight} maximum-fraction-digits="0"></lightning-formatted-number>%
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="slds-card slds-m-bottom_large">
+                <header class="slds-card__header slds-p-around_medium slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                    <div>
+                        <h2 class="slds-card__header-title">Decision Layer</h2>
+                        <p class="slds-text-body_small">Prioritize retention efforts by segment</p>
+                    </div>
+                    <lightning-button variant="brand-outline" label="View All Segments"></lightning-button>
+                </header>
+                <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <template for:each={dashboard.segments} for:item="segment">
+                            <div key={segment.name} class="slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                                <article class="slds-box segment-card">
+                                    <header class="slds-media slds-m-bottom_small">
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-text-heading_small">{segment.name}</h3>
+                                            <p class="slds-text-body_small">{segment.size} subscribers</p>
+                                        </div>
+                                        <div class="slds-media__figure slds-media__figure_reverse">
+                                            <span class={segment.priorityBadge}>{segment.priority}</span>
+                                        </div>
+                                    </header>
+                                    <p class="slds-text-title_caps">Churn Risk: {segment.churnRisk}%</p>
+                                    <p class="slds-text-body_regular slds-m-vertical_x-small">CLTV £{segment.cltv}</p>
+                                    <p class="slds-text-body_regular">ROI {segment.roi}</p>
+                                    <p class="slds-text-body_small slds-m-top_small">{segment.play}</p>
+                                </article>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <footer class="slds-card__footer slds-p-around_medium">
+                    Projected revenue impact: £{dashboard.projectedRevenue} in annual savings
+                </footer>
+            </section>
+
+            <section class="slds-grid slds-wrap slds-gutters slds-m-bottom_large">
+                <article class="slds-card slds-size_1-of-1 slds-large-size_1-of-2 slds-p-around_none slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <div class="slds-media slds-media_center">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-work-queue" title="Action Center">
+                                    <lightning-icon icon-name="standard:work_queue" alternative-text="Action Center" size="small"></lightning-icon>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title">Action Center</h2>
+                                <p class="slds-text-body_small">AI-driven retention recommendations</p>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <template if:true={dashboard.actions.autoAction}>
+                            <div class="slds-box slds-theme_info slds-m-bottom_medium auto-action">
+                                <div class="slds-text-title_caps">Auto Action</div>
+                                <p class="slds-text-heading_small">{dashboard.actions.autoAction.name}</p>
+                                <p class="slds-text-body_small">Expected lift {dashboard.actions.autoAction.lift}%</p>
+                            </div>
+                        </template>
+                        <ul class="slds-list_vertical slds-has-dividers_bottom-space">
+                            <template for:each={dashboard.actions.items} for:item="action">
+                                <li key={action.name} class="slds-item">
+                                    <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                                        <div>
+                                            <p class="slds-text-heading_small">{action.name}</p>
+                                            <p class="slds-text-body_small">{action.description}</p>
+                                        </div>
+                                        <lightning-badge label={action.liftLabel} class="lift-badge"></lightning-badge>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </article>
+                <article class="slds-card slds-size_1-of-1 slds-large-size_1-of-2 slds-p-around_none slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <h2 class="slds-card__header-title">A/B Experimentation</h2>
+                        <p class="slds-text-body_small">Test. Learn. Optimize retention strategies.</p>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <lightning-button variant="neutral" label="Add Experiment" class="slds-m-bottom_medium"></lightning-button>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <template for:each={dashboard.experiments} for:item="experiment">
+                                <div key={experiment.name} class="slds-size_1-of-1">
+                                    <article class="slds-box experiment-card">
+                                        <header class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                                            <div>
+                                                <h3 class="slds-text-heading_small">{experiment.name}</h3>
+                                                <p class="slds-text-body_small">{experiment.status}</p>
+                                            </div>
+                                            <lightning-badge label={experiment.roiLabel}></lightning-badge>
+                                        </header>
+                                        <p class="slds-text-body_regular">{experiment.summary}</p>
+                                        <footer class="slds-grid slds-grid_align-spread slds-m-top_small">
+                                            <span>Retention lift {experiment.lift}%</span>
+                                            <span>{experiment.participants} participants</span>
+                                        </footer>
+                                    </article>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="slds-grid slds-wrap slds-gutters slds-m-bottom_large">
+                <article class="slds-card slds-size_1-of-1 slds-large-size_2-of-3 slds-p-around_none slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-metrics" title="Model performance">
+                                    <lightning-icon icon-name="standard:metrics" alternative-text="Model Performance" size="small"></lightning-icon>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title">Model Performance</h2>
+                                <p class="slds-text-body_small">Real vs. predicted churn rates</p>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <template for:each={dashboard.modelMetrics} for:item="metric">
+                                <div key={metric.label} class="slds-size_1-of-2 slds-large-size_1-of-3 performance-box">
+                                    <lightning-progress-ring value={metric.value} size="large" variant={metric.variant}></lightning-progress-ring>
+                                    <p class="slds-text-title_caps slds-m-top_small">{metric.label}</p>
+                                    <p class="slds-text-heading_small">{metric.value}%</p>
+                                    <p class="slds-text-body_small">{metric.caption}</p>
+                                </div>
+                            </template>
+                        </div>
+                        <template if:true={dashboard.aiAlert}>
+                            <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-top_large" role="alert">
+                                <span class="slds-assistive-text">warning</span>
+                                <span class="slds-icon_container slds-icon-utility-warning" title="Warning">
+                                    <lightning-icon icon-name="utility:warning" alternative-text="Warning" size="x-small"></lightning-icon>
+                                </span>
+                                <h3 class="slds-text-heading_small slds-m-left_small">{dashboard.aiAlert.title}</h3>
+                                <p class="slds-text-body_small slds-m-left_small">{dashboard.aiAlert.message}</p>
+                            </div>
+                        </template>
+                    </div>
+                </article>
+                <article class="slds-card slds-size_1-of-1 slds-large-size_1-of-3 slds-p-around_none slds-m-bottom_medium">
+                    <header class="slds-card__header slds-p-around_medium">
+                        <h2 class="slds-card__header-title">Agentforce</h2>
+                        <p class="slds-text-body_small">Powered by Einstein AI</p>
+                    </header>
+                    <div class="slds-card__body slds-card__body_inner slds-p-around_medium">
+                        <p class="slds-text-body_regular slds-m-bottom_medium">
+                            Hi! I’m your Retention AI Agent. I can help you identify at-risk subscribers and suggest targeted retention strategies.
+                        </p>
+                        <div class="slds-grid slds-wrap slds-gutters agent-options">
+                            <template for:each={dashboard.agentforceOptions} for:item="option">
+                                <div key={option} class="slds-size_1-of-1">
+                                    <lightning-button variant="brand-outline" label={option} class="slds-m-bottom_small agent-button"></lightning-button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <footer class="slds-card__footer slds-p-around_medium">
+                        Sky TV Retention Intelligence Dashboard · Powered by Salesforce Einstein &amp; Data Cloud
+                    </footer>
+                </article>
+            </section>
+        </template>
+        <template if:true={error}>
+            <div class="slds-box slds-theme_error">
+                <p class="slds-text-heading_small">We couldn’t load the dashboard data.</p>
+                <p class="slds-text-body_small">{errorMessage}</p>
+            </div>
+        </template>
+    </div>
+</template>
+

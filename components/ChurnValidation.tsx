@@ -43,8 +43,10 @@ export default function ChurnValidation() {
                   backgroundColor: '#0f172a',
                   border: '1px solid #38bdf8',
                   borderRadius: '8px',
-                  color: '#fff',
+                  color: '#ffffff',
                 }}
+                labelStyle={{ color: '#ffffff' }}
+                itemStyle={{ color: '#ffffff' }}
               />
               <Legend wrapperStyle={{ color: '#fff' }} />
               <Bar dataKey="actual" fill="#ef4444" name="Actual Churn" radius={[8, 8, 0, 0]} />

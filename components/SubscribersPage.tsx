@@ -175,7 +175,8 @@ export default function SubscribersPage() {
             <YAxis stroke="#94a3b8" />
             <Tooltip 
               contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-              labelStyle={{ color: '#e2e8f0' }}
+              labelStyle={{ color: '#ffffff' }}
+              itemStyle={{ color: '#ffffff' }}
             />
             <Area type="monotone" dataKey="total" stroke="#0ea5e9" fillOpacity={1} fill="url(#colorTotal)" />
           </AreaChart>

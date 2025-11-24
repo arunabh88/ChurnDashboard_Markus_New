@@ -1,0 +1,84 @@
+:host {
+    display: block;
+    background: linear-gradient(135deg, var(--slds-g-color-brand-base-95, #001639), var(--slds-g-color-brand-base-70, #0b2f4c));
+    min-height: 100vh;
+}
+
+.dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-card {
+    background: linear-gradient(160deg, rgba(1, 118, 211, 0.75), rgba(56, 195, 255, 0.45));
+    color: #ffffff;
+    border: none;
+}
+
+.hero-body {
+    row-gap: 1.5rem;
+}
+
+.hero-stat {
+    min-width: 200px;
+}
+
+.hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.phase-pill {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: var(--slds-g-radius-medium, 0.75rem);
+    padding: 1rem;
+    min-width: 200px;
+}
+
+.pill-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 0.25rem 0;
+}
+
+.risk-row {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--slds-g-color-neutral-base-80, #2f3949);
+}
+
+.segment-card {
+    background: var(--slds-g-color-neutral-base-95, #061c3f);
+    color: var(--slds-g-color-neutral-base-5, #ffffff);
+    border-radius: var(--slds-g-radius-medium, 0.75rem);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.auto-action {
+    background: rgba(1, 118, 211, 0.1);
+    border: 1px solid rgba(1, 118, 211, 0.3);
+}
+
+.lift-badge {
+    --slds-c-badge-color-background: rgba(27, 150, 255, 0.1);
+}
+
+.experiment-card {
+    background: var(--slds-g-color-neutral-base-100, #03234b);
+    border-radius: var(--slds-g-radius-medium, 0.75rem);
+}
+
+.performance-box {
+    text-align: center;
+    padding: 1rem;
+}
+
+.agent-options lightning-button {
+    width: 100%;
+}
+
+.agent-button {
+    width: 100%;
+}
+

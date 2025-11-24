@@ -20,17 +20,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [pathname]);
 
   return (
-    <div className="relative min-h-screen px-4 pb-10 text-slate-100 md:px-6">
+    <div className="relative min-h-screen px-3 pb-16 text-slate-100 sm:px-5 md:px-6">
       <Navigation
         activeTab={activeTab}
         copilotOpen={copilotOpen}
         onToggleCopilot={() => setCopilotOpen((prev) => !prev)}
       />
 
-      <main className="mx-auto flex max-w-6xl gap-8 py-10 transition-all duration-300">
-        <div className={`w-full transition-all ${copilotOpen ? 'lg:pr-[320px]' : ''}`}>
-          {children}
-        </div>
+      <main className="mx-auto flex w-full max-w-[min(1440px,100%)] flex-col gap-6 py-8 transition-all duration-300 lg:flex-row lg:gap-10 lg:py-10">
+        <div className={`w-full lg:min-w-0 ${copilotOpen ? 'xl:pr-[320px]' : ''}`}>{children}</div>
       </main>
 
       <AICoPilotPanel open={copilotOpen} />

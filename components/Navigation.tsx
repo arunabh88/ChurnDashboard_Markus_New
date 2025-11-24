@@ -28,17 +28,19 @@ export default function Navigation({
   const ActiveIcon = useMemo(() => tabs.find((tab) => tab.id === activeTab)?.icon ?? Sparkles, [activeTab]);
 
   return (
-    <header className="sticky top-0 z-30 mt-6 flex justify-center">
-      <div className="glass-panel mx-auto flex w-full max-w-6xl items-center justify-between rounded-[28px] border border-white/10 bg-white/10 px-6 py-4 text-sm text-slate-100">
+    <header className="sticky top-0 z-30 mt-6 flex justify-center px-1 sm:px-2">
+      <div className="glass-panel mx-auto flex w-full max-w-[min(1440px,100%)] items-center justify-between rounded-[28px] border border-white/10 bg-white/10 px-4 py-3 text-[13px] text-slate-100 sm:px-6 sm:text-sm">
         <div className="flex items-center gap-3">
-          <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-white shadow-lg shadow-sky-500/40">
-            <LayoutDashboard size={18} />
-            <span className="text-xs font-semibold uppercase tracking-wide">Sky TV Retention Intelligence</span>
-            <span className="absolute inset-0 rounded-full border border-white/20" />
+          <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-3 py-2 text-white shadow-lg shadow-sky-500/40 sm:px-4">
+            <LayoutDashboard size={18} className="hidden sm:block" />
+            <span className="text-xs font-semibold uppercase tracking-wide">
+              Sky TV Retention Intelligence
+            </span>
+            <span className="absolute inset-0 rounded-full border border-white/20" aria-hidden />
           </div>
         </div>
 
-        <nav className="hidden items-center gap-3 md:flex">
+        <nav className="hidden items-center gap-3 xl:flex">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
             const Icon = tab.icon;
@@ -81,11 +83,11 @@ export default function Navigation({
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
             onClick={toggleTheme}
-            className="hidden rounded-full border border-slate-200 bg-white p-2 text-slate-500 transition hover:border-sky-200 hover:text-sky-600 dark:border-slate-700 dark:bg-navy-800/80 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:text-sky-300 md:inline-flex"
+            className="hidden rounded-full border border-white/10 bg-white/10 p-2 text-slate-200 transition hover:border-sky-300/60 hover:text-sky-200 xl:inline-flex"
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -107,34 +109,57 @@ export default function Navigation({
             </span>
           </button>
 
-          <button
-            type="button"
-            className="hidden rounded-full border border-white/10 bg-white/10 p-2 text-slate-200 transition hover:border-sky-300/60 hover:text-sky-200 md:inline-flex"
-            aria-label="Alerts"
-          >
-            <Bell size={18} />
-          </button>
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              type="button"
+              className="rounded-full border border-white/10 bg-white/10 p-2 text-slate-200 transition hover:border-sky-300/60 hover:text-sky-200"
+              aria-label="Alerts"
+            >
+              <Bell size={18} />
+            </button>
 
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:border-sky-300/60 hover:text-sky-200"
-          >
-            <UserCircle size={18} />
-            <span className="hidden sm:inline">Retention Ops</span>
-          </button>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:border-sky-300/60 hover:text-sky-200"
+            >
+              <UserCircle size={18} />
+              <span className="hidden sm:inline">Retention Ops</span>
+            </button>
+          </div>
         </div>
       </div>
       <motion.div
         key={activeTab}
-        className="pointer-events-none absolute inset-x-0 top-[10px] mx-auto flex max-w-6xl justify-start px-8"
+        className="pointer-events-none absolute inset-x-0 top-[12px] mx-auto hidden w-full max-w-[min(1440px,100%)] justify-start px-8 lg:flex"
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-xs uppercase tracking-wide text-slate-200">
+        <div className="flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-200 backdrop-blur">
           <ActiveIcon size={14} />
           Navigating · {tabs.find((tab) => tab.id === activeTab)?.label ?? 'Home'}
         </div>
       </motion.div>
+
+      <nav className="glass-panel mx-auto mt-4 flex w-full max-w-[min(1440px,100%)] items-center justify-between rounded-[24px] border border-white/10 bg-white/10 px-3 py-3 text-xs text-slate-200 backdrop-blur md:hidden">
+        <div className="flex flex-1 items-center gap-2 overflow-x-auto">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.id;
+            const Icon = tab.icon;
+            return (
+              <Link
+                key={tab.id}
+                href={tab.href}
+                className={`flex min-w-[110px] flex-col items-center rounded-full px-3 py-2 font-semibold transition ${
+                  active ? 'bg-white/15 text-white shadow-md shadow-sky-500/30' : 'text-slate-300'
+                }`}
+              >
+                <Icon size={16} className="mb-1" />
+                {tab.label}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </header>
   );
 }

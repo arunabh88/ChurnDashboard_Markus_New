@@ -28,8 +28,8 @@ export default function Navigation({
   const ActiveIcon = useMemo(() => tabs.find((tab) => tab.id === activeTab)?.icon ?? Sparkles, [activeTab]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 flex w-full justify-center bg-[#0a1728] px-2 py-3 text-[13px] text-slate-100 sm:px-4 sm:text-sm">
-      <div className="mx-auto flex w-full max-w-[min(1440px,100%)] items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-30 flex w-full flex-col items-center justify-center bg-[#0a1728] px-2 py-3 text-[13px] text-slate-100 sm:px-4 sm:text-sm sm:flex-row">
+      <div className="mx-auto flex w-full max-w-[min(1440px,100%)] flex-col items-center justify-between gap-3 sm:flex-row sm:gap-0">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-3 py-2 text-white shadow-lg shadow-sky-500/40 sm:px-4">
             <LayoutDashboard size={18} className="hidden sm:block" />
@@ -128,7 +128,7 @@ export default function Navigation({
           </div>
         </div>
       </div>
-      <nav className="mx-auto mt-4 flex w-full max-w-[min(1440px,100%)] items-center justify-between px-3 py-3 text-xs text-slate-200 sm:hidden">
+      <nav className="mx-auto mt-2 flex w-full max-w-[min(1440px,100%)] items-center justify-between px-3 py-2 text-xs text-slate-200 sm:hidden">
         <div className="flex flex-1 items-center gap-2 overflow-x-auto">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;

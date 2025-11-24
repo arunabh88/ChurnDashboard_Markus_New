@@ -20,14 +20,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [pathname]);
 
   return (
-    <div className="relative min-h-screen bg-slate-50">
+    <div className="relative min-h-screen bg-slate-50 transition-colors duration-300 dark:bg-navy-950">
       <Navigation
         activeTab={activeTab}
         copilotOpen={copilotOpen}
         onToggleCopilot={() => setCopilotOpen((prev) => !prev)}
       />
 
-      <main className="mx-auto flex max-w-6xl gap-8 px-6 py-8">
+      <main className="mx-auto flex max-w-6xl gap-8 px-6 py-8 text-slate-900 transition-colors duration-300 dark:text-slate-100">
         <div className={`w-full transition-all ${copilotOpen ? 'lg:pr-[320px]' : ''}`}>
           {children}
         </div>

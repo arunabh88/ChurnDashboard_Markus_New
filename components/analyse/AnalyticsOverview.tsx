@@ -21,10 +21,10 @@ export function AnalyticsOverview() {
       <Card>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
               Trendline
             </p>
-            <h3 className="text-lg font-semibold text-slate-900">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
               Churn, CLTV, Engagement, Billing issues
             </h3>
           </div>
@@ -49,10 +49,10 @@ export function AnalyticsOverview() {
       <Card>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
               Segment breakdown
             </p>
-            <h3 className="text-lg font-semibold text-slate-900">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
               Trial vs New vs Established cohorts
             </h3>
           </div>

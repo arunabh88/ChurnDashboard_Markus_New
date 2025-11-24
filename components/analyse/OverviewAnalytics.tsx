@@ -38,10 +38,10 @@ export function OverviewAnalytics() {
                 onClick={() => setOpenSection(expanded ? '' : section.id)}
               >
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                     {section.title}
                   </p>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-slate-600 dark:text-slate-300">
                     {section.id === 'overview' && 'Trend charts, CLTV, engagement, billing'}
                     {section.id === 'journey' && 'Full journey funnel with pond view'}
                     {section.id === 'signals' && 'Einstein weighted churn drivers'}
@@ -51,7 +51,9 @@ export function OverviewAnalytics() {
                 </div>
                 <ChevronDown
                   size={18}
-                  className={`text-slate-500 transition ${expanded ? 'rotate-180' : ''}`}
+                  className={`text-slate-500 transition dark:text-slate-400 ${
+                    expanded ? 'rotate-180' : ''
+                  }`}
                 />
               </button>
 

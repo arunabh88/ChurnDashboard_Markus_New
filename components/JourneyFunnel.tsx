@@ -39,12 +39,14 @@ export function JourneyFunnel() {
     <div className="space-y-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-600">
+          <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
             Subscriber Journey
           </p>
-          <h2 className="text-xl font-semibold text-slate-900">Funnel → Retention pond</h2>
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+            Funnel → Retention pond
+          </h2>
         </div>
-        <div className="flex items-center gap-3 rounded-full border border-sky-100 bg-sky-50/80 px-4 py-2 text-sm text-sky-700">
+        <div className="flex items-center gap-3 rounded-full border border-sky-100 bg-sky-50/80 px-4 py-2 text-sm text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-300">
           <Droplets size={16} />
           <span>Daily inflow 100 trials → 30 new → 19 established</span>
         </div>
@@ -54,17 +56,19 @@ export function JourneyFunnel() {
         {stages.map((stage, index) => (
           <Fragment key={stage.id}>
             <motion.div
-              className={`relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b ${stage.accent} p-6 shadow-sm`}
+              className={`relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b ${stage.accent} p-6 shadow-sm dark:border-slate-700 dark:bg-navy-900/60`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">
                 {stage.title}
               </p>
-              <p className="text-lg font-semibold text-slate-900">{stage.metric}</p>
-              <p className="text-sm font-medium text-slate-600">{stage.churn}</p>
-              <div className={`mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${stage.droplet}`}>
+              <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">{stage.metric}</p>
+              <p className="text-sm font-medium text-slate-600 dark:text-slate-300">{stage.churn}</p>
+              <div
+                className={`mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${stage.droplet} dark:bg-opacity-20 dark:text-slate-100`}
+              >
                 <Droplets size={14} />
                 {stage.leak}
               </div>
@@ -72,13 +76,13 @@ export function JourneyFunnel() {
 
             {index < stages.length - 1 ? (
               <motion.div
-                className="hidden h-px bg-gradient-to-r from-sky-100 via-sky-200 to-sky-100 lg:block"
+                className="hidden h-px bg-gradient-to-r from-sky-100 via-sky-200 to-sky-100 dark:from-sky-500/40 dark:via-sky-500/20 dark:to-sky-500/40 lg:block"
                 initial={{ width: 0 }}
                 animate={{ width: '100%' }}
                 transition={{ delay: index * 0.1 + 0.15 }}
               >
                 <div className="relative -top-2 flex justify-center">
-                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-sky-600 shadow-sm">
+                  <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-sky-600 shadow-sm dark:border-slate-600 dark:bg-navy-900/80 dark:text-sky-300">
                     <ArrowRight size={12} className="inline" /> flow
                   </span>
                 </div>
@@ -90,8 +94,8 @@ export function JourneyFunnel() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: index * 0.1 + 0.25 }}
               >
-                <div className="flex flex-col items-center gap-2 rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 text-sm font-medium text-emerald-700">
-                  <Target size={16} />
+                <div className="flex flex-col items-center gap-2 rounded-2xl border border-emerald-100 bg-emerald-50/80 px-4 py-3 text-sm font-medium text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200">
+                  <Target size={16} className="dark:text-emerald-200" />
                   Established churn 0.85% vs target 0.57%
                 </div>
               </motion.div>

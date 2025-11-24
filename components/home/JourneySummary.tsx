@@ -20,17 +20,17 @@ export function JourneySummary() {
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
               Journey overview
             </p>
-            <h2 className="text-xl font-semibold text-slate-900">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
               Trial → New → Retention pond
             </h2>
           </div>
           <button
             type="button"
             onClick={() => router.push('/analyse?view=journey')}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 transition hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-200"
           >
             Open Journey View
             <ArrowRight size={16} />
@@ -45,7 +45,7 @@ export function JourneySummary() {
           {journeySnapshot.stages.map((stage, index) => (
             <div
               key={stage.label}
-              className={`cursor-pointer rounded-2xl px-4 py-5 transition hover:shadow-md ${stageStyle[index]}`}
+              className={`cursor-pointer rounded-2xl px-4 py-5 transition hover:shadow-md ${stageStyle[index]} dark:bg-opacity-10 dark:text-slate-100`}
             >
               <p className="text-xs font-semibold uppercase tracking-wide">{stage.label}</p>
               <p className="text-sm font-medium">{stage.description}</p>
@@ -53,8 +53,8 @@ export function JourneySummary() {
           ))}
         </motion.div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-sky-100 bg-sky-50/60 px-4 py-4 text-sm text-sky-700">
-          <div className="rounded-full bg-white p-2 text-sky-500 shadow-sm">
+        <div className="flex items-center gap-3 rounded-2xl border border-sky-100 bg-sky-50/60 px-4 py-4 text-sm text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-300">
+          <div className="rounded-full bg-white p-2 text-sky-500 shadow-sm dark:bg-slate-900 dark:text-sky-300">
             <Waves size={18} />
           </div>
           <p className="font-medium">{journeySnapshot.insight}</p>

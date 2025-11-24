@@ -28,12 +28,14 @@ export function ModelPerformance() {
       <CardContent className="space-y-4">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600">
+            <p className="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">
               Model performance
             </p>
-            <h3 className="text-lg font-semibold text-slate-900">Real vs predicted churn</h3>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+              Real vs predicted churn
+            </h3>
           </div>
-          <div className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+          <div className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
             Drift Monitor • Sentiment signals flagged
           </div>
         </div>
@@ -42,12 +44,14 @@ export function ModelPerformance() {
           {modelPerformance.metrics.map((metric) => (
             <div
               key={metric.label}
-              className="rounded-2xl border border-slate-200 bg-white p-4 text-center"
+              className="rounded-2xl border border-slate-200 bg-white p-4 text-center dark:border-slate-600 dark:bg-navy-900/70"
             >
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 {metric.label}
               </p>
-              <p className="text-xl font-semibold text-slate-900">{metric.value}</p>
+              <p className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                {metric.value}
+              </p>
             </div>
           ))}
         </div>
@@ -88,7 +92,7 @@ export function ModelPerformance() {
           </ResponsiveContainer>
         </div>
 
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm font-medium text-amber-700">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm font-medium text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
           {modelPerformance.message}
         </div>
       </CardContent>

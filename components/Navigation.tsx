@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { Bell, Bot, LayoutDashboard, Moon, Sun, UserCircle } from 'lucide-react';
+import { useMemo } from 'react';
+import { Bell, Bot, LayoutDashboard, LineChart, Moon, Sparkles, Sun, Target, UserCircle } from 'lucide-react';
 import { useTheme } from '@/app/providers';
+import { motion } from 'framer-motion';
 
 const tabs = [
-  { id: 'home', label: 'Home', description: 'Pulse & priorities', href: '/home' },
-  { id: 'analyse', label: 'Analyse', description: 'Journey & signals', href: '/analyse' },
-  { id: 'action', label: 'Action', description: 'Playbooks & outcomes', href: '/actions' },
+  { id: 'home', label: 'Home', description: 'Pulse & priorities', href: '/home', icon: Sparkles },
+  { id: 'analyse', label: 'Analyse', description: 'Journey & signals', href: '/analyse', icon: LineChart },
+  { id: 'action', label: 'Action', description: 'Playbooks & outcomes', href: '/actions', icon: Target },
 ];
 
 interface NavigationProps {
@@ -23,37 +25,58 @@ export default function Navigation({
 }: NavigationProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
+  const ActiveIcon = useMemo(() => tabs.find((tab) => tab.id === activeTab)?.icon ?? Sparkles, [activeTab]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur transition-colors duration-300 dark:border-slate-700/60 dark:bg-navy-900/70">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <header className="sticky top-0 z-30 mt-6 flex justify-center">
+      <div className="glass-panel mx-auto flex w-full max-w-6xl items-center justify-between rounded-[28px] border border-white/10 bg-white/10 px-6 py-4 text-sm text-slate-100">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-sky-600 dark:bg-sky-500/20 dark:text-sky-300">
-            <LayoutDashboard size={16} />
-            <span className="text-xs font-semibold uppercase tracking-wide">
-              Sky TV Retention Intelligence
-            </span>
+          <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-white shadow-lg shadow-sky-500/40">
+            <LayoutDashboard size={18} />
+            <span className="text-xs font-semibold uppercase tracking-wide">Sky TV Retention Intelligence</span>
+            <span className="absolute inset-0 rounded-full border border-white/20" />
           </div>
         </div>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-3 md:flex">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
+            const Icon = tab.icon;
             return (
-              <Link
+              <motion.div
                 key={tab.id}
-                href={tab.href}
-                className={`flex flex-col items-center text-sm font-semibold transition-colors ${
-                  active
-                    ? 'text-sky-600 dark:text-sky-400'
-                    : 'text-slate-500 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-300'
-                }`}
+                whileHover={{ y: -2 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                className="group relative"
               >
-                <span>{tab.label}</span>
-                <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500">
-                  {tab.description}
-                </span>
-              </Link>
+                {active && (
+                  <motion.span
+                    layoutId="nav-active-pill"
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-sky-500/30 via-sky-400/25 to-indigo-500/25 blur-xl"
+                    transition={{ type: 'spring', stiffness: 220, damping: 24 }}
+                  />
+                )}
+                <Link
+                  href={tab.href}
+                  className={`relative flex items-center gap-3 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                    active
+                      ? 'text-sky-100'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  <span
+                    className={`flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition group-hover:border-sky-400/60 group-hover:text-sky-200 ${
+                      active ? 'text-sky-200 shadow-[0_0_20px_rgba(56,189,248,0.35)]' : ''
+                    }`}
+                  >
+                    <Icon size={18} />
+                  </span>
+                  <div className="flex flex-col">
+                    <span>{tab.label}</span>
+                    <span className="text-[11px] font-normal text-slate-400">{tab.description}</span>
+                  </div>
+                </Link>
+              </motion.div>
             );
           })}
         </nav>
@@ -71,10 +94,10 @@ export default function Navigation({
           <button
             type="button"
             onClick={onToggleCopilot}
-            className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
+            className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold shadow-lg transition ${
               copilotOpen
-                ? 'border-sky-600 bg-sky-600 text-white shadow-sm dark:border-sky-500 dark:bg-sky-500'
-                : 'border-sky-200 bg-white text-sky-600 shadow-sm hover:border-sky-300 hover:text-sky-700 dark:border-slate-700 dark:bg-navy-800/80 dark:text-sky-300 dark:hover:border-slate-600'
+                ? 'border-sky-400/60 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-600 text-white shadow-sky-500/40'
+                : 'border-slate-200/40 bg-white/10 text-sky-200 hover:border-sky-300/60 hover:text-white'
             }`}
             aria-label={copilotOpen ? 'Hide AI Co-Pilot' : 'Show AI Co-Pilot'}
           >
@@ -86,7 +109,7 @@ export default function Navigation({
 
           <button
             type="button"
-            className="hidden rounded-full border border-slate-200 bg-white p-2 text-slate-500 transition hover:border-sky-200 hover:text-sky-600 dark:border-slate-700 dark:bg-navy-800/80 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:text-sky-300 md:inline-flex"
+            className="hidden rounded-full border border-white/10 bg-white/10 p-2 text-slate-200 transition hover:border-sky-300/60 hover:text-sky-200 md:inline-flex"
             aria-label="Alerts"
           >
             <Bell size={18} />
@@ -94,13 +117,24 @@ export default function Navigation({
 
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-600 transition hover:border-sky-200 hover:text-sky-600 dark:border-slate-700 dark:bg-navy-800/80 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:text-sky-300"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:border-sky-300/60 hover:text-sky-200"
           >
             <UserCircle size={18} />
             <span className="hidden sm:inline">Retention Ops</span>
           </button>
         </div>
       </div>
+      <motion.div
+        key={activeTab}
+        className="pointer-events-none absolute inset-x-0 top-[10px] mx-auto flex max-w-6xl justify-start px-8"
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-xs uppercase tracking-wide text-slate-200">
+          <ActiveIcon size={14} />
+          Navigating · {tabs.find((tab) => tab.id === activeTab)?.label ?? 'Home'}
+        </div>
+      </motion.div>
     </header>
   );
 }

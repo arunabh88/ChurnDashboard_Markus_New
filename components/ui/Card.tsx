@@ -9,7 +9,7 @@ export function Card({ className, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        'rounded-2xl border border-[rgb(var(--card-border))] bg-[rgb(var(--card-background))] shadow-sm transition-colors duration-300 dark:shadow-lg/10',
+        'glass-panel glow-border relative overflow-hidden rounded-3xl transition-all duration-300',
         className,
       )}
       {...props}
@@ -20,6 +20,6 @@ export function Card({ className, ...props }: CardProps) {
 interface CardContentProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function CardContent({ className, ...props }: CardContentProps) {
-  return <div className={cn('p-6', className)} {...props} />;
+  return <div className={cn('p-6 sm:p-7', className)} {...props} />;
 }
 

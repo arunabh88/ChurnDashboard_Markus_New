@@ -7,7 +7,7 @@ import { priorityAlerts } from '@/lib/data/dashboard';
 
 export function AttentionAlerts() {
   return (
-    <section className="grid gap-4">
+    <section className="grid gap-4 lg:grid-cols-3">
       {priorityAlerts.map((alert) => (
         <Card
           key={alert.id}

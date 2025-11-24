@@ -16,7 +16,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx --max-warnings=0 ."
+    "lint": "next lint"
   },
   "dependencies": {
     "clsx": "^2.1.1",

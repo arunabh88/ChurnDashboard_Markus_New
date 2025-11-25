@@ -23,7 +23,7 @@ export default function Home() {
       setAnalyseMode('overview');
     }
   };
-  const gridLayoutClass = `mx-auto transition-all duration-300 ${copilotOpen ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10' : ''}`;
+  const gridLayoutClass = `mx-auto transition-all duration-300 ${copilotOpen ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-10' : ''}`;
   const contentColumnClass = `min-w-0 ${copilotOpen ? 'lg:pr-0' : ''}`;
 
   return (

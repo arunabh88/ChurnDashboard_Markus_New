@@ -28,7 +28,7 @@ export default function Navigation({
   const ActiveIcon = useMemo(() => tabs.find((tab) => tab.id === activeTab)?.icon ?? Sparkles, [activeTab]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 flex w-full justify-center bg-[#0a1728] px-2 py-3 text-[13px] text-slate-100 sm:px-4 sm:text-sm">
+    <header className="fixed inset-x-0 top-0 z-30 flex w-full justify-center border-b border-white/10 bg-white/10 px-2 py-3 text-[13px] text-slate-100 backdrop-blur sm:px-4 sm:text-sm">
       <div className="mx-auto flex w-full max-w-[min(1440px,100%)] items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-3 py-2 text-white shadow-lg shadow-sky-500/40 sm:px-4">
@@ -128,7 +128,7 @@ export default function Navigation({
           </div>
         </div>
       </div>
-      <nav className="mx-auto mt-4 flex w-full max-w-[min(1440px,100%)] items-center justify-between px-3 py-3 text-xs text-slate-200 sm:hidden">
+      <nav className="glass-panel mx-auto mt-4 flex w-full max-w-[min(1440px,100%)] items-center justify-between rounded-[24px] border border-white/10 bg-white/10 px-3 py-3 text-xs text-slate-200 backdrop-blur md:hidden">
         <div className="flex flex-1 items-center gap-2 overflow-x-auto">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;

@@ -3,76 +3,39 @@
 import { motion } from 'framer-motion';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend } from 'recharts';
 import { Database, Activity, MessageSquare, Zap, Target, Heart } from 'lucide-react';
+import { CHURN_SIGNALS, CHURN_RADAR_DATA, type ChurnSignal } from '@/lib/data/churnSignals';
+import { type ReactNode } from 'react';
 
-interface Signal {
-  dimension: string;
-  keySignal: string;
-  source: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  weight: number;
-  icon: React.ReactNode;
+interface SignalWithIcon extends ChurnSignal {
+  icon: ReactNode;
 }
 
-export default function MultiSignalMatrix() {
-  const signals: Signal[] = [
-    {
-      dimension: 'Engagement',
-      keySignal: 'Drop in live TV hours',
-      source: 'Usage Logs',
-      severity: 'critical',
-      weight: 24,
-      icon: <Activity size={20} />,
-    },
-    {
-      dimension: 'Billing',
-      keySignal: 'Payment method expired',
-      source: 'Payment API',
-      severity: 'high',
-      weight: 18,
-      icon: <Database size={20} />,
-    },
-    {
-      dimension: 'Sentiment',
-      keySignal: 'Negative support interactions',
-      source: 'NLP Analysis',
-      severity: 'high',
-      weight: 16,
-      icon: <MessageSquare size={20} />,
-    },
-    {
-      dimension: 'Experience',
-      keySignal: 'Buffering incidents increased',
-      source: 'Quality Metrics',
-      severity: 'medium',
-      weight: 14,
-      icon: <Zap size={20} />,
-    },
-    {
-      dimension: 'Competitor',
-      keySignal: 'Price comparison searches',
-      source: 'Web Analytics',
-      severity: 'medium',
-      weight: 13,
-      icon: <Target size={20} />,
-    },
-    {
-      dimension: 'Loyalty',
-      keySignal: 'Reduced referral activity',
-      source: 'CRM Data',
-      severity: 'low',
-      weight: 15,
-      icon: <Heart size={20} />,
-    },
-  ];
+const dimensionIcon = (dimension: string) => {
+  switch (dimension) {
+    case 'Engagement':
+      return <Activity size={20} />;
+    case 'Billing':
+      return <Database size={20} />;
+    case 'Sentiment':
+      return <MessageSquare size={20} />;
+    case 'Experience':
+      return <Zap size={20} />;
+    case 'Competitor':
+      return <Target size={20} />;
+    case 'Loyalty':
+      return <Heart size={20} />;
+    default:
+      return <Activity size={20} />;
+  }
+};
 
-  const radarData = [
-    { dimension: 'Engagement', value: 85 },
-    { dimension: 'Billing', value: 70 },
-    { dimension: 'Sentiment', value: 65 },
-    { dimension: 'Experience', value: 60 },
-    { dimension: 'Competitor', value: 55 },
-    { dimension: 'Loyalty', value: 75 },
-  ];
+export default function MultiSignalMatrix() {
+  const signals: SignalWithIcon[] = CHURN_SIGNALS.map((signal) => ({
+    ...signal,
+    icon: dimensionIcon(signal.dimension),
+  }));
+
+  const radarData = CHURN_RADAR_DATA;
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {

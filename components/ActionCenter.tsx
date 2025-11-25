@@ -68,7 +68,7 @@ export default function ActionCenter() {
   };
 
   return (
-    <div className="glass-card rounded-xl p-6 mb-8">
+    <div className="glass-card rounded-xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1">Action Center</h2>

@@ -1,16 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Home, TrendingDown, Users, BarChart3, Settings, Bell, User, Sun, Moon } from 'lucide-react';
+import { Home, LineChart, Rocket, Settings, Bell, User, Sun, Moon, Bot } from 'lucide-react';
 import { useTheme } from '@/app/providers';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 
 interface NavigationProps {
-  activePage: string;
-  onPageChange: (page: string) => void;
+  activeTab: 'dashboard' | 'analyse' | 'act';
+  onTabChange: (tab: 'dashboard' | 'analyse' | 'act') => void;
+  copilotOpen: boolean;
+  onToggleCopilot: () => void;
 }
 
-export default function Navigation({ activePage, onPageChange }: NavigationProps) {
+export default function Navigation({ activeTab, onTabChange, copilotOpen, onToggleCopilot }: NavigationProps) {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -18,11 +20,10 @@ export default function Navigation({ activePage, onPageChange }: NavigationProps
     setMounted(true);
   }, []);
 
-  const navItems = [
-    { label: 'Dashboard', icon: <Home size={18} />, id: 'dashboard' },
-    { label: 'Churn Analysis', icon: <TrendingDown size={18} />, id: 'churn' },
-    { label: 'Subscribers', icon: <Users size={18} />, id: 'subscribers' },
-    { label: 'Analytics', icon: <BarChart3 size={18} />, id: 'analytics' },
+  const navItems: Array<{ label: string; icon: ReactNode; id: NavigationProps['activeTab']; description: string }> = [
+    { label: 'Dashboard', icon: <Home size={18} />, id: 'dashboard', description: 'Pulse & focus' },
+    { label: 'Analyse', icon: <LineChart size={18} />, id: 'analyse', description: 'Deep dive' },
+    { label: 'Act', icon: <Rocket size={18} />, id: 'act', description: 'Playbooks' },
   ];
 
   return (
@@ -51,22 +52,25 @@ export default function Navigation({ activePage, onPageChange }: NavigationProps
             </motion.div>
 
             {/* Navigation Items */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-2">
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.label}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => onPageChange(item.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                    activePage === item.id
-                      ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30'
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  onClick={() => onTabChange(item.id)}
+                  className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all border ${
+                    activeTab === item.id
+                      ? 'border-sky-500/50 bg-sky-500/15 text-sky-200 shadow-[0_0_20px_rgba(56,189,248,0.25)]'
+                      : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {item.icon}
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <div className="flex flex-col items-start">
+                    <span className="text-sm font-semibold">{item.label}</span>
+                    <span className="text-[11px] text-gray-500">{item.description}</span>
+                  </div>
                 </motion.button>
               ))}
             </div>
@@ -88,6 +92,24 @@ export default function Navigation({ activePage, onPageChange }: NavigationProps
                 {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
               </motion.button>
             )}
+
+            {/* AI Co-Pilot Toggle */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onToggleCopilot}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+                copilotOpen
+                  ? 'border-sky-500/60 bg-sky-500/20 text-sky-200'
+                  : 'border-sky-500/20 text-gray-300 hover:text-white hover:bg-white/5'
+              }`}
+              aria-label={copilotOpen ? 'Hide AI Co-Pilot' : 'Show AI Co-Pilot'}
+            >
+              <Bot size={18} />
+              <span className="text-sm font-medium hidden md:inline">{copilotOpen ? 'Hide Co-Pilot' : 'Show Co-Pilot'}</span>
+            </motion.button>
 
             {/* Notifications */}
             <motion.button
@@ -129,6 +151,29 @@ export default function Navigation({ activePage, onPageChange }: NavigationProps
               </div>
             </motion.div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Tabs */}
+      <div className="px-4 pb-3 lg:hidden">
+        <div className="flex items-center gap-2 overflow-x-auto">
+          {navItems.map((item) => {
+            const active = activeTab === item.id;
+            return (
+              <button
+                key={item.label}
+                onClick={() => onTabChange(item.id)}
+                className={`flex min-w-[120px] flex-col items-start rounded-xl border px-4 py-3 text-left transition-colors ${
+                  active
+                    ? 'border-sky-500/40 bg-sky-500/15 text-sky-100'
+                    : 'border-transparent bg-white/5 text-gray-300'
+                }`}
+              >
+                <span className="text-sm font-semibold">{item.label}</span>
+                <span className="text-[11px] text-gray-400">{item.description}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </nav>

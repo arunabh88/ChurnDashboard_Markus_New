@@ -101,7 +101,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
   };
 
   return (
-    <div className="glass-card rounded-xl p-6 mb-8">
+    <div className="rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1">

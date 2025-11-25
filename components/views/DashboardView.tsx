@@ -24,7 +24,7 @@ export function DashboardView({ onNavigate, onViewSegments, onStageAction }: Das
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
-        className="rounded-2xl border border-sky-500/20 bg-gradient-to-br from-navy-900/80 to-navy-950/60 p-1 shadow-[0_0_40px_rgba(15,118,210,0.25)]"
+        className=""
       >
         <JourneyMap onStageAction={onStageAction} />
       </motion.div>

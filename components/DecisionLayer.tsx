@@ -1,79 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Crown, Tag, Film, Wrench, ShoppingCart } from 'lucide-react';
+import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Rocket } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
+import { RETENTION_SEGMENTS, RetentionSegment } from '@/lib/data/segments';
 
-interface Segment {
-  name: string;
-  churnRisk: number;
-  cltv: number;
-  roi: number;
-  aiSuggestion: string;
-  priority: 'save-first' | 'low-roi' | 'needs-attention';
-  count: number;
-  icon: React.ReactNode;
-  iconColor: string;
+interface DecisionLayerProps {
+  onViewSegments?: () => void;
+  onSegmentAction?: (segment: RetentionSegment) => void;
 }
 
-export default function DecisionLayer() {
-  const segments: Segment[] = [
-    {
-      name: 'High-value loyalists',
-      churnRisk: 76,
-      cltv: 620,
-      roi: 3.2,
-      aiSuggestion: 'Loyalty discount + exclusive content',
-      priority: 'save-first',
-      count: 8400,
-      icon: <Crown size={24} />,
-      iconColor: 'from-yellow-400 to-orange-500',
-    },
-    {
-      name: 'Price-sensitive',
-      churnRisk: 83,
-      cltv: 180,
-      roi: 2.5,
-      aiSuggestion: 'Flexible plan + ad-supported tier',
-      priority: 'needs-attention',
-      count: 15200,
-      icon: <Tag size={24} />,
-      iconColor: 'from-green-400 to-emerald-500',
-    },
-    {
-      name: 'Content-fatigued',
-      churnRisk: 69,
-      cltv: 240,
-      roi: 3.1,
-      aiSuggestion: 'Recommend new series + personalized playlists',
-      priority: 'save-first',
-      count: 6800,
-      icon: <Film size={24} />,
-      iconColor: 'from-purple-400 to-pink-500',
-    },
-    {
-      name: 'Tech-frustrated',
-      churnRisk: 71,
-      cltv: 210,
-      roi: 2.8,
-      aiSuggestion: 'Proactive support + device upgrade offer',
-      priority: 'needs-attention',
-      count: 4200,
-      icon: <Wrench size={24} />,
-      iconColor: 'from-blue-400 to-cyan-500',
-    },
-    {
-      name: 'Competitive shoppers',
-      churnRisk: 88,
-      cltv: 150,
-      roi: 2.1,
-      aiSuggestion: 'Price match + bundle discount',
-      priority: 'low-roi',
-      count: 9600,
-      icon: <ShoppingCart size={24} />,
-      iconColor: 'from-red-400 to-pink-500',
-    },
-  ];
+export default function DecisionLayer({ onViewSegments, onSegmentAction }: DecisionLayerProps = {}) {
+  const segments = RETENTION_SEGMENTS;
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
@@ -119,6 +57,8 @@ export default function DecisionLayer() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow decision-layer-button"
+          type="button"
+          onClick={onViewSegments}
         >
           <Sparkles size={20} className="text-white" />
           <span className="text-white">View All Segments</span>
@@ -141,7 +81,10 @@ export default function DecisionLayer() {
               <div className="md:col-span-2">
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
-                    {segment.icon}
+                    {(() => {
+                      const Icon = segment.icon;
+                      return <Icon size={24} />;
+                    })()}
                   </div>
                   <div>
                     <h3 className="text-white font-semibold text-lg">{segment.name}</h3>
@@ -207,6 +150,21 @@ export default function DecisionLayer() {
                     <p className="text-gray-300">{segment.aiSuggestion}</p>
                   </div>
                 </div>
+              </div>
+
+              {/* Action */}
+              <div className="md:col-span-6">
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => onSegmentAction?.(segment)}
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
+                  aria-label={`Activate playbook for ${segment.name}`}
+                >
+                  <Rocket size={16} />
+                  Activate Playbook
+                </motion.button>
               </div>
             </div>
           </motion.div>

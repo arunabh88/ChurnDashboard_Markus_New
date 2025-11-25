@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FlaskConical, TrendingUp, DollarSign, Lightbulb, CheckCircle, Clock } from 'lucide-react';
+import { useState } from 'react';
+import { FlaskConical, TrendingUp, DollarSign, Lightbulb, CheckCircle, Clock, X, ArrowRight, ArrowLeft, Rocket } from 'lucide-react';
 
 interface Experiment {
   name: string;
@@ -12,7 +13,32 @@ interface Experiment {
   participants: number;
 }
 
+const wizardSteps = [
+  {
+    title: 'Select segment',
+    description: 'Choose the audience cohort to enrol in the experiment.',
+    helper: 'Tip: start with AI recommended segments from the Decision Layer.',
+  },
+  {
+    title: 'Define hypothesis',
+    description: 'Describe the retention lever you want to test and expected outcomes.',
+    helper: 'Example: “Personalised playlist increases 30-day engagement by 8%”.',
+  },
+  {
+    title: 'Configure success metrics',
+    description: 'Pick KPIs and guardrails (retention lift, ROI, churn reduction).',
+    helper: 'Einstein suggests retention lift + ROI as default metrics.',
+  },
+  {
+    title: 'Schedule & launch',
+    description: 'Set start/end dates, holdout group size, and automation triggers.',
+    helper: 'Experiments typically run for 14–28 days for reliable insights.',
+  },
+];
+
 export default function ABExperimentation() {
+  const [showWizard, setShowWizard] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
   const experiments: Experiment[] = [
     {
       name: 'Free Month Offer',
@@ -88,6 +114,10 @@ export default function ABExperimentation() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            setShowWizard(true);
+            setStepIndex(0);
+          }}
           className="bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow new-experiment-button"
         >
           <span className="text-white">+ New Experiment</span>
@@ -186,6 +216,80 @@ export default function ABExperimentation() {
           </div>
         </div>
       </motion.div>
+
+      {showWizard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="w-full max-w-2xl rounded-2xl border border-sky-500/30 bg-navy-900/95 p-6 shadow-[0_0_40px_rgba(56,189,248,0.3)]"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-sky-300">Experiment wizard</p>
+                <h3 className="mt-1 text-2xl font-bold text-white">
+                  {wizardSteps[stepIndex].title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-300">
+                  {wizardSteps[stepIndex].description}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowWizard(false)}
+                className="rounded-full border border-sky-500/30 p-2 text-sky-200 hover:bg-sky-500/10"
+                aria-label="Close experiment wizard"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Einstein guidance</p>
+              <p className="mt-2 text-sm text-gray-200">
+                {wizardSteps[stepIndex].helper}
+              </p>
+            </div>
+
+            <div className="mt-6 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-gray-400">
+                Step {stepIndex + 1} of {wizardSteps.length}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  disabled={stepIndex === 0}
+                  onClick={() => setStepIndex((prev) => Math.max(prev - 1, 0))}
+                  className="inline-flex items-center gap-2 rounded-lg border border-sky-500/30 px-4 py-2 text-sm font-semibold text-sky-200 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <ArrowLeft size={16} />
+                  Back
+                </button>
+                {stepIndex < wizardSteps.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setStepIndex((prev) => Math.min(prev + 1, wizardSteps.length - 1))}
+                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+                  >
+                    Next
+                    <ArrowRight size={16} />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setShowWizard(false)}
+                    className="inline-flex items-center gap-2 rounded-lg bg-emerald-500/90 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+                  >
+                    Launch Experiment
+                    <Rocket size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

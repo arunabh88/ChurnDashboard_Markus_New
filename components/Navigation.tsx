@@ -100,15 +100,16 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onToggleCopilot}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
+              className={`flex items-center justify-center px-3 py-2 rounded-lg border transition-colors ${
                 copilotOpen
                   ? 'border-sky-500/60 bg-sky-500/20 text-sky-200'
                   : 'border-sky-500/20 text-gray-300 hover:text-white hover:bg-white/5'
               }`}
               aria-label={copilotOpen ? 'Hide AI Co-Pilot' : 'Show AI Co-Pilot'}
+              title={copilotOpen ? 'Hide AI Co-Pilot' : 'Show AI Co-Pilot'}
             >
               <Bot size={18} />
-              <span className="text-sm font-medium hidden md:inline">{copilotOpen ? 'Hide Co-Pilot' : 'Show Co-Pilot'}</span>
+              <span className="sr-only">{copilotOpen ? 'Hide Co-Pilot' : 'Show Co-Pilot'}</span>
             </motion.button>
 
             {/* Notifications */}

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle, XCircle, Lightbulb, Users, TrendingDown, Activity, ArrowRight, ChevronRight, Droplets, Target } from 'lucide-react';
+import { AlertCircle, CheckCircle, XCircle, Lightbulb, Users, TrendingDown, Activity, ArrowRight, ChevronRight, Droplets, Target, Rocket } from 'lucide-react';
 import { formatNumber } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -14,9 +14,15 @@ interface FunnelStage {
   engagementScore: number;
   triggers: string[];
   retentionRate: number;
+  actionLabel?: string;
 }
 
-export default function JourneyMap() {
+interface JourneyMapProps {
+  onStageAction?: (stageName: string) => void;
+}
+
+export default function JourneyMap(props: JourneyMapProps = {}) {
+  const { onStageAction } = props;
   const [hoveredStage, setHoveredStage] = useState<string | null>(null);
   
   const totalSubscribers = 3000000; // 3M
@@ -36,6 +42,7 @@ export default function JourneyMap() {
       engagementScore: 45,
       triggers: ['Onboarding confusion', 'Content misalignment', 'Device setup issues'],
       retentionRate: 30,
+      actionLabel: 'Launch Trial Rescue Playbook',
     },
     {
       name: 'New Users',
@@ -46,6 +53,7 @@ export default function JourneyMap() {
       engagementScore: 69,
       triggers: ['Drop in engagement', 'No favorite content', 'Single device usage'],
       retentionRate: 65,
+      actionLabel: 'Boost Onboarding Journey',
     },
     {
       name: 'Established Users',
@@ -445,6 +453,20 @@ export default function JourneyMap() {
                     </div>
                   ))}
                 </div>
+
+                {stage.actionLabel && (
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => onStageAction?.(stage.name)}
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg"
+                    aria-label={`Take action for ${stage.name}`}
+                  >
+                    <Rocket size={16} />
+                    {stage.actionLabel}
+                  </motion.button>
+                )}
               </motion.div>
             );
           })}

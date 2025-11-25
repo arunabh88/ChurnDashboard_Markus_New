@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { PlusCircle, Sparkles, Rocket } from 'lucide-react';
+import { PlusCircle, Rocket } from 'lucide-react';
 import ActionCenter from '@/components/ActionCenter';
 import ABExperimentation from '@/components/ABExperimentation';
 import ChurnValidation from '@/components/ChurnValidation';
@@ -9,10 +9,9 @@ import { ActionHistoryList } from '@/components/actions/ActionHistoryList';
 
 interface ActionViewProps {
   onOpenNewAction: () => void;
-  onAskCopilot: () => void;
 }
 
-export function ActionView({ onOpenNewAction, onAskCopilot }: ActionViewProps) {
+export function ActionView({ onOpenNewAction }: ActionViewProps) {
   return (
     <div className="space-y-12">
       <motion.div
@@ -37,15 +36,6 @@ export function ActionView({ onOpenNewAction, onAskCopilot }: ActionViewProps) {
             <PlusCircle size={16} />
             Create New Action
           </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onAskCopilot}
-            className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/10"
-          >
-            <Sparkles size={16} />
-            Ask AI Co-Pilot
-          </motion.button>
         </div>
       </motion.div>
 
@@ -53,22 +43,21 @@ export function ActionView({ onOpenNewAction, onAskCopilot }: ActionViewProps) {
         <ActionCenter />
       </motion.div>
 
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-        >
-          <ABExperimentation />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <ChurnValidation />
-        </motion.div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+      >
+        <ABExperimentation />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.18 }}
+      >
+        <ChurnValidation />
+      </motion.div>
 
       <ActionHistoryList />
 
@@ -88,14 +77,7 @@ export function ActionView({ onOpenNewAction, onAskCopilot }: ActionViewProps) {
               Schedule, simulate, and auto-scale interventions with Einstein Copilot orchestrations.
             </p>
           </div>
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onAskCopilot}
-            className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/10"
-          >
-            Launch Automation
-          </motion.button>
+          <p className="text-xs text-gray-500">Managed through Einstein Copilot automations</p>
         </div>
       </motion.div>
     </div>

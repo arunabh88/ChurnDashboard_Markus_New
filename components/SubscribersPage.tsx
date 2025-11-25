@@ -214,6 +214,7 @@ export default function SubscribersPage() {
                 <th className="text-left text-gray-400 font-medium py-3 px-4">LTV</th>
                 <th className="text-left text-gray-400 font-medium py-3 px-4">Risk Level</th>
                 <th className="text-left text-gray-400 font-medium py-3 px-4">Engagement</th>
+                <th className="text-left text-gray-400 font-medium py-3 px-4">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -255,6 +256,19 @@ export default function SubscribersPage() {
                       </div>
                       <span className="text-white text-sm font-medium w-10">{sub.engagement}%</span>
                     </div>
+                  </td>
+                  <td className="py-4 px-4">
+                    {(sub.risk === 'High' || sub.risk === 'Critical') ? (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
+                      >
+                        Launch Rescue
+                      </motion.button>
+                    ) : (
+                      <span className="text-xs text-gray-500">—</span>
+                    )}
                   </td>
                 </motion.tr>
               ))}

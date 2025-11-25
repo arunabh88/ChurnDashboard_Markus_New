@@ -91,75 +91,69 @@ export default function MultiSignalMatrix() {
         <p className="text-gray-400">Understanding why subscribers leave</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Signal Table */}
-        <div className="lg:col-span-2">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-sky-500/30">
-                  <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Dimension</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Key Signal</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Source</th>
-                  <th className="text-center py-3 px-4 text-gray-400 font-semibold text-sm">Severity</th>
-                  <th className="text-right py-3 px-4 text-gray-400 font-semibold text-sm">Weight %</th>
-                </tr>
-              </thead>
-              <tbody>
-                {signals.map((signal, index) => (
-                  <motion.tr
-                    key={signal.dimension}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ backgroundColor: 'rgba(56, 189, 248, 0.05)' }}
-                    className="border-b border-sky-500/10"
-                  >
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sky-400">{signal.icon}</span>
-                        <span className="text-white font-medium">{signal.dimension}</span>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4 text-gray-300">{signal.keySignal}</td>
-                    <td className="py-4 px-4">
-                      <span className="text-xs bg-navy-800 text-sky-300 px-2 py-1 rounded source-tag">
-                        {signal.source}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 text-center">
-                      <span className={`text-xs px-3 py-1 rounded-full font-semibold uppercase ${getSeverityColor(signal.severity)}`}>
-                        {signal.severity}
-                      </span>
-                    </td>
-                    <td className="py-4 px-4 text-right text-white font-semibold">{signal.weight}%</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      <div className="space-y-6">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-sky-500/30">
+                <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Dimension</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Key Signal</th>
+                <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Source</th>
+                <th className="text-center py-3 px-4 text-gray-400 font-semibold text-sm">Severity</th>
+                <th className="text-right py-3 px-4 text-gray-400 font-semibold text-sm">Weight %</th>
+              </tr>
+            </thead>
+            <tbody>
+              {signals.map((signal, index) => (
+                <motion.tr
+                  key={signal.dimension}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ backgroundColor: 'rgba(56, 189, 248, 0.05)' }}
+                  className="border-b border-sky-500/10"
+                >
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sky-400">{signal.icon}</span>
+                      <span className="text-white font-medium">{signal.dimension}</span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 text-gray-300">{signal.keySignal}</td>
+                  <td className="py-4 px-4">
+                    <span className="text-xs bg-navy-800 text-sky-300 px-2 py-1 rounded source-tag">
+                      {signal.source}
+                    </span>
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className={`text-xs px-3 py-1 rounded-full font-semibold uppercase ${getSeverityColor(signal.severity)}`}>
+                      {signal.severity}
+                    </span>
+                  </td>
+                  <td className="py-4 px-4 text-right text-white font-semibold">{signal.weight}%</td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        {/* Radar Chart */}
-        <div className="lg:col-span-1">
-          <div className="bg-navy-900/50 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-white mb-4 text-center">Churn Intent Profile</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <RadarChart data={radarData}>
-                <PolarGrid stroke="#38bdf8" strokeOpacity={0.3} />
-                <PolarAngleAxis dataKey="dimension" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#94a3b8' }} />
-                <Radar
-                  name="Risk Score"
-                  dataKey="value"
-                  stroke="#0ea5e9"
-                  fill="#0ea5e9"
-                  fillOpacity={0.6}
-                />
-                <Legend wrapperStyle={{ color: '#fff' }} />
-              </RadarChart>
-            </ResponsiveContainer>
-          </div>
+        <div className="bg-navy-900/50 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-white mb-4 text-center">Churn Intent Profile</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <RadarChart data={radarData}>
+              <PolarGrid stroke="#38bdf8" strokeOpacity={0.3} />
+              <PolarAngleAxis dataKey="dimension" tick={{ fill: '#94a3b8', fontSize: 12 }} />
+              <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: '#94a3b8' }} />
+              <Radar
+                name="Risk Score"
+                dataKey="value"
+                stroke="#0ea5e9"
+                fill="#0ea5e9"
+                fillOpacity={0.6}
+              />
+              <Legend wrapperStyle={{ color: '#fff' }} />
+            </RadarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

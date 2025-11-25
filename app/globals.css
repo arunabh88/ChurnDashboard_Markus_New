@@ -3,63 +3,120 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark light;
-  --foreground-rgb: 226, 232, 240;
-  --background-gradient: radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.35), transparent 45%),
-    radial-gradient(circle at 80% 10%, rgba(129, 140, 248, 0.35), transparent 40%),
-    linear-gradient(160deg, #0a192f 0%, #111827 45%, #0b1220 100%);
-  --surface-glass: rgba(15, 23, 42, 0.68);
-  --surface-border: rgba(148, 163, 184, 0.25);
-  --surface-highlight: rgba(45, 212, 191, 0.25);
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 25, 41;
+  --background-end-rgb: 12, 74, 110;
 }
 
 :root.light {
-  --foreground-rgb: 15, 23, 42;
-  --background-gradient: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(129, 140, 248, 0.2), transparent 45%),
-    linear-gradient(165deg, #f8fafc 0%, #eef2ff 60%, #e2e8f0 100%);
-  --surface-glass: rgba(255, 255, 255, 0.78);
-  --surface-border: rgba(148, 163, 184, 0.25);
-  --surface-highlight: rgba(14, 165, 233, 0.12);
+  /* Clean Modern Light Theme */
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255; /* Pure white */
+  --background-end-rgb: 248, 250, 252; /* Very light blue-gray */
+  
+  /* Brand Colors */
+  --brand-blue: #0ea5e9;
+  --brand-blue-dark: #0284c7;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  /* Borders */
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  
+  /* Backgrounds */
+  --bg-card: #ffffff;
+  --bg-page: #f8fafc;
 }
 
-@layer base {
-  html {
-    @apply h-full;
-  }
-
-  body {
-    min-height: 100%;
-    background-image: var(--background-gradient);
-    background-attachment: fixed;
-    background-size: cover;
-    color: rgb(var(--foreground-rgb));
-    transition: background 0.5s ease, color 0.3s ease;
-  }
-}
-
-@layer components {
-  .glass-panel {
-    backdrop-filter: blur(26px);
-    -webkit-backdrop-filter: blur(26px);
-    background: var(--surface-glass);
-    border: 1px solid var(--surface-border);
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  }
-
-  .glass-panel:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 55px rgba(15, 23, 42, 0.45);
-    border-color: rgba(59, 130, 246, 0.35);
-  }
-
-  .glow-border {
-    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.15);
-  }
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 @layer utilities {
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+
+  /* Clean Light Theme Cards */
+  .light .glass-effect {
+    background: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .light .glass-card {
+    background: #FFFFFF;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  
+  .light .glass-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+  
+  /* Force white text on ALL blue elements in light mode */
+  .light button,
+  .light button *,
+  .light button span,
+  .light button svg,
+  .light .bg-gradient-to-r,
+  .light .bg-gradient-to-r *,
+  .light .bg-gradient-to-r span,
+  .light .bg-gradient-to-r svg,
+  .light .bg-sky-500,
+  .light .bg-sky-500 *,
+  .light .bg-sky-400,
+  .light .bg-sky-400 *,
+  .light .bg-blue-500,
+  .light .bg-blue-500 *,
+  .light .bg-blue-600,
+  .light .bg-blue-600 *,
+  .light span.rounded-full,
+  .light span.rounded-full *,
+  .light .inline-flex,
+  .light .inline-flex * {
+    color: #FFFFFF !important;
+  }
+  
+  .light button svg,
+  .light button svg *,
+  .light .bg-gradient-to-r svg,
+  .light .bg-gradient-to-r svg * {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
   .text-gradient {
     background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
     -webkit-background-clip: text;

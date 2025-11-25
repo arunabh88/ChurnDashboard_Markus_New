@@ -30,32 +30,34 @@ export function KpiStrip() {
           key={card.id}
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.06 + 0.05, type: 'spring', stiffness: 200, damping: 20 }}
+          transition={{ delay: index * 0.08 + 0.1, type: 'spring', stiffness: 180, damping: 18 }}
         >
           <Link href={card.href} className="group focus:outline-none">
-            <Card className="h-full overflow-hidden border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <CardContent className="flex h-full flex-col justify-between gap-4 p-5">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-400">
-                      {card.label}
-                    </p>
-                    <p className="mt-1 text-3xl font-semibold text-slate-800">{card.value}</p>
+            <Card className="h-full overflow-hidden border border-white/10 bg-gradient-to-br p-[1px]">
+              <div
+                className={`relative h-full rounded-[26px] bg-gradient-to-br ${gradientMap[card.id] ?? 'from-slate-800 via-slate-900 to-slate-950'} p-[1px]`}
+              >
+                <CardContent className="relative flex h-full flex-col justify-between rounded-[24px] bg-slate-900/70 p-5 transition group-hover:bg-slate-900/80">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-1">
+                      <p className="text-[11px] uppercase tracking-[0.24em] text-slate-300">
+                        {card.label}
+                      </p>
+                      <p className="text-3xl font-semibold text-white drop-shadow-lg">{card.value}</p>
+                    </div>
+                    <span className="glass-panel flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sky-100 shadow-sky-500/40 transition group-hover:border-white/30">
+                      {iconMap[card.id]}
+                    </span>
                   </div>
-                  <span className={`flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-sky-500 shadow-inner ${
-                    card.id === 'high-risk' ? 'text-rose-500 bg-rose-100/70' : ''
-                  }`}>
-                    {iconMap[card.id]}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs font-medium text-slate-500">
-                  <span>{card.change}</span>
-                  <span className="inline-flex items-center gap-1 text-sky-600 group-hover:text-sky-700">
-                    View details
-                    <ArrowUpRight size={14} />
-                  </span>
-                </div>
-              </CardContent>
+                  <div className="flex items-center justify-between text-xs font-medium text-sky-200">
+                    <span>{card.change}</span>
+                    <span className="inline-flex items-center gap-1 text-slate-200">
+                      Open Analyse
+                      <ArrowUpRight size={14} />
+                    </span>
+                  </div>
+                </CardContent>
+              </div>
             </Card>
           </Link>
         </motion.div>

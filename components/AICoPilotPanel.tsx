@@ -36,7 +36,7 @@ export function AICoPilotPanel({ open }: AICoPilotPanelProps) {
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
           transition={{ type: 'spring', stiffness: 140, damping: 20 }}
-          className="fixed right-0 top-[148px] z-40 h-[calc(100vh-148px)] w/full max-w-[420px] border-l border-slate-200 bg-white shadow-xl transition-colors duration-300 dark:border-slate-700 dark:bg-navy-900/95"
+          className="fixed right-0 top-16 z-40 h-[calc(100vh-64px)] w-full max-w-[420px] border-l border-slate-200 bg-white shadow-xl transition-colors duration-300 dark:border-slate-700 dark:bg-navy-900/95"
         >
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5 dark:border-slate-700/70">

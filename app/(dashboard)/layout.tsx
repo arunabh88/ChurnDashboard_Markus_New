@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [pathname]);
 
   return (
-    <div className="relative min-h-screen px-3 pb-16 pt-[120px] text-slate-100 sm:px-5 sm:pt-24 md:px-6">
+    <div className="relative min-h-screen px-3 pb-16 text-slate-100 sm:px-5 md:px-6">
       <Navigation
         activeTab={activeTab}
         copilotOpen={copilotOpen}

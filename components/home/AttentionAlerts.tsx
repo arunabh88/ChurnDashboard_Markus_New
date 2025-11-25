@@ -7,30 +7,30 @@ import { priorityAlerts } from '@/lib/data/dashboard';
 
 export function AttentionAlerts() {
   return (
-    <section className="grid gap-4 lg:grid-cols-3">
+    <section className="grid gap-4">
       {priorityAlerts.map((alert) => (
         <Card
           key={alert.id}
-          className="relative overflow-hidden border border-amber-300/40 bg-gradient-to-br from-amber-500/25 via-amber-500/15 to-transparent p-[1px]"
+          className="relative overflow-hidden border border-amber-200 bg-white shadow-sm"
         >
-          <CardContent className="relative space-y-4 rounded-[24px] bg-slate-900/80 p-5 text-amber-100">
+          <CardContent className="relative space-y-4 rounded-[24px] p-5 text-slate-700">
             <div className="flex items-start gap-3">
-              <div className="rounded-full bg-gradient-to-br from-amber-400 to-orange-500 p-2 text-white shadow-lg shadow-amber-500/50">
+              <div className="rounded-full bg-amber-100 p-2 text-amber-600">
                 <AlertTriangle size={18} />
               </div>
-              <p className="text-sm font-semibold text-amber-50">{alert.title}</p>
+              <p className="text-sm font-semibold text-slate-800">{alert.title}</p>
             </div>
             <div className="flex items-center gap-3">
               <Link
                 href={alert.analyseHref}
-                className="inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-white/10 px-4 py-2 text-sm font-semibold text-sky-200 transition hover:border-sky-300/70 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-600 transition hover:border-sky-300 hover:text-sky-700"
               >
                 <Activity size={16} />
                 Analyse
               </Link>
               <Link
                 href={alert.actionHref}
-                className="inline-flex items-center gap-2 rounded-full border border-amber-300/40 bg-white/5 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-200/60 hover:text-white"
+                className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-amber-600 transition hover:border-amber-300 hover:text-amber-700"
               >
                 Take Action
                 <ArrowRight size={16} />

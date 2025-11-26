@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Rocket } from 'lucide-react';
+import { SegmentIcon } from '@/components/SegmentIcon';
 import { formatCurrency } from '@/lib/utils';
 import { RETENTION_SEGMENTS, RetentionSegment } from '@/lib/data/segments';
 
@@ -89,12 +90,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
               >
                 <td className="pr-4 py-4">
                   <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
-                      {(() => {
-                        const IconComponent = segment.icon;
-                        return <IconComponent size={24} />;
-                      })()}
-                    </div>
+                    <SegmentIcon icon={segment.icon} gradient={segment.iconGradient} />
                     <div>
                       <h3 className="text-white font-semibold text-sm md:text-base">{segment.name}</h3>
                       <p className="text-gray-400 text-xs md:text-sm">{segment.count.toLocaleString()} subscribers</p>

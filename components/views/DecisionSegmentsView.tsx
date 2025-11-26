@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Filter, Layers, Rocket, Sparkles, Target } from 'lucide-react';
 import { RETENTION_SEGMENTS } from '@/lib/data/segments';
+import { SegmentIcon } from '@/components/SegmentIcon';
 import { formatCurrency } from '@/lib/utils';
 
 interface DecisionSegmentsViewProps {
@@ -90,12 +91,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
           >
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="flex items-start gap-4">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
-                  {(() => {
-                    const Icon = segment.icon;
-                    return <Icon size={28} />;
-                  })()}
-                </div>
+                <SegmentIcon icon={segment.icon} gradient={segment.iconGradient} size="lg" />
                 <div>
                   <div className="flex items-center gap-3 mb-1">
                     <h2 className="text-xl font-semibold text-white">{segment.name}</h2>

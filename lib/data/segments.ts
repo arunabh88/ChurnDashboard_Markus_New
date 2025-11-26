@@ -12,7 +12,7 @@ export interface RetentionSegment {
   priority: SegmentPriority;
   count: number;
   icon: LucideIcon;
-  iconColor: string;
+  iconGradient: [string, string];
   persona: string;
   recommendedAction: string;
   expectedLift: string;
@@ -28,7 +28,7 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'save-first',
     count: 8400,
     icon: Crown,
-    iconColor: 'from-yellow-400 to-orange-500',
+    iconGradient: ['#fde68a', '#f97316'],
     persona: 'Sports enthusiasts with premium bundles and multi-device households.',
     recommendedAction: 'Deploy loyalty credit bundle with exclusive sports content unlock and concierge support.',
     expectedLift: '+5.8% in retention and +3.2× ROI',
@@ -42,7 +42,7 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'needs-attention',
     count: 15200,
     icon: Tag,
-    iconColor: 'from-green-400 to-emerald-500',
+    iconGradient: ['#5eead4', '#0ea5e9'],
     persona: 'Budget-conscious viewers primarily on single device with limited add-ons.',
     recommendedAction: 'Offer downgrade-to-ad-supported plan with optional upsell bundles and payment reminders.',
     expectedLift: '+4.2% retention and +2.1× ROI',
@@ -56,7 +56,7 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'save-first',
     count: 6800,
     icon: Film,
-    iconColor: 'from-purple-400 to-pink-500',
+    iconGradient: ['#f0abfc', '#f472b6'],
     persona: 'Binge watchers with declining session length across drama & documentary genres.',
     recommendedAction: 'Activate AI-curated content journeys with push notifications and watch-party invitations.',
     expectedLift: '+6.4% retention and +3.4× ROI',
@@ -70,7 +70,7 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'needs-attention',
     count: 4200,
     icon: Wrench,
-    iconColor: 'from-blue-400 to-cyan-500',
+    iconGradient: ['#38bdf8', '#6366f1'],
     persona: 'Multi-screen households experiencing buffering across legacy set-top boxes.',
     recommendedAction: 'Schedule proactive technician outreach with device upgrade credits and simplified setup guides.',
     expectedLift: '+4.9% retention and +2.6× ROI',
@@ -84,7 +84,7 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'low-roi',
     count: 9600,
     icon: ShoppingCart,
-    iconColor: 'from-red-400 to-pink-500',
+    iconGradient: ['#fb7185', '#f43f5e'],
     persona: 'Subscribers comparing rival offers and engaging mainly during marquee events.',
     recommendedAction: 'Provide limited-time price match offer with loyalty bundle and competitor comparison messaging.',
     expectedLift: '+3.1% retention and +1.9× ROI',

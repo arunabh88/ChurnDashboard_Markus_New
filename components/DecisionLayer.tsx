@@ -66,91 +66,73 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
         </motion.button>
       </div>
 
-      <div className="space-y-4">
-        {segments.map((segment, index) => (
-          <motion.div
-            key={segment.name}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)' }}
-            className="bg-navy-900/50 border border-sky-500/20 rounded-lg p-5 cursor-pointer"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-7 gap-2 md:items-center">
-              {/* Segment Name & Count */}
-              <div className="md:col-span-2">
-                <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
-                    {(() => {
-                      const Icon = segment.icon;
-                      return <Icon size={24} />;
-                    })()}
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold text-lg">{segment.name}</h3>
-                    <p className="text-gray-400 text-sm">{segment.count.toLocaleString()} subscribers</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Churn Risk */}
-              <div className="text-center">
-                <p className="text-gray-400 text-xs mb-1">Churn Risk</p>
-                <div className="relative w-16 h-16 mx-auto">
-                  <svg className="transform -rotate-90 w-16 h-16">
-                    <circle
-                      cx="32"
-                      cy="32"
-                      r="28"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                      className="text-navy-700"
-                    />
-                    <circle
-                      cx="32"
-                      cy="32"
-                      r="28"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                      strokeDasharray={`${segment.churnRisk * 1.76} 176`}
-                      className={getRiskColor(segment.churnRisk)}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className={`text-lg font-bold ${getRiskColor(segment.churnRisk)}`}>
-                      {segment.churnRisk}%
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* CLTV */}
-              <div className="text-center">
-                <p className="text-gray-400 text-xs mb-1">CLTV</p>
-                <p className="text-white font-bold text-xl">{formatCurrency(segment.cltv)}</p>
-              </div>
-
-              {/* ROI */}
-              <div className="text-center">
-                <p className="text-gray-400 text-xs mb-1">ROI</p>
-                <div className="flex items-center justify-center gap-1">
-                  <TrendingUp size={16} className="text-green-400" />
-                  <p className="text-white font-bold text-xl">{segment.roi}×</p>
-                </div>
-              </div>
-
-              {/* AI Suggestion + Action */}
-              <div className="md:col-span-3">
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                  <div className="space-y-2 max-w-xl">
-                    {getPriorityBadge(segment.priority)}
-                    <div className="flex items-start gap-2 text-sm">
-                      <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
-                      <p className="text-gray-300">{segment.aiSuggestion}</p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm border-separate border-spacing-y-2">
+          <thead className="text-gray-400 text-xs uppercase tracking-wide">
+            <tr>
+              <th className="pb-2 pr-4">Segment</th>
+              <th className="pb-2 pr-4 text-center">Churn Risk</th>
+              <th className="pb-2 pr-4 text-center">CLTV</th>
+              <th className="pb-2 pr-4 text-center">ROI</th>
+              <th className="pb-2 pr-4">AI Recommendation</th>
+              <th className="pb-2 pr-4 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {segments.map((segment, index) => (
+              <motion.tr
+                key={segment.name}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="bg-navy-900/50 border border-sky-500/20 rounded-xl"
+              >
+                <td className="pr-4 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
+                      {(() => {
+                        const Icon = segment.icon;
+                        return <Icon size={24} />;
+                      })()}
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold text-sm md:text-base">{segment.name}</h3>
+                      <p className="text-gray-400 text-xs md:text-sm">{segment.count.toLocaleString()} subscribers</p>
                     </div>
                   </div>
+                </td>
+
+                <td className="pr-4 py-4 text-center">
+                  <div className="inline-flex flex-col items-center">
+                    <span className={`text-lg font-bold ${getRiskColor(segment.churnRisk)}`}>{segment.churnRisk}%</span>
+                    <span className="text-xs text-gray-500">risk</span>
+                  </div>
+                </td>
+
+                <td className="pr-4 py-4 text-center">
+                  <p className="text-white font-semibold">{formatCurrency(segment.cltv)}</p>
+                </td>
+
+                <td className="pr-4 py-4 text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <TrendingUp size={16} className="text-green-400" />
+                    <p className="text-white font-semibold">{segment.roi}×</p>
+                  </div>
+                </td>
+
+                <td className="pr-4 py-4">
+                  <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                    <div className="space-y-1">
+                      {getPriorityBadge(segment.priority)}
+                      <div className="flex items-start gap-2 text-sm">
+                        <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
+                        <p className="text-gray-300 max-w-xl">{segment.aiSuggestion}</p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+
+                <td className="py-4 pr-4 text-right">
                   <motion.button
                     type="button"
                     whileHover={{ scale: 1.03 }}
@@ -162,11 +144,11 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                     <Rocket size={16} />
                     Activate Playbook
                   </motion.button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <motion.div

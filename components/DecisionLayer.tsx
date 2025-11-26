@@ -141,30 +141,28 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                 </div>
               </div>
 
-              {/* AI Suggestion */}
-              <div className="md:col-span-2">
-                <div className="space-y-2">
-                  {getPriorityBadge(segment.priority)}
-                  <div className="flex items-start gap-2 text-sm">
-                    <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-300">{segment.aiSuggestion}</p>
+              {/* AI Suggestion + Action */}
+              <div className="md:col-span-3">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <div className="space-y-2 max-w-xl">
+                    {getPriorityBadge(segment.priority)}
+                    <div className="flex items-start gap-2 text-sm">
+                      <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
+                      <p className="text-gray-300">{segment.aiSuggestion}</p>
+                    </div>
                   </div>
+                  <motion.button
+                    type="button"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => onSegmentAction?.(segment)}
+                    className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
+                    aria-label={`Activate playbook for ${segment.name}`}
+                  >
+                    <Rocket size={16} />
+                    Activate Playbook
+                  </motion.button>
                 </div>
-              </div>
-
-              {/* Action */}
-              <div className="md:col-span-1 flex justify-end">
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => onSegmentAction?.(segment)}
-                  className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
-                  aria-label={`Activate playbook for ${segment.name}`}
-                >
-                  <Rocket size={16} />
-                  Activate Playbook
-                </motion.button>
               </div>
             </div>
           </motion.div>

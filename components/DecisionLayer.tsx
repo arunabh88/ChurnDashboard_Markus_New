@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Rocket } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
-import * as Icons from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { RETENTION_SEGMENTS, RetentionSegment } from '@/lib/data/segments';
 
@@ -93,8 +91,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                   <div className="flex items-center gap-3">
                     <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${segment.iconColor} flex items-center justify-center text-white shadow-lg`}>
                       {(() => {
-                        const map = Icons as unknown as Record<string, LucideIcon>;
-                        const IconComponent = map[segment.iconName] ?? segment.icon;
+                        const IconComponent = segment.icon;
                         return <IconComponent size={24} />;
                       })()}
                     </div>

@@ -12,7 +12,6 @@ export interface RetentionSegment {
   priority: SegmentPriority;
   count: number;
   icon: LucideIcon;
-  iconName: string;
   iconColor: string;
   persona: string;
   recommendedAction: string;
@@ -29,7 +28,6 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'save-first',
     count: 8400,
     icon: Crown,
-    iconName: 'Crown',
     iconColor: 'from-yellow-400 to-orange-500',
     persona: 'Sports enthusiasts with premium bundles and multi-device households.',
     recommendedAction: 'Deploy loyalty credit bundle with exclusive sports content unlock and concierge support.',
@@ -44,7 +42,6 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'needs-attention',
     count: 15200,
     icon: Tag,
-    iconName: 'Tag',
     iconColor: 'from-green-400 to-emerald-500',
     persona: 'Budget-conscious viewers primarily on single device with limited add-ons.',
     recommendedAction: 'Offer downgrade-to-ad-supported plan with optional upsell bundles and payment reminders.',
@@ -59,7 +56,6 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'save-first',
     count: 6800,
     icon: Film,
-    iconName: 'Film',
     iconColor: 'from-purple-400 to-pink-500',
     persona: 'Binge watchers with declining session length across drama & documentary genres.',
     recommendedAction: 'Activate AI-curated content journeys with push notifications and watch-party invitations.',
@@ -74,7 +70,6 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'needs-attention',
     count: 4200,
     icon: Wrench,
-    iconName: 'Wrench',
     iconColor: 'from-blue-400 to-cyan-500',
     persona: 'Multi-screen households experiencing buffering across legacy set-top boxes.',
     recommendedAction: 'Schedule proactive technician outreach with device upgrade credits and simplified setup guides.',
@@ -89,7 +84,6 @@ export const RETENTION_SEGMENTS: RetentionSegment[] = [
     priority: 'low-roi',
     count: 9600,
     icon: ShoppingCart,
-    iconName: 'ShoppingCart',
     iconColor: 'from-red-400 to-pink-500',
     persona: 'Subscribers comparing rival offers and engaging mainly during marquee events.',
     recommendedAction: 'Provide limited-time price match offer with loyalty bundle and competitor comparison messaging.',

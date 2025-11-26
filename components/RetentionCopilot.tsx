@@ -81,7 +81,7 @@ export default function RetentionCopilot() {
   ];
 
   return (
-    <div className="glass-card rounded-xl p-6 flex flex-col max-h-[calc(100vh-100px)] min-h-[650px] overflow-hidden">
+    <div className="glass-card rounded-xl p-6 flex flex-col overflow-hidden min-h-[700px] lg:min-h-[780px] lg:max-h-[calc(100vh-60px)]">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-sky-500/20">
         <motion.div

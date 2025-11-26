@@ -76,7 +76,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
             whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(14, 165, 233, 0.3)' }}
             className="bg-navy-900/50 border border-sky-500/20 rounded-lg p-5 cursor-pointer"
           >
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-7 gap-4 md:items-center">
               {/* Segment Name & Count */}
               <div className="md:col-span-2">
                 <div className="flex items-center gap-3">
@@ -142,7 +142,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
               </div>
 
               {/* AI Suggestion */}
-              <div className="md:col-span-1">
+              <div className="md:col-span-2">
                 <div className="space-y-2">
                   {getPriorityBadge(segment.priority)}
                   <div className="flex items-start gap-2 text-sm">
@@ -153,7 +153,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
               </div>
 
               {/* Action */}
-              <div className="md:col-span-6 flex justify-end">
+              <div className="md:col-span-1 flex justify-end">
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.03 }}

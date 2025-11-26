@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import JourneyMap from '@/components/JourneyMap';
 import DecisionLayer from '@/components/DecisionLayer';
-import ActionCenter from '@/components/ActionCenter';
 import { TopSignalsHighlight } from '@/components/dashboard/TopSignalsHighlight';
 
 const HeaderBar = dynamic(() => import('@/components/HeaderBar'), { ssr: false });
@@ -44,15 +43,7 @@ export function DashboardView({ onNavigate, onViewSegments, onStageAction }: Das
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
-        >
-          <ActionCenter />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="rounded-2xl border border-sky-500/25 bg-navy-900/40 p-6 shadow-[0_0_30px_rgba(56,189,248,0.25)]"
+          className="glass-card rounded-xl p-6"
         >
           <h3 className="text-sm font-semibold uppercase tracking-wide text-sky-200">AI Co-Pilot</h3>
           <p className="text-xl font-bold text-white mt-2">Ask for a strategy</p>

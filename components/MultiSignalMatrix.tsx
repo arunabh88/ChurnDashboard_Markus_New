@@ -2,9 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend } from 'recharts';
-import { Database, Activity, MessageSquare, Zap, Target, Heart } from 'lucide-react';
+import { Database, Activity, MessageSquare, Zap, Target, Heart, Sparkles } from 'lucide-react';
 import { CHURN_SIGNALS, CHURN_RADAR_DATA, type ChurnSignal } from '@/lib/data/churnSignals';
 import { type ReactNode } from 'react';
+import Link from 'next/link';
 
 interface SignalWithIcon extends ChurnSignal {
   icon: ReactNode;
@@ -49,9 +50,21 @@ export default function MultiSignalMatrix() {
 
   return (
     <div className="glass-card rounded-xl p-6 mb-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-white mb-1">Multi-Signal Churn Matrix</h2>
-        <p className="text-gray-400">Understanding why subscribers leave</p>
+      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-1">Multi-Signal Churn Matrix</h2>
+          <p className="text-gray-400">Understanding why subscribers leave</p>
+        </div>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            href="/actions"
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:from-sky-400 hover:to-blue-500 transition-colors"
+            aria-label="Take action on churn signals"
+          >
+            <Sparkles size={16} />
+            Take Action
+          </Link>
+        </motion.div>
       </div>
 
       <div className="space-y-6">

@@ -74,18 +74,18 @@ export default function Home() {
               )}
             </div>
 
-            {copilotOpen && (
+                    {copilotOpen && (
               <aside className="hidden lg:block">
                 <div className="sticky top-28">
-                  <RetentionCopilot />
+                          <RetentionCopilot onClose={() => setCopilotOpen(false)} />
                 </div>
               </aside>
             )}
           </div>
 
-          {copilotOpen && (
+                  {copilotOpen && (
             <div className="mt-8 lg:hidden">
-              <RetentionCopilot />
+                      <RetentionCopilot onClose={() => setCopilotOpen(false)} />
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Send, Sparkles, User, TrendingUp, Eye, Zap } from 'lucide-react';
+import { Bot, Send, Sparkles, User, TrendingUp, Eye, Zap, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface Message {
@@ -11,7 +11,11 @@ interface Message {
   actions?: Array<{ label: string; onClick: () => void }>;
 }
 
-export default function RetentionCopilot() {
+interface RetentionCopilotProps {
+  onClose?: () => void;
+}
+
+export default function RetentionCopilot({ onClose }: RetentionCopilotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -83,34 +87,49 @@ export default function RetentionCopilot() {
   return (
     <div className="glass-card rounded-xl p-6 flex flex-col overflow-hidden min-h-[700px] lg:min-h-[780px] lg:max-h-[calc(100vh-60px)]">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6 pb-4 border-b border-sky-500/20">
-        <motion.div
-          animate={{ rotate: [0, 5, -5, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center"
-        >
-          {/* Salesforce Agentforce Icon */}
-          <svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Main Agent Symbol - Stylized "A" with modern tech design */}
-            <path d="M24 4L8 14V28L24 38L40 28V14L24 4Z" fill="white" fillOpacity="0.9"/>
-            <path d="M24 12L16 17V27L24 32L32 27V17L24 12Z" fill="url(#agentGradient)"/>
-            <circle cx="24" cy="20" r="3" fill="white"/>
-            <path d="M24 24L18 28H30L24 24Z" fill="white"/>
-            <defs>
-              <linearGradient id="agentGradient" x1="16" y1="12" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#0ea5e9" stopOpacity="0.3"/>
-                <stop offset="1" stopColor="#3b82f6" stopOpacity="0.3"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
-        <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            Agentforce
-            <Sparkles size={16} className="text-sky-400" />
-          </h2>
-          <p className="text-gray-400 text-sm">Powered by Einstein AI</p>
+      <div className="mb-6 flex items-center justify-between gap-3 pb-4 border-b border-sky-500/20">
+        <div className="flex items-center gap-3">
+          <motion.div
+            animate={{ rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="w-12 h-12 rounded-full bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center"
+          >
+            {/* Salesforce Agentforce Icon */}
+            <svg width="28" height="28" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Main Agent Symbol - Stylized "A" with modern tech design */}
+              <path d="M24 4L8 14V28L24 38L40 28V14L24 4Z" fill="white" fillOpacity="0.9"/>
+              <path d="M24 12L16 17V27L24 32L32 27V17L24 12Z" fill="url(#agentGradient)"/>
+              <circle cx="24" cy="20" r="3" fill="white"/>
+              <path d="M24 24L18 28H30L24 24Z" fill="white"/>
+              <defs>
+                <linearGradient id="agentGradient" x1="16" y1="12" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#0ea5e9" stopOpacity="0.3"/>
+                  <stop offset="1" stopColor="#3b82f6" stopOpacity="0.3"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </motion.div>
+          <div>
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              Agentforce
+              <Sparkles size={16} className="text-sky-400" />
+            </h2>
+            <p className="text-gray-400 text-sm">Powered by Einstein AI</p>
+          </div>
         </div>
+
+        {onClose && (
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onClose}
+            className="rounded-lg border border-sky-500/30 bg-sky-500/10 p-2 text-sky-200 hover:bg-sky-500/20 transition-colors"
+            aria-label="Close Agentforce panel"
+          >
+            <X size={16} />
+          </motion.button>
+        )}
       </div>
 
       {/* Messages */}

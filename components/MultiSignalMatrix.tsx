@@ -77,6 +77,7 @@ export default function MultiSignalMatrix() {
                 <th className="text-left py-3 px-4 text-gray-400 font-semibold text-sm">Source</th>
                 <th className="text-center py-3 px-4 text-gray-400 font-semibold text-sm">Severity</th>
                 <th className="text-right py-3 px-4 text-gray-400 font-semibold text-sm">Weight %</th>
+                <th className="text-right py-3 px-4 text-gray-400 font-semibold text-sm">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -107,6 +108,22 @@ export default function MultiSignalMatrix() {
                     </span>
                   </td>
                   <td className="py-4 px-4 text-right text-white font-semibold">{signal.weight}%</td>
+                  <td className="py-4 px-4 text-right">
+                    {['critical', 'high', 'medium'].includes(signal.severity) ? (
+                      <Link
+                        href={{
+                          pathname: '/actions',
+                          query: { focus: signal.dimension.toLowerCase() },
+                        }}
+                        className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors"
+                      >
+                        <Sparkles size={14} />
+                        Take Action
+                      </Link>
+                    ) : (
+                      <span className="text-xs text-gray-500">—</span>
+                    )}
+                  </td>
                 </motion.tr>
               ))}
             </tbody>

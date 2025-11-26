@@ -18,20 +18,20 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
     switch (priority) {
       case 'save-first':
         return (
-          <span className="flex items-center gap-1 text-xs bg-red-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs bg-red-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
             <Sparkles size={12} className="text-white" />
             <span className="text-white">Save First</span>
           </span>
         );
       case 'low-roi':
         return (
-          <span className="text-xs bg-gray-600 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+          <span className="inline-flex items-center whitespace-nowrap text-xs bg-gray-600 text-white px-3 py-1 rounded-full font-semibold priority-badge">
             <span className="text-white">Low ROI</span>
           </span>
         );
       case 'needs-attention':
         return (
-          <span className="flex items-center gap-1 text-xs bg-orange-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap text-xs bg-orange-500 text-white px-3 py-1 rounded-full font-semibold priority-badge">
             <AlertCircle size={12} className="text-white" />
             <span className="text-white">Needs Attention</span>
           </span>

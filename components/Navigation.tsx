@@ -20,10 +20,10 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
     setMounted(true);
   }, []);
 
-  const navItems: Array<{ label: string; icon: ReactNode; id: NavigationProps['activeTab']; description: string }> = [
-    { label: 'Dashboard', icon: <Home size={18} />, id: 'dashboard', description: 'Pulse & focus' },
-    { label: 'Analyse', icon: <LineChart size={18} />, id: 'analyse', description: 'Deep dive' },
-            { label: 'Act', icon: <Rocket size={18} />, id: 'act', description: 'Actions' },
+  const navItems: Array<{ label: string; icon: ReactNode; id: NavigationProps['activeTab'] }> = [
+    { label: 'Dashboard', icon: <Home size={18} />, id: 'dashboard' },
+    { label: 'Analyse', icon: <LineChart size={18} />, id: 'analyse' },
+    { label: 'Act', icon: <Rocket size={18} />, id: 'act' },
   ];
 
   return (
@@ -67,10 +67,7 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
                   }`}
                 >
                   {item.icon}
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm font-semibold">{item.label}</span>
-                    <span className="text-[11px] text-gray-500">{item.description}</span>
-                  </div>
+                  <span className="text-sm font-semibold">{item.label}</span>
                 </motion.button>
               ))}
             </div>
@@ -164,14 +161,16 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
               <button
                 key={item.label}
                 onClick={() => onTabChange(item.id)}
-                className={`flex min-w-[120px] flex-col items-start rounded-xl border px-4 py-3 text-left transition-colors ${
+                className={`flex min-w-[120px] items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors ${
                   active
                     ? 'border-sky-500/40 bg-sky-500/15 text-sky-100'
                     : 'border-transparent bg-white/5 text-gray-300'
                 }`}
               >
-                <span className="text-sm font-semibold">{item.label}</span>
-                <span className="text-[11px] text-gray-400">{item.description}</span>
+                <div className="flex items-center gap-2">
+                  {item.icon}
+                  <span className="text-sm font-semibold">{item.label}</span>
+                </div>
               </button>
             );
           })}

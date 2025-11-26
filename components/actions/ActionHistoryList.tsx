@@ -80,7 +80,7 @@ export function ActionHistoryList() {
         </div>
         <div className="flex items-center gap-3 text-sm text-sky-300">
           <BadgeCheck size={18} />
-          92% of completed playbooks met expected lift ±2%
+          92% of completed actions met expected lift ±2%
         </div>
       </div>
 
@@ -132,7 +132,7 @@ export function ActionHistoryList() {
       <div className="mt-6 flex flex-col gap-3 text-sm text-gray-400 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2 text-sky-300">
           <TrendingUp size={16} />
-          Auto surface low-performing playbooks for optimisation
+          Auto surface low-performing actions for optimisation
         </div>
         <button className="inline-flex items-center gap-2 rounded-lg border border-sky-500/30 px-4 py-2 text-sky-200 hover:bg-sky-500/10 transition-colors">
           Export history

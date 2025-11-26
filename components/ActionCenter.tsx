@@ -152,7 +152,7 @@ export default function ActionCenter() {
             <div className="flex-1">
               <p className="text-white font-semibold text-lg mb-2">AI Einstein is ready</p>
               <p className="text-gray-300 mb-4">
-                Would you like me to run this playbook for all users with churn risk &gt;70% and CLTV &gt;£200?
+                Would you like me to run this action for all users with churn risk &gt;70% and CLTV &gt;£200?
               </p>
               <div className="flex gap-3">
                 <motion.button
@@ -161,7 +161,7 @@ export default function ActionCenter() {
                   className="flex items-center gap-2 bg-sky-500 text-white px-6 py-2 rounded-lg font-semibold"
                 >
                   <Zap size={16} />
-                  Yes, Run Playbook
+                  Yes, Run Action
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}

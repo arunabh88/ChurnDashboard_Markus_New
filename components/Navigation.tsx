@@ -23,7 +23,7 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
   const navItems: Array<{ label: string; icon: ReactNode; id: NavigationProps['activeTab']; description: string }> = [
     { label: 'Dashboard', icon: <Home size={18} />, id: 'dashboard', description: 'Pulse & focus' },
     { label: 'Analyse', icon: <LineChart size={18} />, id: 'analyse', description: 'Deep dive' },
-    { label: 'Act', icon: <Rocket size={18} />, id: 'act', description: 'Playbooks' },
+            { label: 'Act', icon: <Rocket size={18} />, id: 'act', description: 'Actions' },
   ];
 
   return (

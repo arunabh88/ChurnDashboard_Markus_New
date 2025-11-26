@@ -28,8 +28,8 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
           </button>
           <h1 className="mt-3 text-3xl font-bold text-white">Segment Portfolio Intelligence</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
-            Drill into segment personas, retention levers, and predicted lift. Activate AI-powered playbooks straight from
-            this workspace or return to the overview to continue diagnostics.
+            Drill into segment personas, retention levers, and predicted lift. Activate AI-powered actions straight from this
+            workspace or return to the overview to continue diagnostics.
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-500/30"
           >
             <Rocket size={16} />
-            Launch Playbook
+            Launch Action
           </button>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
             <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">AI recommendation score</h3>
             <p className="text-4xl font-bold text-emerald-300">92%</p>
-            <p className="text-xs text-gray-400 mt-2">confidence that current playbooks deliver target lift per segment</p>
+            <p className="text-xs text-gray-400 mt-2">confidence that current actions deliver target lift per segment</p>
           </div>
         </div>
       </motion.div>
@@ -147,7 +147,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
 
             <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <p className="text-xs text-gray-400">
-                Einstein Copilot can launch this playbook automatically, or you can customise audience rules before
+                Einstein Copilot can launch this action automatically, or you can customise audience rules before
                 activating.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -158,7 +158,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
                   className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg"
                 >
                   <Rocket size={16} />
-                  Activate Playbook
+                  Activate Action
                 </motion.button>
               </div>
             </div>

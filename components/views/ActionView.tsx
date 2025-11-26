@@ -22,7 +22,7 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
         <div>
           <h1 className="text-3xl font-bold text-white">Retain, Intervene & Measure</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
-            Activate AI-recommended playbooks, configure interventions, and monitor performance across loyalty, onboarding,
+            Activate AI-recommended actions, configure interventions, and monitor performance across loyalty, onboarding,
             re-engagement, and pricing strategies.
           </p>
         </div>

@@ -41,7 +41,7 @@ export function AnalyseView({
           <h1 className="text-3xl font-bold text-white">Analyse Retention Signals</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
             Dive into churn trends, signal drivers, and subscriber-level detail. Apply filters to
-            isolate segments and send high-value cohorts directly into playbooks.
+            isolate segments and send high-value cohorts directly into actions.
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export function AnalyseView({
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-500/30"
           >
             <PlayCircle size={16} />
-            Launch Playbook
+            Launch Action
           </motion.button>
         </div>
       </motion.div>

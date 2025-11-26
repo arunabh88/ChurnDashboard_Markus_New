@@ -42,7 +42,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
       engagementScore: 45,
       triggers: ['Onboarding confusion', 'Content misalignment', 'Device setup issues'],
       retentionRate: 30,
-      actionLabel: 'Launch Trial Rescue Playbook',
+              actionLabel: 'Launch Trial Rescue Action',
     },
     {
       name: 'New Users',
@@ -53,7 +53,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
       engagementScore: 69,
       triggers: ['Drop in engagement', 'No favorite content', 'Single device usage'],
       retentionRate: 65,
-      actionLabel: 'Boost Onboarding Journey',
+              actionLabel: 'Boost Onboarding Journey',
     },
     {
       name: 'Established Users',
@@ -64,7 +64,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
       engagementScore: 84,
       triggers: ['Price sensitivity', 'Competitor offers', 'Life events'],
       retentionRate: 99.15,
-      actionLabel: 'Launch Loyalty Stabiliser',
+              actionLabel: 'Launch Loyalty Stabiliser',
     },
   ];
 

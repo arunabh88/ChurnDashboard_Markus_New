@@ -64,6 +64,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
       engagementScore: 84,
       triggers: ['Price sensitivity', 'Competitor offers', 'Life events'],
       retentionRate: 99.15,
+      actionLabel: 'Launch Loyalty Stabiliser',
     },
   ];
 

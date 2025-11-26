@@ -159,7 +159,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => onSegmentAction?.(segment)}
-                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
+                  className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
                   aria-label={`Activate playbook for ${segment.name}`}
                 >
                   <Rocket size={16} />

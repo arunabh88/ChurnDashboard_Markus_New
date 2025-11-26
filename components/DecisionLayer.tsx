@@ -153,7 +153,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
               </div>
 
               {/* Action */}
-              <div className="md:col-span-6">
+              <div className="md:col-span-6 flex justify-end">
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.03 }}

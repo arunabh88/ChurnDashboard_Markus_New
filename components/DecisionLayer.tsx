@@ -116,12 +116,12 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
         <table className="w-full text-left text-sm border-separate border-spacing-y-2">
           <thead className="text-gray-400 text-xs uppercase tracking-wide">
             <tr>
-              <th className="pb-2 pr-4">Segment</th>
-              <th className="pb-2 pr-4 text-center">Churn Risk</th>
-              <th className="pb-2 pr-4 text-center">CLTV</th>
-              <th className="pb-2 pr-4 text-center">ROI</th>
-              <th className="pb-2 pr-4">AI Recommendation</th>
-              <th className="pb-2 pr-4 text-right">Action</th>
+              <th className="px-4 pb-2">Segment</th>
+              <th className="px-4 pb-2 text-center">Churn Risk</th>
+              <th className="px-4 pb-2 text-center">CLTV</th>
+              <th className="px-4 pb-2 text-center">ROI</th>
+              <th className="px-4 pb-2">AI Recommendation</th>
+              <th className="px-4 pb-2 text-right">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -133,7 +133,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                 transition={{ delay: index * 0.05 }}
                 className="bg-navy-900/50 border border-sky-500/20 rounded-xl"
           >
-                <td className="pr-4 py-4">
+                <td className="px-4 py-4">
                 <div className="flex items-center gap-3">
                     <SegmentIcon icon={segment.icon} gradient={segment.iconGradient} />
                     <div>
@@ -143,25 +143,25 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                   </div>
                 </td>
 
-                <td className="pr-4 py-4 text-center">
+                <td className="px-4 py-4 text-center">
                   <div className="inline-flex flex-col items-center">
                     <span className={`text-lg font-bold ${getRiskColor(segment.churnRisk)}`}>{segment.churnRisk}%</span>
                     <span className="text-xs text-gray-500">risk</span>
                   </div>
                 </td>
 
-                <td className="pr-4 py-4 text-center">
+                <td className="px-4 py-4 text-center">
                   <p className="text-white font-semibold">{formatCurrency(segment.cltv)}</p>
                 </td>
 
-                <td className="pr-4 py-4 text-center">
+                <td className="px-4 py-4 text-center">
                 <div className="flex items-center justify-center gap-1">
                   <TrendingUp size={16} className="text-green-400" />
                     <p className="text-white font-semibold">{segment.roi}×</p>
                 </div>
                 </td>
 
-                <td className="pr-4 py-4">
+                <td className="px-4 py-4">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div className="space-y-1">
                   {getPriorityBadge(segment.priority)}
@@ -173,7 +173,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
               </div>
                 </td>
 
-                <td className="py-4 pr-4 text-right">
+                <td className="px-4 py-4 text-right">
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.03 }}

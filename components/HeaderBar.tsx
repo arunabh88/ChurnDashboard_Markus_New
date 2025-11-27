@@ -1,17 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  TrendingUp,
-  TrendingDown,
-  Users,
-  AlertTriangle,
-  DollarSign,
-  Sparkles,
-  Sun,
-  Moon,
-  ArrowRight,
-} from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, AlertTriangle, DollarSign, Sparkles, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/app/providers';
 import { useState, useEffect } from 'react';
 
@@ -47,6 +37,7 @@ const MetricCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(14, 165, 233, 0.4)' }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onNavigateAnalyse?.(filterId)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -90,17 +81,6 @@ const MetricCard = ({
           💡 {tooltip}
         </motion.div>
       )}
-
-      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-sky-200">
-        Jump to Analyse
-        <motion.span
-          animate={{ x: [0, 3, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity }}
-          className="text-sky-100"
-        >
-          <ArrowRight size={14} />
-        </motion.span>
-      </div>
     </motion.div>
   );
 };

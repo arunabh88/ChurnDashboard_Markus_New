@@ -448,21 +448,21 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
                 </div>
 
                 {index === 0 && (
-                  <div className="mb-3 rounded-lg border border-red-500 bg-red-500/20 p-3 text-center">
+                  <div className="mb-3 rounded-lg border border-red-500 bg-red-500/20 p-3 text-center min-h-[88px] flex flex-col justify-center">
                     <p className="text-red-400 text-xs font-semibold mb-1">Total Churned</p>
                     <p className="text-white text-lg font-bold">{totalChurnedDisplay}</p>
                   </div>
                 )}
 
                 {index === 1 && (
-                  <div className="mb-3 rounded-lg border border-orange-500 bg-orange-500/20 p-3 text-center">
-                    <p className="text-orange-400 text-xs font-semibold mb-1">Highest Risk Phase</p>
-                    <p className="text-white text-xs font-bold">{highestRiskPhase}</p>
+                  <div className="mb-3 rounded-lg border border-orange-500 bg-orange-500/20 p-3 text-center min-h-[88px] flex flex-col justify-center">
+                    <p className="text-orange-400 text-xs font-semibold mb-2">Highest Risk Phase</p>
+                    <p className="text-white text-sm font-bold leading-tight">{highestRiskPhase}</p>
                   </div>
                 )}
 
                 {index === 2 && (
-                  <div className="mb-3 rounded-lg border border-green-500 bg-green-500/20 p-3 text-center">
+                  <div className="mb-3 rounded-lg border border-green-500 bg-green-500/20 p-3 text-center min-h-[88px] flex flex-col justify-center">
                     <p className="text-green-400 text-xs font-semibold mb-1">Established Users Retention</p>
                     <p className="text-white text-lg font-bold">{establishedRetentionDisplay}</p>
                   </div>

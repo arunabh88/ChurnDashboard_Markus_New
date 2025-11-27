@@ -151,7 +151,7 @@ export function AnalyseView({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.12 }}
-        className="rounded-2xl border border-sky-500/20 bg-sky-500/10 p-5"
+        className="rounded-2xl border border-sky-500/20 bg-navy-900/60 p-5 shadow-[0_12px_28px_rgba(15,118,210,0.2)]"
       >
         <div className="flex gap-3">
           <Lightbulb size={18} className="text-sky-200 mt-1" />

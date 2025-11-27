@@ -132,11 +132,11 @@ export function CreateActionPlanWizard({
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 30 }}
-        className="w-full max-w-3xl rounded-2xl border border-sky-500/30 bg-navy-900/95 shadow-[0_0_40px_rgba(56,189,248,0.25)]"
+        className="glass-card w-full max-w-3xl rounded-2xl border border-sky-500/30 bg-navy-900/90 shadow-[0_28px_60px_rgba(8,47,73,0.55)]"
       >
         <div className="flex items-start justify-between border-b border-sky-500/20 p-6">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">{`Step ${step + 1} · ${STEPS[step]}`}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-sky-200">{`Step ${step + 1} · ${STEPS[step]}`}</p>
             <h2 className="mt-2 text-2xl font-bold text-white">Create New Retention Action</h2>
             <p className="mt-2 text-sm text-gray-400">Use Einstein Copilot recommendations to configure and schedule the action.</p>
           </div>

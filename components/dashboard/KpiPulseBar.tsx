@@ -70,15 +70,15 @@ export function KpiPulseBar({ onNavigateAnalyse }: KpiPulseBarProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.05 }}
           onClick={metric.onClick}
-          className="group rounded-xl border border-sky-500/25 bg-sky-500/10 p-4 text-left shadow-[0_0_20px_rgba(56,189,248,0.12)] transition-colors hover:border-sky-400/50 hover:bg-sky-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70"
+          className="group glass-card rounded-xl border border-sky-500/30 p-4 text-left shadow-[0_12px_32px_rgba(8,47,73,0.25)] transition-transform hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70"
         >
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-sky-200">
+          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-sky-200">
             <span className="text-sky-300">{metric.icon}</span>
             {metric.label}
           </div>
-          <div className="mt-3 text-2xl font-bold text-white">{metric.value}</div>
+          <div className="mt-3 text-xl font-semibold text-white">{metric.value}</div>
           <div className="mt-1 text-[11px] text-sky-100/80">{metric.sublabel}</div>
-          <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-sky-200/80">
+          <span className="mt-3 inline-flex items-center gap-1 text-[10px] font-semibold text-sky-200/80">
             Jump to Analyse
             <motion.span
               animate={{ x: [0, 3, 0] }}

@@ -30,11 +30,11 @@ const phases = [
 
 export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
   return (
-    <div className="space-y-6 rounded-2xl border border-sky-500/20 bg-navy-900/40 p-6 shadow-[0_0_32px_rgba(56,189,248,0.12)]">
+    <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">Journey Lens</p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">Journey Lens</p>
+          <p className="mt-1 text-sm text-gray-400">
             Inspect handoffs and pressure points along the Trial → New → Established journey. Click a phase to drill into signals.
           </p>
         </div>
@@ -53,7 +53,7 @@ export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="rounded-xl border border-sky-500/15 bg-sky-500/10 p-4"
+            className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
           >
             <div className="flex items-center justify-between text-sm text-white">
               <span className="font-semibold">{phase.name}</span>
@@ -62,7 +62,7 @@ export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
             <p className="mt-1 text-xs text-sky-200/80">Churn: {phase.churn}</p>
             <div className="mt-3 space-y-1.5">
               {phase.triggers.map((trigger) => (
-                <div key={trigger} className="rounded-lg border border-sky-500/20 bg-sky-500/10 px-2 py-1 text-[11px] text-gray-200">
+                <div key={trigger} className="rounded-lg border border-sky-500/20 bg-navy-900/70 px-2 py-1 text-[11px] text-gray-200">
                   {trigger}
                 </div>
               ))}

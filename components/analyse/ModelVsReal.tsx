@@ -22,11 +22,11 @@ const driftData = [
 
 export function ModelVsReal() {
   return (
-    <div className="space-y-6 rounded-2xl border border-sky-500/20 bg-navy-900/40 p-6 shadow-[0_0_32px_rgba(56,189,248,0.12)]">
+    <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">Model vs Real</p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">Model vs Real</p>
+          <p className="mt-1 text-sm text-gray-400">
             Validate model quality before triggering interventions. Check accuracy, drift, and drivers.
           </p>
         </div>
@@ -40,9 +40,9 @@ export function ModelVsReal() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
-          <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+          <div className="mb-3 flex items-center justify-between text-xs text-gray-400">
             <span>Real vs predicted churn</span>
             <span className="text-sky-200 font-semibold">Accuracy: 94%</span>
           </div>
@@ -70,7 +70,7 @@ export function ModelVsReal() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <AlertTriangle size={14} className="text-amber-300" />

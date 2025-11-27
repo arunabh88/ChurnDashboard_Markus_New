@@ -51,7 +51,7 @@ export function PriorityAlerts({ onNavigateAnalyse, onNavigateActions }: Priorit
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-sky-200">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-sky-200">
         <AlertTriangle size={16} />
         Priority Alerts
       </div>
@@ -62,15 +62,15 @@ export function PriorityAlerts({ onNavigateAnalyse, onNavigateActions }: Priorit
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="rounded-2xl border border-sky-500/20 bg-sky-500/10 p-4 shadow-[0_0_24px_rgba(56,189,248,0.12)]"
+            className="glass-card rounded-2xl border border-sky-500/30 p-5 shadow-[0_12px_32px_rgba(8,47,73,0.2)]"
           >
             <div className="flex items-start gap-3">
-              <div className="rounded-full border border-sky-500/40 bg-sky-500/20 p-2 text-sky-200">
+              <div className="rounded-full border border-sky-500/40 bg-sky-500/15 p-2 text-sky-200">
                 {alert.icon}
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-semibold text-white">{alert.title}</h4>
-                <p className="mt-2 text-xs text-gray-300">{alert.description}</p>
+                <h4 className="text-base font-semibold text-white leading-snug">{alert.title}</h4>
+                <p className="mt-2 text-sm text-gray-300 leading-relaxed">{alert.description}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button
                     type="button"

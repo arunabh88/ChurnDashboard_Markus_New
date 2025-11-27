@@ -71,17 +71,17 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
   };
 
   return (
-    <div className="space-y-6 rounded-2xl border border-sky-500/20 bg-navy-900/40 p-6 shadow-[0_0_32px_rgba(56,189,248,0.12)]">
+    <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">KPI & Trend Overview</p>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">KPI & Trend Overview</p>
+          <p className="mt-1 text-sm text-gray-400">
             Compare churn, segment health, and value trends with consistent filters before drilling into cohorts.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <select
-            className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('region', event.target.value)}
           >
             {filters.region.map((option) => (
@@ -89,7 +89,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
             ))}
           </select>
           <select
-            className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('plan', event.target.value)}
           >
             {filters.plan.map((option) => (
@@ -97,7 +97,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
             ))}
           </select>
           <select
-            className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('device', event.target.value)}
           >
             {filters.device.map((option) => (
@@ -105,7 +105,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
             ))}
           </select>
           <select
-            className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('acquisition', event.target.value)}
           >
             {filters.acquisition.map((option) => (
@@ -113,7 +113,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
             ))}
           </select>
           <select
-            className="rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('range', event.target.value)}
           >
             {filters.range.map((option) => (
@@ -127,9 +127,9 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/15 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200 mb-3">Churn vs target</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Churn vs target</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={churnTrend}>
@@ -164,17 +164,17 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/15 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200 mb-3">Segment churn snapshot</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Segment churn snapshot</p>
           <div className="space-y-3">
             {segmentTrend.map((row) => (
-              <div key={row.segment} className="rounded-lg border border-sky-500/15 bg-sky-500/10 px-3 py-2">
+              <div key={row.segment} className="rounded-lg border border-sky-500/20 bg-navy-900/70 px-3 py-2">
                 <div className="flex items-center justify-between text-sm text-white">
                   <span>{row.segment}</span>
                   <span className="font-semibold">{row.churn.toFixed(1)}%</span>
                 </div>
-                <div className="mt-2 h-1.5 rounded-full bg-sky-950">
+                <div className="mt-2 h-1.5 rounded-full bg-slate-900/70">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-sky-400 to-sky-500"
                     style={{ width: `${Math.min(100, row.churn * 12)}%` }}
@@ -188,9 +188,9 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/15 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200 mb-3">CLTV vs CAC</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">CLTV vs CAC</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={cltvTrend}>
@@ -225,14 +225,14 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-sky-500/15 bg-sky-500/10 p-4"
+          className="rounded-xl border border-sky-500/20 bg-navy-900/60 p-4 shadow-[0_10px_24px_rgba(15,118,210,0.18)]"
         >
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200 mb-3">Engagement drop (hours streamed)</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Engagement drop (hours streamed)</p>
           <div className="space-y-2">
             {engagementTrend.map((item) => (
               <div key={item.week} className="flex items-center justify-between text-xs text-gray-300">
                 <span className="text-white font-semibold">{item.week}</span>
-                <div className="relative w-3/4 rounded-full bg-sky-950 h-1.5">
+                <div className="relative h-1.5 w-3/4 rounded-full bg-slate-900/70">
                   <div
                     className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-sky-500"
                     style={{ width: `${item.drop * 4}%` }}

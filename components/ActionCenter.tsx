@@ -103,7 +103,7 @@ export default function ActionCenter() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {actions.map((action, index) => (
           <motion.div
             key={action.id}
@@ -111,13 +111,13 @@ export default function ActionCenter() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
             whileHover={{ scale: 1.03, y: -5 }}
-            className="bg-navy-900/50 border border-sky-500/20 rounded-lg p-6 cursor-pointer relative overflow-hidden"
+            className="glass-card relative cursor-pointer overflow-hidden rounded-lg border border-sky-500/25 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.25)]"
           >
             {/* Background gradient */}
             <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${getTypeColor(action.type)} opacity-10 rounded-full blur-2xl`} />
             
             <div className="relative">
-              <div className="flex items-start justify-between mb-4">
+              <div className="mb-4 flex items-start justify-between">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${getTypeColor(action.type)}`}>
                   {action.icon}
                 </div>

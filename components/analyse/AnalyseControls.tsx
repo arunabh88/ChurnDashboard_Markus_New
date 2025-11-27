@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { AdjustmentsHorizontal, Clock, Save } from 'lucide-react';
+import { SlidersHorizontal, Clock, Save } from 'lucide-react';
 
 interface SavedView {
   id: string;
@@ -42,7 +42,7 @@ export function AnalyseControls({
     >
       <div className="flex-1 space-y-4">
         <p className="text-sm font-semibold uppercase tracking-wide text-sky-200 flex items-center gap-2">
-          <AdjustmentsHorizontal size={16} />
+          <SlidersHorizontal size={16} />
           Decision Controls
         </p>
         <div>

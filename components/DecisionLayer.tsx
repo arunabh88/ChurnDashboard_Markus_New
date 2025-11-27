@@ -1,10 +1,18 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, AlertCircle, DollarSign, Sparkles, ArrowRight, Rocket } from 'lucide-react';
 import { SegmentIcon } from '@/components/SegmentIcon';
 import { formatCurrency } from '@/lib/utils';
 import { RETENTION_SEGMENTS, RetentionSegment } from '@/lib/data/segments';
+
+const SORT_OPTIONS = [
+  { value: 'churn', label: 'Churn Risk (High → Low)' },
+  { value: 'cltv', label: 'CLTV (High → Low)' },
+  { value: 'roi', label: 'ROI (High → Low)' },
+  { value: 'name', label: 'Segment Name (A → Z)' },
+] as const;
 
 interface DecisionLayerProps {
   onViewSegments?: () => void;
@@ -12,7 +20,22 @@ interface DecisionLayerProps {
 }
 
 export default function DecisionLayer({ onViewSegments, onSegmentAction }: DecisionLayerProps = {}) {
-  const segments = RETENTION_SEGMENTS;
+  const [sortKey, setSortKey] = useState<(typeof SORT_OPTIONS)[number]['value']>('churn');
+
+  const segments = useMemo(() => {
+    const copy = [...RETENTION_SEGMENTS];
+    switch (sortKey) {
+      case 'cltv':
+        return copy.sort((a, b) => b.cltv - a.cltv);
+      case 'roi':
+        return copy.sort((a, b) => b.roi - a.roi);
+      case 'name':
+        return copy.sort((a, b) => a.name.localeCompare(b.name));
+      case 'churn':
+      default:
+        return copy.sort((a, b) => b.churnRisk - a.churnRisk);
+    }
+  }, [sortKey]);
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
@@ -49,22 +72,44 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
 
   return (
     <div className="glass-card rounded-xl p-6 mb-8">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1">Decision Layer</h2>
           <p className="text-gray-400">Prioritize retention efforts by segment</p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow decision-layer-button"
-          type="button"
-          onClick={onViewSegments}
-        >
-          <Sparkles size={20} className="text-white" />
-          <span className="text-white">View All Segments</span>
-          <ArrowRight size={20} className="text-white" />
-        </motion.button>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative">
+            <label htmlFor="decision-sort" className="sr-only">
+              Sort segments
+            </label>
+            <select
+              id="decision-sort"
+              value={sortKey}
+              onChange={(event) => setSortKey(event.target.value as (typeof SORT_OPTIONS)[number]['value'])}
+              className="appearance-none rounded-lg border border-sky-500/30 bg-sky-500/10 px-4 py-2 text-sm font-semibold text-sky-200 pr-10 shadow-[0_0_18px_rgba(56,189,248,0.15)] focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+            >
+              {SORT_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sky-300">
+              ▼
+            </span>
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-glow decision-layer-button"
+            type="button"
+            onClick={onViewSegments}
+          >
+            <Sparkles size={20} className="text-white" />
+            <span className="text-white">View All Segments</span>
+            <ArrowRight size={20} className="text-white" />
+          </motion.button>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
@@ -80,21 +125,21 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
             </tr>
           </thead>
           <tbody>
-            {segments.map((segment, index) => (
+        {segments.map((segment, index) => (
               <motion.tr
-                key={segment.name}
+            key={segment.name}
                 initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 className="bg-navy-900/50 border border-sky-500/20 rounded-xl"
-              >
+          >
                 <td className="pr-4 py-4">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3">
                     <SegmentIcon icon={segment.icon} gradient={segment.iconGradient} />
                     <div>
                       <h3 className="text-white font-semibold text-sm md:text-base">{segment.name}</h3>
                       <p className="text-gray-400 text-xs md:text-sm">{segment.count.toLocaleString()} subscribers</p>
-                    </div>
+                  </div>
                   </div>
                 </td>
 
@@ -110,39 +155,39 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
                 </td>
 
                 <td className="pr-4 py-4 text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <TrendingUp size={16} className="text-green-400" />
+                <div className="flex items-center justify-center gap-1">
+                  <TrendingUp size={16} className="text-green-400" />
                     <p className="text-white font-semibold">{segment.roi}×</p>
-                  </div>
+                </div>
                 </td>
 
                 <td className="pr-4 py-4">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div className="space-y-1">
-                      {getPriorityBadge(segment.priority)}
-                      <div className="flex items-start gap-2 text-sm">
-                        <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
+                  {getPriorityBadge(segment.priority)}
+                  <div className="flex items-start gap-2 text-sm">
+                    <Sparkles size={14} className="text-sky-400 mt-0.5 flex-shrink-0" />
                         <p className="text-gray-300 max-w-xl">{segment.aiSuggestion}</p>
-                      </div>
-                    </div>
                   </div>
+                </div>
+              </div>
                 </td>
 
                 <td className="py-4 pr-4 text-right">
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => onSegmentAction?.(segment)}
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => onSegmentAction?.(segment)}
                     className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25"
                     aria-label={`Activate action for ${segment.name}`}
-                  >
-                    <Rocket size={16} />
+                >
+                  <Rocket size={16} />
                     Activate Action
-                  </motion.button>
+                </motion.button>
                 </td>
               </motion.tr>
-            ))}
+        ))}
           </tbody>
         </table>
       </div>

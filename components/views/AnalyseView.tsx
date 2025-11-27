@@ -3,13 +3,13 @@
 import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { Filter, PlayCircle, Sparkles, Lightbulb } from 'lucide-react';
-import ChurnAnalysisPage from '@/components/ChurnAnalysisPage';
+import { KpiTrendOverview } from '@/components/analyse/KpiTrendOverview';
+import { JourneyLens } from '@/components/analyse/JourneyLens';
 import MultiSignalMatrix from '@/components/MultiSignalMatrix';
-import SubscribersPage from '@/components/SubscribersPage';
-import AnalyticsPage from '@/components/AnalyticsPage';
 import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
 import DecisionLayer from '@/components/DecisionLayer';
 import { AnalyseControls } from '@/components/analyse/AnalyseControls';
+import { ModelVsReal } from '@/components/analyse/ModelVsReal';
 
 interface AnalyseViewProps {
   mode: 'overview' | 'segments';
@@ -143,13 +143,8 @@ export function AnalyseView({
         onLaunchPlaybook={onLaunchPlaybook}
       />
 
-      <motion.div
-        id="analyse-kpis"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        <ChurnAnalysisPage />
+      <motion.div id="analyse-kpis" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+        <KpiTrendOverview />
       </motion.div>
 
       <motion.div
@@ -170,11 +165,21 @@ export function AnalyseView({
         </div>
       </motion.div>
 
-      <motion.div id="analyse-matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>
+      <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.14 }}>
+        <JourneyLens
+          onNavigateToPhase={(phase) => {
+            if (phase === 'Trial' || phase === 'New') {
+              onShowSegments();
+            }
+          }}
+        />
+      </motion.div>
+
+      <motion.div id="analyse-matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
         <MultiSignalMatrix />
       </motion.div>
 
-      <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
         <DecisionLayer
           onViewSegments={onShowSegments}
           onSegmentAction={() => onLaunchPlaybook()}
@@ -182,12 +187,8 @@ export function AnalyseView({
         />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
-        <SubscribersPage />
-      </motion.div>
-
       <motion.div id="analyse-model" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.26 }}>
-        <AnalyticsPage />
+        <ModelVsReal />
       </motion.div>
 
       <motion.div

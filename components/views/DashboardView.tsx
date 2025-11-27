@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import JourneyMap from '@/components/JourneyMap';
 import { TopSignalsHighlight } from '@/components/dashboard/TopSignalsHighlight';
+import { DashboardPulse } from '@/components/dashboard/DashboardPulse';
 
 const HeaderBar = dynamic(() => import('@/components/HeaderBar'), { ssr: false });
 
@@ -28,6 +29,7 @@ export function DashboardView({ onNavigate, onViewSegments, onStageAction }: Das
       </motion.div>
 
       <div className="space-y-8">
+        <DashboardPulse />
         <TopSignalsHighlight onExploreAnalyse={() => onNavigate('analyse')} />
       </div>
     </div>

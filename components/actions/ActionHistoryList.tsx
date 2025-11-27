@@ -8,7 +8,10 @@ interface ActionRecord {
   segment: string;
   duration: string;
   status: 'Completed' | 'Active' | 'Planned';
+  statusLevel: 'on-track' | 'monitor' | 'at-risk';
+  statusNote: string;
   expectedLift: string;
+  forecastLift: string;
   actualLift: string;
   roi: string;
   owner: string;
@@ -26,7 +29,10 @@ const ACTION_HISTORY: ActionRecord[] = [
     segment: 'High CLTV Established',
     duration: 'Mar 01 – Mar 31',
     status: 'Completed',
+    statusLevel: 'on-track',
+    statusNote: 'Delivered +0.6% over forecast',
     expectedLift: '+6.0%',
+    forecastLift: '+5.0%',
     actualLift: '+5.4%',
     roi: '3.1×',
     owner: 'Amelia Turner',
@@ -36,7 +42,10 @@ const ACTION_HISTORY: ActionRecord[] = [
     segment: 'Trial 0-30 Days',
     duration: 'Apr 12 – Ongoing',
     status: 'Active',
+    statusLevel: 'monitor',
+    statusNote: 'Slightly under target – extend concierge window',
     expectedLift: '+7.5%',
+    forecastLift: '+6.2%',
     actualLift: '+4.8%',
     roi: '2.4×',
     owner: 'Nina Brooks',
@@ -46,7 +55,10 @@ const ACTION_HISTORY: ActionRecord[] = [
     segment: 'Price Sensitive',
     duration: 'Feb 03 – Feb 20',
     status: 'Completed',
+    statusLevel: 'on-track',
+    statusNote: 'Exceeded forecast after mid-campaign tweak',
     expectedLift: '+4.0%',
+    forecastLift: '+3.8%',
     actualLift: '+4.6%',
     roi: '2.7×',
     owner: 'Deepak Rao',
@@ -56,12 +68,21 @@ const ACTION_HISTORY: ActionRecord[] = [
     segment: 'High Engagement Sports',
     duration: 'Planned · May 05',
     status: 'Planned',
+    statusLevel: 'at-risk',
+    statusNote: 'Creative dependencies outstanding',
     expectedLift: '+5.2%',
+    forecastLift: '+5.2%',
     actualLift: '—',
     roi: '2.1×',
     owner: 'Priya Patel',
   },
 ];
+
+const HEALTH_STYLES: Record<ActionRecord['statusLevel'], { dot: string; label: string }> = {
+  'on-track': { dot: 'bg-emerald-400', label: 'On track' },
+  monitor: { dot: 'bg-amber-400', label: 'Watch' },
+  'at-risk': { dot: 'bg-red-500', label: 'At risk' },
+};
 
 export function ActionHistoryList() {
   return (
@@ -91,6 +112,8 @@ export function ActionHistoryList() {
               <th className="py-3 px-4">Action Name</th>
               <th className="py-3 px-4">Segment</th>
               <th className="py-3 px-4">Status</th>
+              <th className="py-3 px-4">Health</th>
+              <th className="py-3 px-4 text-right">Forecast</th>
               <th className="py-3 px-4 text-right">Expected</th>
               <th className="py-3 px-4 text-right">Actual</th>
               <th className="py-3 px-4 text-right">ROI</th>
@@ -119,6 +142,14 @@ export function ActionHistoryList() {
                     {entry.status}
                   </span>
                 </td>
+                <td className="py-4 px-4">
+                  <div className="flex items-center gap-2 text-xs text-gray-300">
+                    <span className={`inline-block h-2.5 w-2.5 rounded-full ${HEALTH_STYLES[entry.statusLevel].dot}`} />
+                    <span className="text-white font-semibold">{HEALTH_STYLES[entry.statusLevel].label}</span>
+                  </div>
+                  <p className="mt-1 text-[11px] text-gray-500">{entry.statusNote}</p>
+                </td>
+                <td className="py-4 px-4 text-right text-gray-200">{entry.forecastLift}</td>
                 <td className="py-4 px-4 text-right text-gray-200">{entry.expectedLift}</td>
                 <td className="py-4 px-4 text-right text-sky-200">{entry.actualLift}</td>
                 <td className="py-4 px-4 text-right text-emerald-300 font-semibold">{entry.roi}</td>
@@ -132,7 +163,7 @@ export function ActionHistoryList() {
       <div className="mt-6 flex flex-col gap-3 text-sm text-gray-400 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2 text-sky-300">
           <TrendingUp size={16} />
-          Auto surface low-performing actions for optimisation
+          Auto-surfacing underperformers for playbook optimisation
         </div>
         <button className="inline-flex items-center gap-2 rounded-lg border border-sky-500/30 px-4 py-2 text-sky-200 hover:bg-sky-500/10 transition-colors">
           Export history

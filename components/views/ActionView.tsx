@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { PlusCircle, Rocket, Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight, BellRing, Lightbulb, LineChart, PlusCircle, Rocket, ShieldCheck, Sparkles, Target } from 'lucide-react';
 import ActionCenter from '@/components/ActionCenter';
 import ABExperimentation from '@/components/ABExperimentation';
 import ChurnValidation from '@/components/ChurnValidation';
@@ -14,6 +14,44 @@ interface ActionViewProps {
 
 export function ActionView({ onOpenNewAction }: ActionViewProps) {
   const actionListRef = useRef<HTMLDivElement | null>(null);
+  const kpiTiles = useMemo(
+    () => [
+      { label: 'At-risk value protected', value: '£1.2M', delta: '+18% vs last 30 days', icon: <ShieldCheck size={18} className="text-emerald-300" /> },
+      { label: 'Projected churn this month', value: '1.52%', delta: 'Target 1.45%', icon: <Target size={18} className="text-sky-300" /> },
+      { label: 'Avg campaign ROI', value: '2.9×', delta: '+0.3 vs forecast', icon: <LineChart size={18} className="text-amber-300" /> },
+    ],
+    []
+  );
+
+  const nextBestActions = useMemo(
+    () => [
+      {
+        title: 'Extend concierge outreach',
+        impact: '+2.1% lift',
+        detail: 'Trials with low engagement between day 7-14 respond best to personalised welcome calls.',
+      },
+      {
+        title: 'Price reassurance nudge',
+        impact: '+1.4% lift',
+        detail: 'Push messaging to price-sensitive cohort ahead of competitor launch next week.',
+      },
+      {
+        title: 'Sports highlights reel',
+        impact: '+0.9% lift',
+        detail: 'Use AI-curated recap for high engagement sports fans who skipped last live event.',
+      },
+    ],
+    []
+  );
+
+  const workflowReminders = useMemo(
+    () => [
+      { title: 'Creative approval: “Sports Fan Exclusive Week”', due: 'Due in 2 days', owner: 'Marketing Ops' },
+      { title: 'Data quality check: Sentiment feed drift', due: 'Due tomorrow', owner: 'Data Science' },
+      { title: 'Budget uplift request: Loyalty credits', due: 'Awaiting Finance sign-off', owner: 'Finance' },
+    ],
+    []
+  );
 
   return (
     <div className="space-y-12">
@@ -40,6 +78,29 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
             Create New Action
           </motion.button>
         </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="grid gap-4 md:grid-cols-3"
+      >
+        {kpiTiles.map((tile) => (
+          <div
+            key={tile.label}
+            className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4 shadow-[0_0_24px_rgba(56,189,248,0.12)]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="rounded-lg border border-sky-500/40 bg-sky-500/15 p-2">{tile.icon}</div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">{tile.label}</p>
+                <p className="text-lg font-bold text-white">{tile.value}</p>
+                <p className="text-[11px] text-sky-200/70 mt-1">{tile.delta}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </motion.div>
 
       <motion.div
@@ -90,6 +151,64 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
             Review Campaigns
             <ArrowRight size={16} />
           </motion.button>
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.12 }}
+        className="grid gap-4 lg:grid-cols-2"
+      >
+        <div className="rounded-2xl border border-sky-500/20 bg-sky-500/10 p-5">
+          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200 flex items-center gap-2">
+            <Lightbulb size={16} />
+            Next-best actions (AI)
+          </p>
+          <div className="mt-4 space-y-4">
+            {nextBestActions.map((action) => (
+              <div key={action.title} className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-white text-sm font-semibold">{action.title}</h4>
+                  <span className="text-xs text-emerald-300 font-semibold">{action.impact}</span>
+                </div>
+                <p className="mt-2 text-xs text-gray-300 leading-relaxed">{action.detail}</p>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => actionListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/30 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100"
+                >
+                  Review playbook recommendations
+                </motion.button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-amber-500/30 bg-amber-950/20 p-5">
+          <p className="text-sm font-semibold uppercase tracking-wide text-amber-200 flex items-center gap-2">
+            <BellRing size={16} />
+            Workflow reminders
+          </p>
+          <div className="mt-4 space-y-4">
+            {workflowReminders.map((reminder) => (
+              <div key={reminder.title} className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-white text-sm font-semibold">{reminder.title}</h4>
+                  <span className="text-xs text-amber-200">{reminder.due}</span>
+                </div>
+                <p className="mt-2 text-xs text-amber-100/80">Owner: {reminder.owner}</p>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/15 px-3 py-1.5 text-xs font-semibold text-amber-100"
+                >
+                  Open task
+                </motion.button>
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
 

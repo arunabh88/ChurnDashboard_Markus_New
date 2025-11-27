@@ -17,9 +17,10 @@ const SORT_OPTIONS = [
 interface DecisionLayerProps {
   onViewSegments?: () => void;
   onSegmentAction?: (segment: RetentionSegment) => void;
+  riskThreshold?: number;
 }
 
-export default function DecisionLayer({ onViewSegments, onSegmentAction }: DecisionLayerProps = {}) {
+export default function DecisionLayer({ onViewSegments, onSegmentAction, riskThreshold }: DecisionLayerProps = {}) {
   const [sortKey, setSortKey] = useState<(typeof SORT_OPTIONS)[number]['value']>('churn');
 
   const segments = useMemo(() => {
@@ -75,7 +76,14 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction }: Decis
       <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white mb-1">Decision Layer</h2>
-          <p className="text-gray-400">Prioritize retention efforts by segment</p>
+          <p className="text-gray-400">
+            Prioritize retention efforts by segment
+            {typeof riskThreshold === 'number' && (
+              <span className="ml-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-xs text-sky-200">
+                Risk threshold: {riskThreshold.toFixed(0)}%
+              </span>
+            )}
+          </p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="relative">

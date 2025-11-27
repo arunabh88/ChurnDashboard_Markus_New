@@ -69,6 +69,9 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
   ];
 
   const retainedSubscribers = Math.round(stages[2].subscribers * (stages[2].retentionRate / 100));
+  const totalChurnedDisplay = formatSubscribers(totalSubscribers - retainedSubscribers);
+  const highestRiskPhase = `${stages[0].name} (${stages[0].churnRate}% churn)`;
+  const establishedRetentionDisplay = `${stages[2].retentionRate}%`;
   const targetChurn = 0.57;
   
   const churnInsights = {
@@ -444,6 +447,27 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
                   </div>
                 </div>
 
+                {index === 0 && (
+                  <div className="mb-3 rounded-lg border border-red-500 bg-red-500/20 p-3 text-center">
+                    <p className="text-red-400 text-xs font-semibold mb-1">Total Churned</p>
+                    <p className="text-white text-lg font-bold">{totalChurnedDisplay}</p>
+                  </div>
+                )}
+
+                {index === 1 && (
+                  <div className="mb-3 rounded-lg border border-orange-500 bg-orange-500/20 p-3 text-center">
+                    <p className="text-orange-400 text-xs font-semibold mb-1">Highest Risk Phase</p>
+                    <p className="text-white text-xs font-bold">{highestRiskPhase}</p>
+                  </div>
+                )}
+
+                {index === 2 && (
+                  <div className="mb-3 rounded-lg border border-green-500 bg-green-500/20 p-3 text-center">
+                    <p className="text-green-400 text-xs font-semibold mb-1">Established Users Retention</p>
+                    <p className="text-white text-lg font-bold">{establishedRetentionDisplay}</p>
+                  </div>
+                )}
+
                 {/* Key Triggers */}
                 <div className="border-t border-white/10 pt-2">
                   <p className="text-gray-300 text-xs font-semibold mb-2">Key Triggers:</p>
@@ -473,26 +497,6 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
           })}
         </div>
 
-        {/* Summary Stats Below */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3"
-        >
-          <div className="bg-red-500/20 border border-red-500 rounded-lg p-3 text-center">
-            <p className="text-red-400 text-xs font-semibold mb-1">Total Churned</p>
-            <p className="text-white text-lg font-bold">{formatSubscribers(totalSubscribers - retainedSubscribers)}</p>
-          </div>
-          <div className="bg-orange-500/20 border border-orange-500 rounded-lg p-3 text-center">
-            <p className="text-orange-400 text-xs font-semibold mb-1">Highest Risk Phase</p>
-            <p className="text-white text-xs font-bold">Trial Users (70% churn)</p>
-          </div>
-          <div className="bg-green-500/20 border border-green-500 rounded-lg p-3 text-center">
-            <p className="text-green-400 text-xs font-semibold mb-1">Established Users Retention</p>
-            <p className="text-white text-lg font-bold">99.15%</p>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

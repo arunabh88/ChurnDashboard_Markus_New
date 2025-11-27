@@ -7,6 +7,7 @@ import MultiSignalMatrix from '@/components/MultiSignalMatrix';
 import SubscribersPage from '@/components/SubscribersPage';
 import AnalyticsPage from '@/components/AnalyticsPage';
 import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
+import DecisionLayer from '@/components/DecisionLayer';
 
 interface AnalyseViewProps {
   mode: 'overview' | 'segments';
@@ -83,11 +84,18 @@ export function AnalyseView({
         <MultiSignalMatrix />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
+        <DecisionLayer
+          onViewSegments={onShowSegments}
+          onSegmentAction={() => onLaunchPlaybook()}
+        />
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
         <SubscribersPage />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.26 }}>
         <AnalyticsPage />
       </motion.div>
     </div>

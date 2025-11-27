@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Users, UserPlus, UserMinus, Activity, Search, Filter, Download } from 'lucide-react';
+import { Users, UserPlus, UserMinus, Activity, Search, Filter, Download, Sparkles } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function SubscribersPage() {
@@ -262,9 +262,10 @@ export default function SubscribersPage() {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
-                        className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-red-500 to-orange-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
+                        className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors"
                       >
-                        Launch Rescue
+                        <Sparkles size={14} />
+                        Take Action
                       </motion.button>
                     ) : (
                       <span className="text-xs text-gray-500">—</span>

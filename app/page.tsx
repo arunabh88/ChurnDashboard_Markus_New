@@ -17,10 +17,12 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
   const [copilotOpen, setCopilotOpen] = useState(true);
   const [analyseMode, setAnalyseMode] = useState<AnalyseMode>('overview');
+  const [analyseFocus, setAnalyseFocus] = useState<string | null>(null);
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
     if (tab !== 'analyse') {
       setAnalyseMode('overview');
+      setAnalyseFocus(null);
     }
   };
   const gridLayoutClass = `mx-auto transition-all duration-300 ${copilotOpen ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-10' : ''}`;
@@ -44,17 +46,12 @@ export default function Home() {
             <div className={contentColumnClass}>
               {activeTab === 'dashboard' && (
                 <DashboardView
-                  onNavigate={(tab) => {
-                    handleTabChange(tab);
-                    if (tab === 'analyse') {
-                      setAnalyseMode('overview');
-                    }
-                  }}
-                  onViewSegments={() => {
+                  onNavigateAnalyse={(anchor, mode = 'overview') => {
+                    setAnalyseMode(mode);
+                    setAnalyseFocus(anchor ?? null);
                     handleTabChange('analyse');
-                    setAnalyseMode('segments');
                   }}
-                  onStageAction={(stage) => {
+                  onNavigateActions={(anchor) => {
                     handleTabChange('act');
                   }}
                 />
@@ -66,6 +63,7 @@ export default function Home() {
                   onLaunchPlaybook={() => handleTabChange('act')}
                   onShowSegments={() => setAnalyseMode('segments')}
                   onBackToOverview={() => setAnalyseMode('overview')}
+                  focus={analyseFocus}
                 />
               )}
 

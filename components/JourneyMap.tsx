@@ -121,7 +121,9 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
           <Lightbulb size={20} className="text-sky-400" />
           <div className="text-sm max-w-md">
             <p className="text-sky-400 font-semibold">AI Insight</p>
-            <p className="text-gray-300 text-xs">Trial-to-New conversion at 30%. Improving early engagement by 10% could grow Established base by +120K annually.</p>
+            <p className="text-gray-300 text-xs">
+              Churn pressure is highest in Trial &amp; New — focus onboarding and reactivation pathways to protect Established pond.
+            </p>
           </div>
         </motion.div>
       </div>

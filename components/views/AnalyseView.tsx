@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Filter, PlayCircle, Sparkles, Lightbulb } from 'lucide-react';
 import ChurnAnalysisPage from '@/components/ChurnAnalysisPage';
 import MultiSignalMatrix from '@/components/MultiSignalMatrix';
@@ -16,6 +16,7 @@ interface AnalyseViewProps {
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
+  focus?: string | null;
 }
 
 export function AnalyseView({
@@ -23,6 +24,7 @@ export function AnalyseView({
   onLaunchPlaybook,
   onShowSegments,
   onBackToOverview,
+  focus,
 }: AnalyseViewProps) {
   const [riskThreshold, setRiskThreshold] = useState<number>(70);
 
@@ -59,6 +61,25 @@ export function AnalyseView({
     // Placeholder callback; in production we’d hydrate filters/query state.
     setRiskThreshold(view.id === 'sports-trialists' ? 75 : 60);
   };
+
+  useEffect(() => {
+    if (!focus) return;
+    const sectionMap: Record<string, string> = {
+      'total-subscribers': 'analyse-kpis',
+      'monthly-churn': 'analyse-kpis',
+      'high-risk': 'analyse-matrix',
+      'early-lifecycle': 'analyse-journey',
+      'cltv-cac': 'analyse-kpis',
+      trial: 'analyse-journey',
+      cltv: 'analyse-kpis',
+      journey: 'analyse-journey',
+    };
+    const targetId = sectionMap[focus] ?? focus;
+    const node = document.getElementById(targetId);
+    if (node) {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [focus]);
 
   if (mode === 'segments') {
     return (
@@ -122,7 +143,12 @@ export function AnalyseView({
         onLaunchPlaybook={onLaunchPlaybook}
       />
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+      <motion.div
+        id="analyse-kpis"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+      >
         <ChurnAnalysisPage />
       </motion.div>
 
@@ -144,11 +170,11 @@ export function AnalyseView({
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>
+      <motion.div id="analyse-matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>
         <MultiSignalMatrix />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
+      <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
         <DecisionLayer
           onViewSegments={onShowSegments}
           onSegmentAction={() => onLaunchPlaybook()}
@@ -160,7 +186,7 @@ export function AnalyseView({
         <SubscribersPage />
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.26 }}>
+      <motion.div id="analyse-model" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.26 }}>
         <AnalyticsPage />
       </motion.div>
 

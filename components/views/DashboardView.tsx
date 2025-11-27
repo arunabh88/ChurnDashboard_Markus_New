@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import JourneyMap from '@/components/JourneyMap';
-import { KpiPulseBar } from '@/components/dashboard/KpiPulseBar';
 import { PriorityAlerts } from '@/components/dashboard/PriorityAlerts';
 
 const HeaderBar = dynamic(() => import('@/components/HeaderBar'), { ssr: false });
@@ -16,15 +15,13 @@ interface DashboardViewProps {
 export function DashboardView({ onNavigateAnalyse, onNavigateActions }: DashboardViewProps) {
   return (
     <div className="space-y-10">
-      <HeaderBar />
+      <HeaderBar
+        onNavigateAnalyse={(filterId) => {
+          onNavigateAnalyse(filterId, 'overview');
+        }}
+      />
 
       <div className="space-y-8">
-        <KpiPulseBar
-          onNavigateAnalyse={(filterId) => {
-            onNavigateAnalyse(filterId, 'overview');
-          }}
-        />
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

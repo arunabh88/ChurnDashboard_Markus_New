@@ -1,8 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Users, AlertTriangle, DollarSign, Activity, Sparkles, Sun, Moon } from 'lucide-react';
-import { formatNumber } from '@/lib/utils';
+import {
+  TrendingUp,
+  TrendingDown,
+  Users,
+  AlertTriangle,
+  DollarSign,
+  Sparkles,
+  Sun,
+  Moon,
+  ArrowRight,
+} from 'lucide-react';
 import { useTheme } from '@/app/providers';
 import { useState, useEffect } from 'react';
 
@@ -14,9 +23,21 @@ interface MetricCardProps {
   hasAIInsight?: boolean;
   tooltip?: string;
   gradient: string;
+  filterId: string;
+  onNavigateAnalyse?: (filterId: string) => void;
 }
 
-const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip, gradient }: MetricCardProps) => {
+const MetricCard = ({
+  title,
+  value,
+  change,
+  icon,
+  hasAIInsight,
+  tooltip,
+  gradient,
+  filterId,
+  onNavigateAnalyse,
+}: MetricCardProps) => {
   const isPositive = change > 0;
   const isNegativeMetric = title.includes('Risk') || title.includes('Churn');
   const trendColor = isNegativeMetric ? (isPositive ? 'text-red-400' : 'text-green-400') : (isPositive ? 'text-green-400' : 'text-red-400');
@@ -26,7 +47,16 @@ const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip, gradien
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(14, 165, 233, 0.4)' }}
-      className="glass-card rounded-xl p-6 relative overflow-hidden group cursor-pointer h-[200px] flex flex-col"
+      onClick={() => onNavigateAnalyse?.(filterId)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onNavigateAnalyse?.(filterId);
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      className="glass-card relative flex h-[210px] cursor-pointer flex-col overflow-hidden rounded-xl p-6 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 group"
     >
       <div className="flex items-start justify-between mb-3">
         <div className={`p-3 rounded-lg bg-gradient-to-br ${gradient} kpi-icon-wrapper`}>
@@ -60,11 +90,26 @@ const MetricCard = ({ title, value, change, icon, hasAIInsight, tooltip, gradien
           💡 {tooltip}
         </motion.div>
       )}
+
+      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-sky-200">
+        Jump to Analyse
+        <motion.span
+          animate={{ x: [0, 3, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity }}
+          className="text-sky-100"
+        >
+          <ArrowRight size={14} />
+        </motion.span>
+      </div>
     </motion.div>
   );
 };
 
-export default function HeaderBar() {
+interface HeaderBarProps {
+  onNavigateAnalyse?: (filterId: string) => void;
+}
+
+export default function HeaderBar({ onNavigateAnalyse }: HeaderBarProps) {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -80,41 +125,46 @@ export default function HeaderBar() {
       icon: <Users size={24} />,
       hasAIInsight: false,
       gradient: 'from-blue-500 to-cyan-500',
+      filterId: 'total-subscribers',
     },
     {
-      title: 'High-Risk Segment',
-      value: '42K',
-      change: 9,
+      title: 'Monthly Churn Rate',
+      value: '1.52%',
+      change: 4,
+      icon: <TrendingDown size={24} />,
+      hasAIInsight: true,
+      tooltip: 'Target 1.45%. Monitor billing drop-offs in week 3.',
+      gradient: 'from-indigo-500 to-blue-500',
+      filterId: 'monthly-churn',
+    },
+    {
+      title: 'High-Risk Subscribers',
+      value: '32.4K',
+      change: 5,
       icon: <AlertTriangle size={24} />,
       hasAIInsight: true,
       tooltip: 'Churn rising in first 45 days. Personalize onboarding.',
       gradient: 'from-red-500 to-orange-500',
+      filterId: 'high-risk',
     },
     {
-      title: 'CLTV/CAC Ratio',
-      value: '3.4',
+      title: 'Early Lifecycle Churn',
+      value: '16.3%',
+      change: 3,
+      icon: <Sparkles size={24} />,
+      hasAIInsight: true,
+      tooltip: '80% of churners show inactivity in first 6 weeks.',
+      gradient: 'from-purple-500 to-pink-500',
+      filterId: 'early-lifecycle',
+    },
+    {
+      title: 'Avg CLTV / CAC',
+      value: '3.4×',
       change: 5,
       icon: <DollarSign size={24} />,
       hasAIInsight: false,
       gradient: 'from-green-500 to-emerald-500',
-    },
-    {
-      title: 'Engagement Score',
-      value: '69%',
-      change: -2,
-      icon: <Activity size={24} />,
-      hasAIInsight: true,
-      tooltip: 'Drop in live TV viewing hours detected.',
-      gradient: 'from-purple-500 to-pink-500',
-    },
-    {
-      title: 'Early Lifecycle Churn',
-      value: '16%',
-      change: 4,
-      icon: <TrendingDown size={24} />,
-      hasAIInsight: true,
-      tooltip: '80% of churners show inactivity in first 6 weeks.',
-      gradient: 'from-orange-500 to-yellow-500',
+      filterId: 'cltv-cac',
     },
   ];
 
@@ -139,7 +189,7 @@ export default function HeaderBar() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <MetricCard {...metric} />
+            <MetricCard {...metric} onNavigateAnalyse={onNavigateAnalyse} />
           </motion.div>
         ))}
       </div>

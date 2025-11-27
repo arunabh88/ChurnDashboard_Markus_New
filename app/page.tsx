@@ -18,11 +18,15 @@ export default function Home() {
   const [copilotOpen, setCopilotOpen] = useState(true);
   const [analyseMode, setAnalyseMode] = useState<AnalyseMode>('overview');
   const [analyseFocus, setAnalyseFocus] = useState<string | null>(null);
+  const [actionsFocus, setActionsFocus] = useState<string | null>(null);
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
     if (tab !== 'analyse') {
       setAnalyseMode('overview');
       setAnalyseFocus(null);
+    }
+    if (tab !== 'act') {
+      setActionsFocus(null);
     }
   };
   const gridLayoutClass = `mx-auto transition-all duration-300 ${copilotOpen ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-10' : ''}`;
@@ -52,6 +56,7 @@ export default function Home() {
                     handleTabChange('analyse');
                   }}
                   onNavigateActions={(anchor) => {
+                    setActionsFocus(anchor ?? null);
                     handleTabChange('act');
                   }}
                 />
@@ -68,7 +73,7 @@ export default function Home() {
               )}
 
               {activeTab === 'act' && (
-                <ActionView onOpenNewAction={() => setCopilotOpen(true)} />
+                <ActionView onOpenNewAction={() => setCopilotOpen(true)} focus={actionsFocus} />
               )}
             </div>
 

@@ -1,19 +1,23 @@
 'use client';
 
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, BellRing, Lightbulb, LineChart, PlusCircle, Rocket, ShieldCheck, Sparkles, Target } from 'lucide-react';
 import ActionCenter from '@/components/ActionCenter';
 import ABExperimentation from '@/components/ABExperimentation';
 import ChurnValidation from '@/components/ChurnValidation';
 import { ActionHistoryList } from '@/components/actions/ActionHistoryList';
+import { CreateActionPlanWizard } from '@/components/actions/CreateActionPlanWizard';
 
 interface ActionViewProps {
   onOpenNewAction: () => void;
+  focus?: string | null;
 }
 
-export function ActionView({ onOpenNewAction }: ActionViewProps) {
+export function ActionView({ onOpenNewAction, focus }: ActionViewProps) {
   const actionListRef = useRef<HTMLDivElement | null>(null);
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [wizardDefaultSegment, setWizardDefaultSegment] = useState<string | null>(null);
   const kpiTiles = useMemo(
     () => [
       { label: 'At-risk value protected', value: '£1.2M', delta: '+18% vs last 30 days', icon: <ShieldCheck size={18} className="text-emerald-300" /> },
@@ -53,6 +57,29 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
     []
   );
 
+  useEffect(() => {
+    if (!focus) return;
+    const focusMap: Record<
+      string,
+      { anchor: string; wizardSegment?: string; autoOpenWizard?: boolean }
+    > = {
+      'trial-intervention': { anchor: 'actions-playbooks', wizardSegment: 'trial', autoOpenWizard: true },
+      'ab-test': { anchor: 'actions-experiments' },
+      campaigns: { anchor: 'actions-campaigns' },
+    };
+    const target = focusMap[focus] ?? { anchor: focus };
+    if (target.wizardSegment) {
+      setWizardDefaultSegment(target.wizardSegment);
+    }
+    if (target.autoOpenWizard && !wizardOpen) {
+      setWizardOpen(true);
+    }
+    const node = document.getElementById(target.anchor);
+    if (node) {
+      node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [focus, wizardOpen]);
+
   return (
     <div className="space-y-12">
       <motion.div
@@ -71,7 +98,10 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={onOpenNewAction}
+            onClick={() => {
+              setWizardOpen(true);
+              onOpenNewAction();
+            }}
             className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-500/30"
           >
             <PlusCircle size={16} />
@@ -81,6 +111,7 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
       </motion.div>
 
       <motion.div
+        id="actions-kpis"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.05 }}
@@ -104,6 +135,7 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
       </motion.div>
 
       <motion.div
+        id="actions-campaigns"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
@@ -212,11 +244,12 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.12 }}>
+      <motion.div id="actions-playbooks" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.12 }}>
         <ActionCenter />
       </motion.div>
 
       <motion.div
+        id="actions-experiments"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15 }}
@@ -232,7 +265,7 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
         <ChurnValidation />
       </motion.div>
 
-      <div ref={actionListRef}>
+      <div ref={actionListRef} id="actions-history">
         <ActionHistoryList />
       </div>
 
@@ -255,6 +288,15 @@ export function ActionView({ onOpenNewAction }: ActionViewProps) {
           <p className="text-xs text-gray-500">Managed through Einstein Copilot automations</p>
         </div>
       </motion.div>
+
+      <CreateActionPlanWizard
+        open={wizardOpen}
+        onClose={() => setWizardOpen(false)}
+        defaultSegment={wizardDefaultSegment}
+        onComplete={() => {
+          actionListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
+      />
     </div>
   );
 }

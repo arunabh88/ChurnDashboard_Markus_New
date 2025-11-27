@@ -9,6 +9,8 @@ interface Action {
   title: string;
   description: string;
   expectedLift: number;
+  roi: string;
+  targetSegment: string;
   icon: React.ReactNode;
   type: 'discount' | 'content' | 'pricing' | 'feedback';
 }
@@ -21,32 +23,40 @@ export default function ActionCenter() {
     {
       id: '1',
       title: 'Offer Loyalty Discount',
-      description: 'Provide 20% discount to high-value subscribers at risk',
+      description: 'Protect high-value subscribers with tailored loyalty credits ahead of renewal.',
       expectedLift: 12,
+      roi: '3.4×',
+      targetSegment: 'High CLTV Established',
       icon: <Gift size={24} />,
       type: 'discount',
     },
     {
       id: '2',
       title: 'Launch Re-engagement Campaign',
-      description: '"Because you liked..." personalized content recommendations',
+      description: 'Serve AI-curated content playlists to revive disengaged trial + new cohorts.',
       expectedLift: 18,
+      roi: '2.8×',
+      targetSegment: 'Trial & New segments',
       icon: <Tv size={24} />,
       type: 'content',
     },
     {
       id: '3',
       title: 'Introduce Ad-supported Plan',
-      description: 'Lower-cost tier for price-sensitive segments',
+      description: 'Downgrade pathway to ad-supported tier to retain price-sensitive households.',
       expectedLift: 15,
+      roi: '2.6×',
+      targetSegment: 'Value seekers · Broadband bundles',
       icon: <DollarSign size={24} />,
       type: 'pricing',
     },
     {
       id: '4',
       title: 'Trigger Exit Feedback',
-      description: 'One-click survey to understand churn reasons',
+      description: 'Capture real-time churn reasons with one-tap survey and automation follow-ups.',
       expectedLift: 8,
+      roi: '1.9×',
+      targetSegment: 'Churn-intent subscribers',
       icon: <MessageCircle size={24} />,
       type: 'feedback',
     },
@@ -71,8 +81,8 @@ export default function ActionCenter() {
     <div className="glass-card rounded-xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white mb-1">Action Center</h2>
-          <p className="text-gray-400">AI-driven retention recommendations</p>
+          <h2 className="text-2xl font-bold text-white mb-1">Recommended Actions</h2>
+          <p className="text-gray-400">AI-suggested playbooks matched to segment risk and ROI.</p>
         </div>
         <div className="flex items-center gap-3">
           <label className="flex items-center gap-2 cursor-pointer">
@@ -118,7 +128,15 @@ export default function ActionCenter() {
               </div>
 
               <h3 className="text-xl font-semibold text-white mb-2">{action.title}</h3>
-              <p className="text-gray-400 text-sm mb-4">{action.description}</p>
+              <p className="text-gray-400 text-sm mb-3">{action.description}</p>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] text-sky-200/80 mb-3">
+                <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-1 font-semibold uppercase tracking-wide">
+                  Target · {action.targetSegment}
+                </span>
+                <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 font-semibold text-emerald-300">
+                  ROI {action.roi}
+                </span>
+              </div>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -127,7 +145,7 @@ export default function ActionCenter() {
                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold action-center-button"
               >
                 <Play size={16} />
-                <span className="text-white">Trigger Action Now</span>
+                <span className="text-white">Configure &amp; Launch</span>
               </motion.button>
             </div>
           </motion.div>

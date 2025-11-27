@@ -1,8 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Send, Sparkles, User, TrendingUp, Eye, Zap, X } from 'lucide-react';
-import { useState } from 'react';
+import { Bot, Send, Sparkles, User, TrendingUp, Eye, X, UserPlus } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface Message {
   id: string;
@@ -11,60 +11,85 @@ interface Message {
   actions?: Array<{ label: string; onClick: () => void }>;
 }
 
-interface RetentionCopilotProps {
-  onClose?: () => void;
+type CopilotContext = 'dashboard' | 'analyse' | 'act';
+
+interface CopilotConfig {
+  prompt: string;
+  quickActions: Array<{ label: string; icon: React.ReactNode }>;
 }
 
-export default function RetentionCopilot({ onClose }: RetentionCopilotProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'ai',
-      content: "Hi! I'm your Retention AI Agent. I can help you identify at-risk subscribers and suggest targeted retention strategies. What would you like to explore?",
-      actions: [
-        { label: 'Show trial-phase risks', onClick: () => {} },
-        { label: 'High-value churners', onClick: () => {} },
-        { label: 'Content engagement gaps', onClick: () => {} },
-      ],
-    },
-  ]);
-  
+interface RetentionCopilotProps {
+  onClose?: () => void;
+  context?: CopilotContext;
+}
+
+export default function RetentionCopilot({ onClose, context }: RetentionCopilotProps) {
+  const contextKey: CopilotContext = context ?? 'dashboard';
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const config = useMemo<CopilotConfig>(() => {
+    switch (contextKey) {
+      case 'analyse':
+        return {
+          prompt:
+            "You're in diagnostics mode. Ask me to explain churn spikes, surface signal drivers, or craft new investigative segments.",
+          quickActions: [
+            { label: 'Explain this churn spike.', icon: <TrendingUp size={16} /> },
+            { label: 'Show me all signals driving New segment churn.', icon: <Eye size={16} /> },
+            { label: 'Create a segment of users with 3+ risk triggers.', icon: <UserPlus size={16} /> },
+          ],
+        };
+      case 'act':
+        return {
+          prompt:
+            "Ready to execute. Ask for the best-performing actions, personalized playbooks, or to launch engagement workflows.",
+          quickActions: [
+            { label: 'Which action worked best last month?', icon: <TrendingUp size={16} /> },
+            { label: 'Recommend the most effective playbook for this segment.', icon: <Sparkles size={16} /> },
+            { label: 'Draft a retention plan for high-CLTV churners.', icon: <User size={16} /> },
+            { label: 'Trigger re-engagement campaign for trial users.', icon: <Send size={16} /> },
+          ],
+        };
+      default:
+        return {
+          prompt:
+            "Hi! I'm your Retention AI Agent. I can help identify at-risk subscribers and suggest targeted retention strategies. What would you like to explore?",
+          quickActions: [
+            { label: 'Show trial-phase risks', icon: <TrendingUp size={16} /> },
+            { label: 'High-value churners', icon: <User size={16} /> },
+            { label: 'Content engagement gaps', icon: <Eye size={16} /> },
+          ],
+        };
+    }
+  }, [contextKey]);
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: inputValue,
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsTyping(true);
-
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'ai',
-        content: generateAIResponse(inputValue),
-        actions: [
-          { label: 'View Segment', onClick: () => {} },
-          { label: 'Trigger Workflow', onClick: () => {} },
-          { label: 'Run A/B Test', onClick: () => {} },
-        ],
-      };
-      setMessages(prev => [...prev, aiResponse]);
-      setIsTyping(false);
-    }, 1500);
-  };
-
-  const generateAIResponse = (input: string): string => {
+  const generateAIResponse = useCallback(
+    (input: string): string => {
     const lowerInput = input.toLowerCase();
     
+      if (lowerInput.includes('churn spike')) {
+        return 'The latest churn spike occurred between 12–18 April, driven by billing retries and sports package downgrades. Consider targeted credits and in-app reassurance messaging.';
+      }
+      if (lowerInput.includes('signals') && lowerInput.includes('new')) {
+        return 'New segment churn is driven by engagement drop-offs after week 3, payment churn retries, and login friction on connected TVs. Prioritize onboarding nudge journeys for these signals.';
+      }
+      if (lowerInput.includes('3') && lowerInput.includes('risk trigger')) {
+        return 'Created a dynamic cohort: users with 3+ concurrent triggers (payment retries, sentiment dip, inactivity). 9,420 subscribers qualify—ready to sync with Analyse → Segment Portfolio.';
+      }
+      if (lowerInput.includes('worked best') && lowerInput.includes('last month')) {
+        return 'The Loyalty Upgrade campaign delivered the strongest lift last month (+5.4% retention, 3.1× ROI). A/B experimentation also showed concierge outreach outperforming email by 1.8×.';
+      }
+      if (lowerInput.includes('playbook')) {
+        return 'Recommend launching the “Loyalty Stabiliser” playbook: proactive credit offers and personalized content pushes. Expected retention lift: +4.8%, ROI 3.0× for high-value cohorts.';
+      }
+      if (lowerInput.includes('retention plan') || lowerInput.includes('high-cltv')) {
+        return 'Draft plan: (1) Trigger retention credit before renewal, (2) Offer premium sports preview, (3) Schedule concierge check-in. This protects ~£640K at risk across high-CLTV subscribers.';
+      }
+      if (lowerInput.includes('re-engagement') || lowerInput.includes('trial users')) {
+        return 'Initiating re-engagement workflow: Day 5 content playlist, Day 8 push notification, Day 12 concierge outreach. Will monitor uplift and surface results in Action History.';
+      }
     if (lowerInput.includes('trial') || lowerInput.includes('risk')) {
       return "Found 2,100 trial-phase users inactive for 2+ weeks. Suggest personalized onboarding playlist + welcome call. Expected retention lift: +18%.";
     }
@@ -75,14 +100,73 @@ export default function RetentionCopilot({ onClose }: RetentionCopilotProps) {
       return "6,800 users show content fatigue. Top recommendation: Launch 'Discover Mode' with AI-curated playlists. Similar campaigns showed +10% retention.";
     }
     
-    return "I've analyzed your query. Would you like me to create a targeted retention campaign for this segment?";
-  };
+      if (contextKey === 'analyse') {
+        return 'I can explain root-cause signals, compare cohorts, or build a new investigative segment. What should we explore next?';
+      }
+      if (contextKey === 'act') {
+        return 'Need a campaign comparison, a fresh playbook, or an automation trigger? Just ask and I’ll set it up.';
+      }
+      return "I've analyzed your query. Would you like me to create a targeted retention campaign for this segment?";
+    },
+    [contextKey]
+  );
 
-  const quickActions = [
-    { icon: <TrendingUp size={16} />, label: 'Show high-risk users' },
-    { icon: <Eye size={16} />, label: 'Segment analysis' },
-    { icon: <Zap size={16} />, label: 'Quick win opportunities' },
-  ];
+  const submitMessage = useCallback(
+    (content: string) => {
+      const trimmed = content.trim();
+      if (!trimmed) {
+        return;
+      }
+
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        role: 'user',
+        content: trimmed,
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setInputValue('');
+      setIsTyping(true);
+
+      setTimeout(() => {
+        const aiResponse: Message = {
+          id: `${Date.now()}-ai`,
+          role: 'ai',
+          content: generateAIResponse(trimmed),
+          actions: config.quickActions.map(({ label }) => ({
+            label,
+            onClick: () => submitMessage(label),
+          })),
+        };
+        setMessages((prev) => [...prev, aiResponse]);
+        setIsTyping(false);
+      }, 1200);
+    },
+    [config.quickActions, generateAIResponse]
+  );
+
+  const createIntroMessage = useCallback(
+    (): Message => ({
+      id: 'intro',
+      role: 'ai',
+      content: config.prompt,
+      actions: config.quickActions.map(({ label }) => ({
+        label,
+        onClick: () => submitMessage(label),
+      })),
+    }),
+    [config, submitMessage]
+  );
+
+  useEffect(() => {
+    setMessages([createIntroMessage()]);
+    setIsTyping(false);
+    setInputValue('');
+  }, [createIntroMessage]);
+
+  const handleSendMessage = () => {
+    submitMessage(inputValue);
+  };
 
   return (
     <div className="glass-card rounded-xl p-6 flex flex-col overflow-hidden min-h-[700px] lg:min-h-[780px] lg:max-h-[calc(100vh-60px)]">
@@ -217,12 +301,12 @@ export default function RetentionCopilot({ onClose }: RetentionCopilotProps) {
 
       {/* Quick Actions */}
       <div className="flex gap-2 mb-3">
-        {quickActions.map((action, idx) => (
+        {config.quickActions.map((action, idx) => (
           <motion.button
             key={idx}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => setInputValue(action.label)}
+            onClick={() => submitMessage(action.label)}
             className="flex items-center gap-2 text-xs bg-navy-900/50 border border-sky-500/20 text-sky-300 px-3 py-2 rounded-lg hover:bg-sky-500/10 transition-colors"
           >
             {action.icon}

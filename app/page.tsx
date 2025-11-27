@@ -80,7 +80,7 @@ export default function Home() {
                     {copilotOpen && (
               <aside className="hidden lg:block">
                 <div className="sticky top-28">
-                          <RetentionCopilot onClose={() => setCopilotOpen(false)} />
+                          <RetentionCopilot context={activeTab} onClose={() => setCopilotOpen(false)} />
                 </div>
               </aside>
             )}
@@ -88,7 +88,7 @@ export default function Home() {
 
                   {copilotOpen && (
             <div className="mt-8 lg:hidden">
-                      <RetentionCopilot onClose={() => setCopilotOpen(false)} />
+                      <RetentionCopilot context={activeTab} onClose={() => setCopilotOpen(false)} />
             </div>
           )}
         </div>

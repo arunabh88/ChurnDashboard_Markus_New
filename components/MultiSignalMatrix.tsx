@@ -5,10 +5,14 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Responsi
 import { Database, Activity, MessageSquare, Zap, Target, Heart, Sparkles } from 'lucide-react';
 import { CHURN_SIGNALS, CHURN_RADAR_DATA, type ChurnSignal } from '@/lib/data/churnSignals';
 import { type ReactNode } from 'react';
-import Link from 'next/link';
 
 interface SignalWithIcon extends ChurnSignal {
   icon: ReactNode;
+}
+
+interface MultiSignalMatrixProps {
+  onNavigate?: () => void;
+  activeSignal?: string | null;
 }
 
 const dimensionIcon = (dimension: string) => {
@@ -30,13 +34,22 @@ const dimensionIcon = (dimension: string) => {
   }
 };
 
-export default function MultiSignalMatrix() {
+export default function MultiSignalMatrix({ onNavigate, activeSignal }: MultiSignalMatrixProps = {}) {
   const signals: SignalWithIcon[] = CHURN_SIGNALS.map((signal) => ({
     ...signal,
     icon: dimensionIcon(signal.dimension),
   }));
 
   const radarData = CHURN_RADAR_DATA;
+
+  // Highlight top 3 critical signals
+  const criticalSignals = signals
+    .filter((s) => ['critical', 'high'].includes(s.severity))
+    .sort((a, b) => {
+      const severityOrder = { critical: 3, high: 2, medium: 1, low: 0 };
+      return (severityOrder[b.severity as keyof typeof severityOrder] || 0) - (severityOrder[a.severity as keyof typeof severityOrder] || 0);
+    })
+    .slice(0, 3);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -55,17 +68,37 @@ export default function MultiSignalMatrix() {
           <h2 className="text-2xl font-bold text-white mb-1">Multi-Signal Churn Matrix</h2>
           <p className="text-gray-400">Understanding why subscribers leave</p>
         </div>
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link
-            href="/actions"
-            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:from-sky-400 hover:to-blue-500 transition-colors"
-            aria-label="Take action on churn signals"
-          >
-            <Sparkles size={16} />
-            Take Action
-          </Link>
-        </motion.div>
+        {onNavigate && (
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <button
+              onClick={onNavigate}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:from-sky-400 hover:to-blue-500 transition-colors"
+              aria-label="Take action on churn signals"
+            >
+              <Sparkles size={16} />
+              Take Action
+            </button>
+          </motion.div>
+        )}
       </div>
+
+      {/* Top 3 Critical Signals Highlight */}
+      {criticalSignals.length > 0 && (
+        <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+          <p className="text-sm font-semibold text-red-300 mb-2">Top 3 Critical Signals Requiring Immediate Attention:</p>
+          <div className="flex flex-wrap gap-2">
+            {criticalSignals.map((signal) => (
+              <span
+                key={signal.dimension}
+                className="inline-flex items-center gap-2 rounded-lg border border-red-500/40 bg-red-500/15 px-3 py-1.5 text-xs font-semibold text-red-200"
+              >
+                {signal.icon}
+                {signal.dimension}: {signal.keySignal}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="space-y-6">
         <div className="overflow-x-auto">
@@ -109,17 +142,18 @@ export default function MultiSignalMatrix() {
                   </td>
                   <td className="py-4 px-4 text-right text-white font-semibold">{signal.weight}%</td>
                   <td className="py-4 px-4 text-right">
-                    {['critical', 'high', 'medium'].includes(signal.severity) ? (
-                      <Link
-                        href={{
-                          pathname: '/actions',
-                          query: { focus: signal.dimension.toLowerCase() },
-                        }}
-                        className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors"
+                    {['critical', 'high', 'medium'].includes(signal.severity) && onNavigate ? (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={onNavigate}
+                        className={`inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors ${
+                          activeSignal === signal.dimension.toLowerCase() ? 'ring-2 ring-sky-400' : ''
+                        }`}
                       >
                         <Sparkles size={14} />
                         Take Action
-                      </Link>
+                      </motion.button>
                     ) : (
                       <span className="text-xs text-gray-500">—</span>
                     )}

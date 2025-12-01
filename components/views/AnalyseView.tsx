@@ -13,6 +13,7 @@ import { ModelVsReal } from '@/components/analyse/ModelVsReal';
 import { TrialTriggersDrilldown } from '@/components/analyse/TrialTriggersDrilldown';
 import { NewUsersTriggersDrilldown } from '@/components/analyse/NewUsersTriggersDrilldown';
 import { EstablishedUsersTriggersDrilldown } from '@/components/analyse/EstablishedUsersTriggersDrilldown';
+import { ProblemContextSummary } from '@/components/analyse/ProblemContextSummary';
 
 interface AnalyseViewProps {
   mode: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
@@ -120,6 +121,22 @@ export function AnalyseView({
     );
   }
 
+  const handleViewDetails = (section: string) => {
+    const sectionMap: Record<string, string> = {
+      signals: 'analyse-matrix',
+      journey: 'analyse-journey',
+      decision: 'analyse-decision',
+      kpis: 'analyse-kpis',
+    };
+    const targetId = sectionMap[section];
+    if (targetId) {
+      const node = document.getElementById(targetId);
+      if (node) {
+        node.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
   return (
     <div className="space-y-12">
       <motion.div
@@ -165,6 +182,12 @@ export function AnalyseView({
         </div>
       </motion.div>
 
+      {/* Problem Context Summary - First Priority */}
+      <ProblemContextSummary
+        onTakeAction={onLaunchPlaybook}
+        onViewDetails={handleViewDetails}
+      />
+
       <AnalyseControls
         riskThreshold={riskThreshold}
         onRiskThresholdChange={setRiskThreshold}
@@ -173,14 +196,41 @@ export function AnalyseView({
         onLaunchPlaybook={onLaunchPlaybook}
       />
 
-      <motion.div id="analyse-kpis" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+      {/* Section 1: Churn Signal Matrix - Highest Priority */}
+      <motion.div id="analyse-matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+        <MultiSignalMatrix onNavigate={onLaunchPlaybook} />
+      </motion.div>
+
+      {/* Section 2: Journey Friction Points */}
+      <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.14 }}>
+        <JourneyLens
+          onNavigateToPhase={(phase) => {
+            if (phase === 'Trial' || phase === 'New') {
+              onShowSegments();
+            }
+          }}
+          onNavigateAction={onLaunchPlaybook}
+        />
+      </motion.div>
+
+      {/* Section 3: Decision Layer (Segment Prioritization) */}
+      <motion.div id="analyse-decision" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
+        <DecisionLayer
+          onViewSegments={onShowSegments}
+          onSegmentAction={() => onLaunchPlaybook()}
+          riskThreshold={riskThreshold}
+        />
+      </motion.div>
+
+      {/* Section 4: KPI Trends & Model Performance */}
+      <motion.div id="analyse-kpis" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
         <KpiTrendOverview />
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.12 }}
+        transition={{ delay: 0.24 }}
         className="rounded-2xl border border-sky-500/20 bg-navy-900/60 p-5 shadow-[0_12px_28px_rgba(15,118,210,0.2)]"
       >
         <div className="flex gap-3">
@@ -195,30 +245,8 @@ export function AnalyseView({
         </div>
       </motion.div>
 
-      <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.14 }}>
-        <JourneyLens
-          onNavigateToPhase={(phase) => {
-            if (phase === 'Trial' || phase === 'New') {
-              onShowSegments();
-            }
-          }}
-        />
-      </motion.div>
-
-      <motion.div id="analyse-matrix" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.18 }}>
-        <MultiSignalMatrix />
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
-        <DecisionLayer
-          onViewSegments={onShowSegments}
-          onSegmentAction={() => onLaunchPlaybook()}
-          riskThreshold={riskThreshold}
-        />
-      </motion.div>
-
       <motion.div id="analyse-model" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.26 }}>
-        <ModelVsReal />
+        <ModelVsReal onTakeAction={onLaunchPlaybook} />
       </motion.div>
 
       <motion.div

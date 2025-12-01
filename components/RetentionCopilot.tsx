@@ -34,22 +34,23 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
       case 'analyse':
         return {
           prompt:
-            "You're in diagnostics mode. Ask me to explain churn spikes, surface signal drivers, or craft new investigative segments.",
+            "You're in diagnostics mode. Ask me to explain churn spikes, surface signal drivers, compare segments, or create actions for specific triggers.",
           quickActions: [
-            { label: 'Explain this churn spike.', icon: <TrendingUp size={16} /> },
-            { label: 'Show me all signals driving New segment churn.', icon: <Eye size={16} /> },
-            { label: 'Create a segment of users with 3+ risk triggers.', icon: <UserPlus size={16} /> },
+            { label: 'Explain this signal', icon: <TrendingUp size={16} /> },
+            { label: "What's driving churn in Trial segment?", icon: <Eye size={16} /> },
+            { label: 'Create action for this segment', icon: <Sparkles size={16} /> },
+            { label: 'Compare segment performance', icon: <UserPlus size={16} /> },
           ],
         };
       case 'act':
         return {
           prompt:
-            "Ready to execute. Ask for the best-performing actions, personalized playbooks, or to launch engagement workflows.",
+            "Ready to execute. Ask why campaigns are underperforming, recommend playbooks, clone winning campaigns, or review performance trends.",
           quickActions: [
-            { label: 'Which action worked best last month?', icon: <TrendingUp size={16} /> },
-            { label: 'Recommend the most effective playbook for this segment.', icon: <Sparkles size={16} /> },
-            { label: 'Draft a retention plan for high-CLTV churners.', icon: <User size={16} /> },
-            { label: 'Trigger re-engagement campaign for trial users.', icon: <Send size={16} /> },
+            { label: 'Why is this campaign underperforming?', icon: <TrendingUp size={16} /> },
+            { label: 'Recommend playbook for Trial segment', icon: <Sparkles size={16} /> },
+            { label: 'Clone and optimize Loyalty Discount', icon: <User size={16} /> },
+            { label: 'Review performance trends', icon: <Eye size={16} /> },
           ],
         };
       default:
@@ -69,26 +70,45 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
     (input: string): string => {
     const lowerInput = input.toLowerCase();
     
-      if (lowerInput.includes('churn spike')) {
-        return 'The latest churn spike occurred between 12–18 April, driven by billing retries and sports package downgrades. Consider targeted credits and in-app reassurance messaging.';
+      // Analyse context responses
+      if (contextKey === 'analyse') {
+        if (lowerInput.includes('explain') && lowerInput.includes('signal')) {
+          return 'The "Onboarding confusion" signal is critical because 70% of trial churn occurs in days 8-12. Root cause: users struggle with device setup and content discovery. Recommended action: Launch onboarding tutorial campaign targeting Trial segment.';
+        }
+        if (lowerInput.includes('driving churn') || (lowerInput.includes('trial') && lowerInput.includes('segment'))) {
+          return 'Trial segment churn is driven by: (1) Onboarding confusion (42% weight), (2) Content misalignment (28% weight), (3) Device setup issues (18% weight). Total 2,100 users at risk. Create intervention targeting these triggers?';
+        }
+        if (lowerInput.includes('create action') || lowerInput.includes('action for')) {
+          return 'I can help create an action for the selected segment. Based on the signal matrix, I recommend the "Onboarding Personalisation" playbook for Trial users, expected +8.4% lift with 2.9× ROI. Should I open the action wizard?';
+        }
+        if (lowerInput.includes('compare') || lowerInput.includes('performance')) {
+          return 'Comparing segments: Trial has highest churn risk (72%) but lowest CLTV. Established has lowest churn (0.85%) but highest revenue at risk. Focus on Trial for immediate impact, Established for revenue protection.';
+        }
+        if (lowerInput.includes('churn spike')) {
+          return 'The latest churn spike occurred between 12–18 April, driven by billing retries and sports package downgrades. Consider targeted credits and in-app reassurance messaging.';
+        }
+        if (lowerInput.includes('signals') && lowerInput.includes('new')) {
+          return 'New segment churn is driven by engagement drop-offs after week 3, payment churn retries, and login friction on connected TVs. Prioritize onboarding nudge journeys for these signals.';
+        }
       }
-      if (lowerInput.includes('signals') && lowerInput.includes('new')) {
-        return 'New segment churn is driven by engagement drop-offs after week 3, payment churn retries, and login friction on connected TVs. Prioritize onboarding nudge journeys for these signals.';
-      }
-      if (lowerInput.includes('3') && lowerInput.includes('risk trigger')) {
-        return 'Created a dynamic cohort: users with 3+ concurrent triggers (payment retries, sentiment dip, inactivity). 9,420 subscribers qualify—ready to sync with Analyse → Segment Portfolio.';
-      }
-      if (lowerInput.includes('worked best') && lowerInput.includes('last month')) {
-        return 'The Loyalty Upgrade campaign delivered the strongest lift last month (+5.4% retention, 3.1× ROI). A/B experimentation also showed concierge outreach outperforming email by 1.8×.';
-      }
-      if (lowerInput.includes('playbook')) {
-        return 'Recommend launching the “Loyalty Stabiliser” playbook: proactive credit offers and personalized content pushes. Expected retention lift: +4.8%, ROI 3.0× for high-value cohorts.';
-      }
-      if (lowerInput.includes('retention plan') || lowerInput.includes('high-cltv')) {
-        return 'Draft plan: (1) Trigger retention credit before renewal, (2) Offer premium sports preview, (3) Schedule concierge check-in. This protects ~£640K at risk across high-CLTV subscribers.';
-      }
-      if (lowerInput.includes('re-engagement') || lowerInput.includes('trial users')) {
-        return 'Initiating re-engagement workflow: Day 5 content playlist, Day 8 push notification, Day 12 concierge outreach. Will monitor uplift and surface results in Action History.';
+      
+      // Act context responses
+      if (contextKey === 'act') {
+        if (lowerInput.includes('underperforming') || lowerInput.includes('why is this campaign')) {
+          return 'The "Loyalty Discount Campaign" is underperforming (Expected +12%, Actual +4.2%). Possible reasons: (1) Wrong segment targeting - too broad, (2) Timing issue - launched during competitor promotion, (3) Creative mismatch. Recommend: Pause campaign, adjust targeting to high-CLTV only, relaunch with updated creative.';
+        }
+        if (lowerInput.includes('recommend playbook') || (lowerInput.includes('playbook') && lowerInput.includes('trial'))) {
+          return 'For Trial segment, recommend "Onboarding Personalisation" playbook. Expected +8.4% retention lift, 2.9× ROI. Similar campaigns showed +15% avg lift. Targets onboarding confusion and content misalignment triggers. Launch now?';
+        }
+        if (lowerInput.includes('clone') || lowerInput.includes('optimize')) {
+          return 'Cloning "High CLTV Loyalty Upgrade" campaign. This campaign delivered +5.4% actual lift (exceeded +5.0% forecast). Optimizations: (1) Narrow segment to highest CLTV tier, (2) Extend campaign window, (3) Add concierge touchpoint. Ready to configure?';
+        }
+        if (lowerInput.includes('review') || lowerInput.includes('performance trends')) {
+          return 'Performance trends: 6/8 campaigns on-track (75%), 2 underperforming. Best performer: "Ad-supported Downgrade Offer" (+4.6% actual vs +4.0% expected). Worst: "Loyalty Discount Campaign" (+4.2% vs +12% expected). Focus on optimizing underperformers.';
+        }
+        if (lowerInput.includes('worked best') && lowerInput.includes('last month')) {
+          return 'The Loyalty Upgrade campaign delivered the strongest lift last month (+5.4% retention, 3.1× ROI). A/B experimentation also showed concierge outreach outperforming email by 1.8×.';
+        }
       }
     if (lowerInput.includes('trial') || lowerInput.includes('risk')) {
       return "Found 2,100 trial-phase users inactive for 2+ weeks. Suggest personalized onboarding playlist + welcome call. Expected retention lift: +18%.";

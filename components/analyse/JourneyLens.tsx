@@ -1,10 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 import JourneyMap from '@/components/JourneyMap';
 
 interface JourneyLensProps {
   onNavigateToPhase?: (phase: string) => void;
+  onNavigateAction?: () => void;
 }
 
 const phases = [
@@ -28,7 +30,7 @@ const phases = [
   },
 ];
 
-export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
+export function JourneyLens({ onNavigateToPhase, onNavigateAction }: JourneyLensProps) {
   return (
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
@@ -38,6 +40,17 @@ export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
             Inspect handoffs and pressure points along the Trial → New → Established journey. Click a phase to drill into signals.
           </p>
         </div>
+        {onNavigateAction && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onNavigateAction}
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-500/30"
+          >
+            <Sparkles size={16} />
+            Create Intervention
+          </motion.button>
+        )}
       </div>
 
       <JourneyMap
@@ -67,14 +80,26 @@ export function JourneyLens({ onNavigateToPhase }: JourneyLensProps) {
                 </div>
               ))}
             </div>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => onNavigateToPhase?.(phase.name)}
-              className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100"
-            >
-              Analyse {phase.name} cohort
-            </motion.button>
+            <div className="mt-3 flex gap-2">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => onNavigateToPhase?.(phase.name)}
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100"
+              >
+                Analyse {phase.name} cohort
+              </motion.button>
+              {onNavigateAction && (
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={onNavigateAction}
+                  className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-100"
+                >
+                  Create Intervention
+                </motion.button>
+              )}
+            </div>
           </motion.div>
         ))}
       </div>

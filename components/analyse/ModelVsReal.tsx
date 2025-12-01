@@ -2,7 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, Area, AreaChart } from 'recharts';
-import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { AlertTriangle, RotateCcw, PlayCircle } from 'lucide-react';
+
+interface ModelVsRealProps {
+  onTakeAction?: () => void;
+}
 
 const modelData = [
   { month: 'Nov', actual: 1.9, predicted: 1.95 },
@@ -20,7 +24,7 @@ const driftData = [
   { signal: 'Competitor', drift: 0.03 },
 ];
 
-export function ModelVsReal() {
+export function ModelVsReal({ onTakeAction }: ModelVsRealProps = {}) {
   return (
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
@@ -30,10 +34,23 @@ export function ModelVsReal() {
             Validate model quality before triggering interventions. Check accuracy, drift, and drivers.
           </p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100">
-          <RotateCcw size={14} />
-          Request retraining
-        </button>
+        <div className="flex gap-2">
+          <button className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100">
+            <RotateCcw size={14} />
+            Request retraining
+          </button>
+          {onTakeAction && (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={onTakeAction}
+              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-sky-500/30"
+            >
+              <PlayCircle size={14} />
+              Add to Experiment
+            </motion.button>
+          )}
+        </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">

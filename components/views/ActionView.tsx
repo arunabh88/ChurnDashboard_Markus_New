@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, BellRing, Lightbulb, LineChart, PlusCircle, Rocket, ShieldCheck, Sparkles, Target } from 'lucide-react';
+import { ArrowRight, LineChart, PlusCircle, Rocket, ShieldCheck, Sparkles, Target } from 'lucide-react';
 import ActionCenter from '@/components/ActionCenter';
 import ABExperimentation from '@/components/ABExperimentation';
 import ChurnValidation from '@/components/ChurnValidation';
@@ -30,35 +30,6 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
     []
   );
 
-  const nextBestActions = useMemo(
-    () => [
-      {
-        title: 'Extend concierge outreach',
-        impact: '+2.1% lift',
-        detail: 'Trials with low engagement between day 7-14 respond best to personalised welcome calls.',
-      },
-      {
-        title: 'Price reassurance nudge',
-        impact: '+1.4% lift',
-        detail: 'Push messaging to price-sensitive cohort ahead of competitor launch next week.',
-      },
-      {
-        title: 'Sports highlights reel',
-        impact: '+0.9% lift',
-        detail: 'Use AI-curated recap for high engagement sports fans who skipped last live event.',
-      },
-    ],
-    []
-  );
-
-  const workflowReminders = useMemo(
-    () => [
-      { title: 'Creative approval: “Sports Fan Exclusive Week”', due: 'Due in 2 days', owner: 'Marketing Ops' },
-      { title: 'Data quality check: Sentiment feed drift', due: 'Due tomorrow', owner: 'Data Science' },
-      { title: 'Budget uplift request: Loyalty credits', due: 'Awaiting Finance sign-off', owner: 'Finance' },
-    ],
-    []
-  );
 
   useEffect(() => {
     if (!focus) return;
@@ -228,74 +199,12 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
         />
       </div>
 
-      {/* Section 2: AI-Recommended Next Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.12 }}
-        className="grid gap-4 lg:grid-cols-2"
-      >
-        <div className="rounded-2xl border border-sky-500/20 bg-navy-900/60 p-5 shadow-[0_10px_24px_rgba(15,118,210,0.18)]">
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-200 flex items-center gap-2">
-            <Lightbulb size={16} />
-            Next-best actions (AI)
-          </p>
-          <div className="mt-4 space-y-4">
-            {nextBestActions.map((action) => (
-              <div key={action.title} className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-white text-sm font-semibold">{action.title}</h4>
-                  <span className="text-xs text-emerald-300 font-semibold">{action.impact}</span>
-                </div>
-                <p className="mt-2 text-xs text-gray-300 leading-relaxed">{action.detail}</p>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => {
-                    setWizardOpen(true);
-                    onOpenNewAction();
-                  }}
-                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/30 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100"
-                >
-                  Create Action
-                </motion.button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-sky-500/20 bg-navy-900/60 p-5 shadow-[0_10px_24px_rgba(15,118,210,0.18)]">
-          <p className="text-sm font-semibold uppercase tracking-wide text-amber-200 flex items-center gap-2">
-            <BellRing size={16} />
-            Workflow reminders
-          </p>
-          <div className="mt-4 space-y-4">
-            {workflowReminders.map((reminder) => (
-              <div key={reminder.title} className="rounded-xl border border-sky-500/25 bg-navy-900/70 p-4">
-                <div className="flex items-center justify-between">
-                  <h4 className="text-white text-sm font-semibold">{reminder.title}</h4>
-                  <span className="text-xs text-sky-200">{reminder.due}</span>
-                </div>
-                <p className="mt-2 text-xs text-sky-100/80">Owner: {reminder.owner}</p>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-sky-500/30 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100"
-                >
-                  Open task
-                </motion.button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Section 3: Recommended Playbooks */}
+      {/* Section 2: Recommended Playbooks */}
       <motion.div id="actions-playbooks" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.12 }}>
         <ActionCenter />
       </motion.div>
 
-      {/* Section 4: A/B Experimentation */}
+      {/* Section 3: A/B Experimentation */}
       <motion.div
         id="actions-experiments"
         initial={{ opacity: 0, y: 20 }}
@@ -305,7 +214,7 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
         <ABExperimentation />
       </motion.div>
 
-      {/* Section 5: Model Performance */}
+      {/* Section 4: Model Performance */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

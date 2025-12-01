@@ -26,7 +26,7 @@ export function DecisionSegmentsView({ onBack, onLaunchPlaybook }: DecisionSegme
             <ArrowLeft size={14} />
             Back to Analyse overview
           </button>
-          <h1 className="mt-3 text-2xl font-bold text-white">Segment Portfolio Intelligence</h1>
+          <h1 className="mt-3 text-3xl font-bold text-white">Segment Portfolio Intelligence</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
             Drill into segment personas, retention levers, and predicted lift. Activate AI-powered actions straight from this
             workspace or return to the overview to continue diagnostics.

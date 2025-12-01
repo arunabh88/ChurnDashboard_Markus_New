@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Area,
@@ -12,10 +12,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-
-interface KpiTrendOverviewProps {
-  onFilterChange?: (filters: { region: string; plan: string; device: string; acquisition: string; range: string }) => void;
-}
 
 const churnTrend = [
   { month: 'Nov', churn: 1.9, target: 1.7 },
@@ -48,6 +44,109 @@ const engagementTrend = [
   { week: 'W5', drop: 8 },
 ];
 
+interface KpiTrendOverviewProps {
+  onFilterChange?: (filters: { region: string; plan: string; device: string; acquisition: string; range: string }) => void;
+}
+
+type FilterKey = 'region' | 'plan' | 'device' | 'acquisition' | 'range';
+
+const PLAN_CHURN_DELTA_MAP: Record<string, number> = {
+  'All plans': 0,
+  Sports: 0.15,
+  Entertainment: -0.08,
+  Broadband: 0.05,
+};
+
+const REGION_CHURN_DELTA_MAP: Record<string, number> = {
+  Global: 0,
+  EMEA: 0.04,
+  Americas: 0.02,
+  APAC: -0.03,
+};
+
+const RANGE_CHURN_DELTA_MAP: Record<string, number> = {
+  '90 days': -0.06,
+  '60 days': -0.02,
+  '30 days': 0.04,
+  '7 days': 0.08,
+};
+
+const ACQUISITION_CHURN_DELTA_MAP: Record<string, number> = {
+  'All sources': 0,
+  Paid: 0.06,
+  Organic: -0.04,
+  Partner: 0.02,
+};
+
+const DEVICE_CHURN_DELTA_MAP: Record<string, number> = {
+  'All devices': 0,
+  Mobile: 0.03,
+  CTV: -0.02,
+  Web: -0.01,
+};
+
+const PLAN_SEGMENT_DELTA_MAP: Record<string, Partial<Record<string, number>>> = {
+  Sports: { Trial: 1, New: 0.4, Established: 0.1, 'Save First': 0.3 },
+  Entertainment: { Trial: -0.3, New: -0.1 },
+  Broadband: { Trial: 0.2, Established: -0.2 },
+};
+
+const REGION_SEGMENT_DELTA_MAP: Record<string, number> = {
+  Global: 0,
+  EMEA: 0.1,
+  Americas: 0.05,
+  APAC: -0.08,
+};
+
+const RANGE_SEGMENT_DELTA_MAP: Record<string, number> = {
+  '90 days': -0.05,
+  '60 days': -0.02,
+  '30 days': 0.08,
+  '7 days': 0.12,
+};
+
+const PLAN_CLTV_DELTA_MAP: Record<string, number> = {
+  'All plans': 0,
+  Sports: 18,
+  Entertainment: 6,
+  Broadband: 10,
+};
+
+const ACQUISITION_CLTV_DELTA_MAP: Record<string, number> = {
+  'All sources': 0,
+  Paid: 22,
+  Organic: -14,
+  Partner: 12,
+};
+
+const PLAN_CAC_DELTA_MAP: Record<string, number> = {
+  'All plans': 0,
+  Sports: 4,
+  Entertainment: 2,
+  Broadband: 3,
+};
+
+const ACQUISITION_CAC_DELTA_MAP: Record<string, number> = {
+  'All sources': 0,
+  Paid: 7,
+  Organic: -5,
+  Partner: 3,
+};
+
+const DEVICE_ENGAGEMENT_DELTA_MAP: Record<string, number> = {
+  'All devices': 0,
+  Mobile: 2,
+  CTV: -1,
+  Web: -0.5,
+};
+
+const RANGE_ENGAGEMENT_DELTA_MAP: Record<string, number> = {
+  '90 days': -1,
+  '60 days': -0.5,
+  '30 days': 0.6,
+  '7 days': 1.1,
+};
+
 export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
   const filters = useMemo(
     () => ({
@@ -60,15 +159,131 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
     []
   );
 
-  const handleChange = (key: keyof typeof filters, value: string) => {
-    onFilterChange?.({
-      region: key === 'region' ? value : filters.region[0],
-      plan: key === 'plan' ? value : filters.plan[0],
-      device: key === 'device' ? value : filters.device[0],
-      acquisition: key === 'acquisition' ? value : filters.acquisition[0],
-      range: key === 'range' ? value : filters.range[0],
+  const [selectedFilters, setSelectedFilters] = useState<Record<FilterKey, string>>(() => ({
+    region: filters.region[0],
+    plan: filters.plan[0],
+    device: filters.device[0],
+    acquisition: filters.acquisition[0],
+    range: filters.range[0],
+  }));
+
+  const { region, plan, device, acquisition, range } = selectedFilters;
+
+  const handleChange = (key: FilterKey, value: string) => {
+    setSelectedFilters((prev) => {
+      if (prev[key] === value) return prev;
+      const next = { ...prev, [key]: value };
+      onFilterChange?.({
+        region: next.region,
+        plan: next.plan,
+        device: next.device,
+        acquisition: next.acquisition,
+        range: next.range,
+      });
+      return next;
     });
   };
+
+  const summaryLabel = useMemo(
+    () => `${region} · ${plan} · ${device} · ${acquisition} · ${range}`,
+    [region, plan, device, acquisition, range]
+  );
+
+  const planChurnDeltaMap: Record<string, number> = {
+    'All plans': 0,
+    Sports: 0.15,
+    Entertainment: -0.08,
+    Broadband: 0.05,
+  };
+
+  const regionChurnDeltaMap: Record<string, number> = {
+    Global: 0,
+    EMEA: 0.04,
+    Americas: 0.02,
+    APAC: -0.03,
+  };
+
+  const rangeChurnDeltaMap: Record<string, number> = {
+    '90 days': -0.06,
+    '60 days': -0.02,
+    '30 days': 0.04,
+    '7 days': 0.08,
+  };
+
+  const acquisitionChurnDeltaMap: Record<string, number> = {
+    'All sources': 0,
+    Paid: 0.06,
+    Organic: -0.04,
+    Partner: 0.02,
+  };
+
+  const deviceChurnDeltaMap: Record<string, number> = {
+    'All devices': 0,
+    Mobile: 0.03,
+    CTV: -0.02,
+    Web: -0.01,
+  };
+
+  const adjustedChurnTrend = useMemo(() => {
+    const totalDelta =
+      (PLAN_CHURN_DELTA_MAP[plan] ?? 0) +
+      (REGION_CHURN_DELTA_MAP[region] ?? 0) +
+      (RANGE_CHURN_DELTA_MAP[range] ?? 0) +
+      (ACQUISITION_CHURN_DELTA_MAP[acquisition] ?? 0);
+    const deviceDelta = DEVICE_CHURN_DELTA_MAP[device] ?? 0;
+
+    return churnTrend.map((point, index) => {
+      const progressive = ((index + 1) / churnTrend.length) * deviceDelta;
+      const churnValue = Number(Math.max(0, point.churn + totalDelta + progressive).toFixed(2));
+      const targetValue = Number(Math.max(0, point.target + totalDelta * 0.6).toFixed(2));
+      return {
+        ...point,
+        churn: churnValue,
+        target: targetValue,
+      };
+    });
+  }, [plan, region, range, acquisition, device]);
+
+  const adjustedSegmentTrend = useMemo(() => {
+    return segmentTrend.map((row) => {
+      const planDelta = PLAN_SEGMENT_DELTA_MAP[plan]?.[row.segment] ?? 0;
+      const regionDelta = REGION_SEGMENT_DELTA_MAP[region] ?? 0;
+      const rangeDelta = RANGE_SEGMENT_DELTA_MAP[range] ?? 0;
+      const value = Number(Math.max(0, row.churn + planDelta + regionDelta + rangeDelta).toFixed(1));
+      return {
+        ...row,
+        churn: value,
+      };
+    });
+  }, [plan, region, range]);
+
+  const adjustedCltvTrend = useMemo(() => {
+    const cltvDelta = (PLAN_CLTV_DELTA_MAP[plan] ?? 0) + (ACQUISITION_CLTV_DELTA_MAP[acquisition] ?? 0);
+    const cacDelta = (PLAN_CAC_DELTA_MAP[plan] ?? 0) + (ACQUISITION_CAC_DELTA_MAP[acquisition] ?? 0);
+
+    return cltvTrend.map((row, index) => {
+      const cadence = index * 2;
+      return {
+        ...row,
+        cltv: Math.max(0, Math.round(row.cltv + cltvDelta + cadence)),
+        cac: Math.max(0, Math.round(row.cac + cacDelta + cadence * 0.4)),
+      };
+    });
+  }, [plan, acquisition]);
+
+  const adjustedEngagementTrend = useMemo(() => {
+    const deviceDelta = DEVICE_ENGAGEMENT_DELTA_MAP[device] ?? 0;
+    const rangeDelta = RANGE_ENGAGEMENT_DELTA_MAP[range] ?? 0;
+
+    return engagementTrend.map((item, index) => {
+      const seasonal = index % 2 === 0 ? 0.4 : -0.2;
+      const dropValue = Math.max(0, Math.round((item.drop + deviceDelta + rangeDelta + seasonal) * 10) / 10);
+      return {
+        ...item,
+        drop: dropValue,
+      };
+    });
+  }, [device, range]);
 
   return (
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
@@ -78,46 +293,62 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
           <p className="mt-1 text-sm text-gray-400">
             Compare churn, segment health, and value trends with consistent filters before drilling into cohorts.
           </p>
+          <p className="text-xs text-sky-200/80 mt-2">Viewing: {summaryLabel}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <select
+            value={region}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('region', event.target.value)}
           >
             {filters.region.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={plan}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('plan', event.target.value)}
           >
             {filters.plan.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={device}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('device', event.target.value)}
           >
             {filters.device.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={acquisition}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('acquisition', event.target.value)}
           >
             {filters.acquisition.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={range}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('range', event.target.value)}
           >
             {filters.range.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         </div>
@@ -132,7 +363,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Churn vs target</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={churnTrend}>
+              <AreaChart data={adjustedChurnTrend}>
                 <defs>
                   <linearGradient id="churnActual" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8} />
@@ -168,7 +399,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         >
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Segment churn snapshot</p>
           <div className="space-y-3">
-            {segmentTrend.map((row) => (
+            {adjustedSegmentTrend.map((row) => (
               <div key={row.segment} className="rounded-lg border border-sky-500/20 bg-navy-900/70 px-3 py-2">
                 <div className="flex items-center justify-between text-sm text-white">
                   <span>{row.segment}</span>
@@ -193,7 +424,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">CLTV vs CAC</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={cltvTrend}>
+              <AreaChart data={adjustedCltvTrend}>
                 <defs>
                   <linearGradient id="cltvLine" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
@@ -229,7 +460,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         >
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Engagement drop (hours streamed)</p>
           <div className="space-y-2">
-            {engagementTrend.map((item) => (
+            {adjustedEngagementTrend.map((item) => (
               <div key={item.week} className="flex items-center justify-between text-xs text-gray-300">
                 <span className="text-white font-semibold">{item.week}</span>
                 <div className="relative h-1.5 w-3/4 rounded-full bg-slate-900/70">

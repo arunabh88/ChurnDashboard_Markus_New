@@ -80,7 +80,7 @@ export default function ChurnAnalysisPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-3xl font-bold text-white mb-2">Churn Analysis</h1>
+      <h1 className="text-2xl font-bold text-white mb-2">Churn Analysis</h1>
         <p className="text-gray-400">Deep dive into subscriber churn patterns and risk factors</p>
       </motion.div>
 

@@ -98,7 +98,7 @@ export function AnalyseView({
         className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-white">Analyse Retention Signals</h1>
+          <h1 className="text-2xl font-bold text-white">Analyse Retention Signals</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
             Dive into churn trends, signal drivers, and subscriber-level detail. Apply filters to
             isolate segments and send high-value cohorts directly into actions.

@@ -88,7 +88,7 @@ export function ActionView({ onOpenNewAction, focus }: ActionViewProps) {
         className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold text-white">Retain, Intervene & Measure</h1>
+          <h1 className="text-2xl font-bold text-white">Retain, Intervene & Measure</h1>
           <p className="text-gray-400 mt-2 max-w-2xl">
             Activate AI-recommended actions, configure interventions, and monitor performance across loyalty, onboarding,
             re-engagement, and pricing strategies.

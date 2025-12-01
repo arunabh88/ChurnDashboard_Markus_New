@@ -7,7 +7,7 @@ import { KpiTrendOverview } from '@/components/analyse/KpiTrendOverview';
 import MultiSignalMatrix from '@/components/MultiSignalMatrix';
 import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
 import DecisionLayer from '@/components/DecisionLayer';
-import { ModelVsReal } from '@/components/analyse/ModelVsReal';
+import { ModelVsReal } from '@/components/ModelVsReal';
 import { JourneyDiagnostics } from '@/components/analyse/JourneyDiagnostics';
 import { SegmentFilters } from '@/components/analyse/SegmentFilters';
 import SubscribersPage from '@/components/SubscribersPage';

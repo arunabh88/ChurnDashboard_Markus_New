@@ -143,7 +143,7 @@ The AI agent (Einstein Agent) is:
 - **Action-oriented**: Focus on tangible outcomes
 
 Example:
-> "Your top 5% high-value subscribers are disengaging. A loyalty campaign could save £1.2M in projected annual revenue."
+> "Your top 5% high-value subscribers are disengaging. A loyalty campaign could save $1.2M in projected annual revenue."
 
 ## 🚀 Deployment
 

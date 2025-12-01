@@ -23,7 +23,7 @@ const DEFAULT_CONTEXT: ProblemContext = {
   alertLevel: 'critical',
   problem: 'Trial churn up 5% - 2,100 users at risk',
   rootCause: '70% of trial churn driven by onboarding confusion + content misalignment',
-  revenueImpact: '£420K at risk if no intervention',
+  revenueImpact: '$420K at risk if no intervention',
   timeSensitivity: 'Peak churn window: Days 8-12 post sign-up',
   recommendedPriority: 'Focus: Trial Users → Onboarding triggers',
   readyPlaybooks: 3,

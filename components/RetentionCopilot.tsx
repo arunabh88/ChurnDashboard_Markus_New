@@ -114,7 +114,7 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
       return "Found 2,100 trial-phase users inactive for 2+ weeks. Suggest personalized onboarding playlist + welcome call. Expected retention lift: +18%.";
     }
     if (lowerInput.includes('high-value') || lowerInput.includes('premium')) {
-      return "Identified 840 high-value subscribers (CLTV >£500) showing 76% churn risk. Recommend loyalty discount + exclusive content access. Potential revenue save: £520K.";
+      return "Identified 840 high-value subscribers (CLTV >$500) showing 76% churn risk. Recommend loyalty discount + exclusive content access. Potential revenue save: $520K.";
     }
     if (lowerInput.includes('content')) {
       return "6,800 users show content fatigue. Top recommendation: Launch 'Discover Mode' with AI-curated playlists. Similar campaigns showed +10% retention.";

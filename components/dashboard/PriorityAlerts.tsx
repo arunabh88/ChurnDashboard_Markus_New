@@ -33,7 +33,7 @@ export function PriorityAlerts({ onNavigateAnalyse, onNavigateActions }: Priorit
     },
     {
       id: 'cltv-loss',
-      title: 'High CLTV churn spike — potential loss £1.2M',
+      title: 'High CLTV churn spike — potential loss $1.2M',
       description: 'Premium loyalty cohort signalling competitor switching; review pricing assurances.',
       icon: <AlertTriangle size={18} />,
       primaryCtaLabel: 'Analyse',

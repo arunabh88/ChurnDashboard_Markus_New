@@ -42,8 +42,8 @@ export default function AnalyticsPage() {
   const stats = [
     { title: 'Total Watch Time', value: '428M hrs', change: '+15%', icon: <Clock size={24} />, trend: 'positive', gradient: 'from-blue-500 to-cyan-500' },
     { title: 'Avg Session Duration', value: '2.4 hrs', change: '+8%', icon: <Eye size={24} />, trend: 'positive', gradient: 'from-purple-500 to-pink-500' },
-    { title: 'Monthly Revenue', value: '£58.3M', change: '+11%', icon: <DollarSign size={24} />, trend: 'positive', gradient: 'from-green-500 to-emerald-500' },
-    { title: 'ARPU', value: '£25.42', change: '+2%', icon: <TrendingUp size={24} />, trend: 'positive', gradient: 'from-orange-500 to-yellow-500' },
+    { title: 'Monthly Revenue', value: '$58.3M', change: '+11%', icon: <DollarSign size={24} />, trend: 'positive', gradient: 'from-green-500 to-emerald-500' },
+    { title: 'ARPU', value: '$25.42', change: '+2%', icon: <TrendingUp size={24} />, trend: 'positive', gradient: 'from-orange-500 to-yellow-500' },
   ];
 
   const COLORS = ['#0ea5e9', '#8b5cf6', '#ec4899', '#f59e0b'];
@@ -168,16 +168,16 @@ export default function AnalyticsPage() {
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis dataKey="month" stroke="#94a3b8" />
-              <YAxis yAxisId="left" stroke="#94a3b8" label={{ value: 'Revenue (£M)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
-              <YAxis yAxisId="right" orientation="right" stroke="#94a3b8" label={{ value: 'ARPU (£)', angle: 90, position: 'insideRight', fill: '#94a3b8' }} />
+              <YAxis yAxisId="left" stroke="#94a3b8" label={{ value: 'Revenue ($M)', angle: -90, position: 'insideLeft', fill: '#94a3b8' }} />
+              <YAxis yAxisId="right" orientation="right" stroke="#94a3b8" label={{ value: 'ARPU ($)', angle: 90, position: 'insideRight', fill: '#94a3b8' }} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
                 labelStyle={{ color: '#ffffff' }}
                 itemStyle={{ color: '#ffffff' }}
               />
               <Legend />
-              <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="#0ea5e9" strokeWidth={3} name="Revenue (£M)" />
-              <Line yAxisId="right" type="monotone" dataKey="arpu" stroke="#ec4899" strokeWidth={3} name="ARPU (£)" />
+              <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="#0ea5e9" strokeWidth={3} name="Revenue ($M)" />
+              <Line yAxisId="right" type="monotone" dataKey="arpu" stroke="#ec4899" strokeWidth={3} name="ARPU ($)" />
             </LineChart>
           </ResponsiveContainer>
         </motion.div>
@@ -241,7 +241,7 @@ export default function AnalyticsPage() {
         <div className="glass-card rounded-xl p-6 border-l-4 border-pink-500">
           <TrendingUp className="text-pink-400 mb-3" size={32} />
           <h4 className="text-white font-bold mb-2">ARPU Improvement</h4>
-          <p className="text-gray-300 text-sm">ARPU grew £0.47 in 6 months. Upselling premium packages showing strong results.</p>
+          <p className="text-gray-300 text-sm">ARPU grew $0.47 in 6 months. Upselling premium packages showing strong results.</p>
         </div>
       </motion.div>
     </div>

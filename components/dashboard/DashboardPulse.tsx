@@ -218,7 +218,7 @@ export function DashboardPulse() {
             </div>
             <div className="flex items-baseline justify-between">
               <span className="text-gray-400">At-risk value defended</span>
-              <span className="text-base font-semibold text-emerald-200">£1.2M</span>
+              <span className="text-base font-semibold text-emerald-200">$1.2M</span>
             </div>
             <div className="flex items-baseline justify-between">
               <span className="text-gray-400">Average lift vs forecast</span>

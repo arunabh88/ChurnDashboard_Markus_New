@@ -262,7 +262,7 @@ export function AnalyseView({
         <p className="mt-2 text-sm text-gray-300 leading-relaxed">
           At the current threshold of{' '}
           <span className="text-sky-200 font-semibold">{riskThreshold.toFixed(0)}%</span>, activating the top two segments delivers
-          an estimated <span className="text-emerald-300 font-semibold">£540K</span> revenue save with <span className="text-emerald-300 font-semibold">3.1×</span>{' '}
+          an estimated <span className="text-emerald-300 font-semibold">$540K</span> revenue save with <span className="text-emerald-300 font-semibold">3.1×</span>{' '}
           ROI. Dropping the threshold by 10 points increases coverage by <span className="text-sky-200 font-semibold">+18%</span>{' '}
           but dilutes ROI to <span className="text-orange-300 font-semibold">2.4×</span>. Use saved investigations to review
           alternate cohort focus before pushing changes to Act.

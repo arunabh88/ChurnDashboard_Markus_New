@@ -23,7 +23,7 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
   const [wizardDefaultSegment, setWizardDefaultSegment] = useState<string | null>(null);
   const kpiTiles = useMemo(
     () => [
-      { label: 'At-risk value protected', value: '£1.2M', delta: '+18% vs last 30 days', icon: <ShieldCheck size={18} className="text-emerald-300" /> },
+      { label: 'At-risk value protected', value: '$1.2M', delta: '+18% vs last 30 days', icon: <ShieldCheck size={18} className="text-emerald-300" /> },
       { label: 'Projected churn this month', value: '1.52%', delta: 'Target 1.45%', icon: <Target size={18} className="text-sky-300" /> },
       { label: 'Avg campaign ROI', value: '2.9×', delta: '+0.3 vs forecast', icon: <LineChart size={18} className="text-amber-300" /> },
     ],

@@ -18,7 +18,7 @@ export function formatNumber(num: number): string {
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-GB', {
     style: 'currency',
-    currency: 'GBP',
+    currency: 'USD',
     minimumFractionDigits: 0,
   }).format(amount);
 }

@@ -26,7 +26,7 @@ const DEFAULT_SUMMARY: PerformanceSummary = {
   onTrack: 18,
   underperforming: 4,
   atRisk: 2,
-  totalRevenueProtected: '£1.2M',
+  totalRevenueProtected: '$1.2M',
   averageROI: '2.9×',
 };
 

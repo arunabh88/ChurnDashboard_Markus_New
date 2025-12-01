@@ -211,7 +211,7 @@ export default function DecisionLayer({ onViewSegments, onSegmentAction, riskThr
           <div>
             <p className="text-white font-semibold">Projected Revenue Impact</p>
             <p className="text-gray-300 text-sm">
-              Implementing these recommendations could save <span className="text-sky-400 font-bold">£1.2M</span> in annual revenue
+              Implementing these recommendations could save <span className="text-sky-400 font-bold">$1.2M</span> in annual revenue
             </p>
           </div>
         </div>

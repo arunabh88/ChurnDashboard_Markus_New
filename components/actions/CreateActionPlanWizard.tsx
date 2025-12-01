@@ -76,9 +76,9 @@ export function CreateActionPlanWizard({
   const [segment, setSegment] = useState<string>('trial');
   const [playbook, setPlaybook] = useState<string>('loyalty-discount');
   const [offer, setOffer] = useState({
-    incentive: '£15 loyalty credit',
+    incentive: '$15 loyalty credit',
     message: 'Keep enjoying Sky. Renew today and unlock loyalty pricing.',
-    guardrail: 'Target churn risk >65%, CLTV > £250',
+    guardrail: 'Target churn risk >65%, CLTV > $250',
   });
   const [schedule, setSchedule] = useState({
     start: 'Immediate (today)',

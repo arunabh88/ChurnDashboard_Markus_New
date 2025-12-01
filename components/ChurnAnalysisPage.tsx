@@ -65,7 +65,7 @@ export default function ChurnAnalysisPage() {
     },
     { 
       title: 'Revenue at Risk', 
-      value: '£4.2M', 
+      value: '$4.2M', 
       change: '+15%', 
       icon: <DollarSign size={24} />,
       trend: 'negative',
@@ -207,7 +207,7 @@ export default function ChurnAnalysisPage() {
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-gray-500">{segment.percentage}% of at-risk</span>
-                    <span className="text-sky-400">Avg LTV: £{segment.ltv}</span>
+                    <span className="text-sky-400">Avg LTV: ${segment.ltv}</span>
                   </div>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function ChurnAnalysisPage() {
           </div>
           <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
             <h4 className="text-blue-400 font-semibold mb-2">Retention Opportunity</h4>
-            <p className="text-gray-300 text-sm">5,250 medium-risk subscribers with £420 LTV could be saved with targeted campaigns.</p>
+            <p className="text-gray-300 text-sm">5,250 medium-risk subscribers with $420 LTV could be saved with targeted campaigns.</p>
           </div>
         </div>
       </motion.div>

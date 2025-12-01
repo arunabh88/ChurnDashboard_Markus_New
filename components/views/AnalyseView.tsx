@@ -10,9 +10,10 @@ import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
 import DecisionLayer from '@/components/DecisionLayer';
 import { AnalyseControls } from '@/components/analyse/AnalyseControls';
 import { ModelVsReal } from '@/components/analyse/ModelVsReal';
+import { TrialTriggersDrilldown } from '@/components/analyse/TrialTriggersDrilldown';
 
 interface AnalyseViewProps {
-  mode: 'overview' | 'segments';
+  mode: 'overview' | 'segments' | 'trial-triggers';
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
@@ -86,6 +87,15 @@ export function AnalyseView({
       <DecisionSegmentsView
         onBack={onBackToOverview}
         onLaunchPlaybook={onLaunchPlaybook}
+      />
+    );
+  }
+
+  if (mode === 'trial-triggers') {
+    return (
+      <TrialTriggersDrilldown
+        onBack={onBackToOverview}
+        onCreatePlaybook={() => onLaunchPlaybook()}
       />
     );
   }

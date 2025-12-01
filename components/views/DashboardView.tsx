@@ -29,8 +29,12 @@ export function DashboardView({ onNavigateAnalyse, onNavigateActions }: Dashboar
           className="glass-card rounded-xl p-6"
         >
           <JourneyMap
-            onStageAction={() => {
-              onNavigateAnalyse('journey', 'segments');
+            onStageAction={(stageName) => {
+              if (stageName === 'Trial Users') {
+                onNavigateAnalyse('trial-triggers', 'trial-triggers');
+              } else {
+                onNavigateAnalyse('journey', 'segments');
+              }
             }}
           />
         </motion.div>

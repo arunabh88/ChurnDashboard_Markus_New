@@ -11,7 +11,7 @@ import { AnalyseView } from '@/components/views/AnalyseView';
 import { ActionView } from '@/components/views/ActionView';
 
 type TabKey = 'dashboard' | 'analyse' | 'act';
-type AnalyseMode = 'overview' | 'segments';
+type AnalyseMode = 'overview' | 'segments' | 'trial-triggers';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');

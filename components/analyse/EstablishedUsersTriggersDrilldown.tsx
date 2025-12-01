@@ -8,11 +8,11 @@ import {
   Users,
   TrendingDown,
   DollarSign,
-  ArrowLeft,
   Download,
   Sparkles,
   PlayCircle,
 } from 'lucide-react';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import {
   establishedUsersSubscribers,
   establishedUsersTriggerMetrics,
@@ -25,10 +25,12 @@ import {
 
 interface EstablishedUsersTriggersDrilldownProps {
   onBack: () => void;
+  navigationSource?: 'dashboard' | 'analyse' | null;
+  onNavigateToDashboard?: () => void;
   onCreatePlaybook: (triggers: string[]) => void;
 }
 
-export function EstablishedUsersTriggersDrilldown({ onBack, onCreatePlaybook }: EstablishedUsersTriggersDrilldownProps) {
+export function EstablishedUsersTriggersDrilldown({ onBack, navigationSource, onNavigateToDashboard, onCreatePlaybook }: EstablishedUsersTriggersDrilldownProps) {
   const [expandedTriggers, setExpandedTriggers] = useState<Set<string>>(new Set([ESTABLISHED_USERS_TRIGGERS.PRICE]));
 
   const toggleTrigger = (trigger: string) => {
@@ -63,20 +65,21 @@ export function EstablishedUsersTriggersDrilldown({ onBack, onCreatePlaybook }: 
         className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
       >
         <div>
-          <div className="flex items-center gap-2 text-sm text-gray-400 mb-2">
-            <button
-              type="button"
-              onClick={onBack}
-              className="hover:text-sky-300 transition-colors flex items-center gap-1"
-            >
-              <ArrowLeft size={14} />
-              Dashboard
-            </button>
-            <span>→</span>
-            <span>Analyse</span>
-            <span>→</span>
-            <span className="text-sky-300">Established Users Triggers</span>
-          </div>
+          {navigationSource === 'dashboard' ? (
+            <Breadcrumb
+              items={[
+                { label: 'Dashboard', onClick: onNavigateToDashboard || onBack },
+                { label: 'Analyse', onClick: onBack },
+                { label: 'Established Users Triggers', isActive: true },
+              ]}
+            />
+          ) : (
+            <Breadcrumb
+              variant="back-button"
+              onBack={onBack}
+              backLabel="Back to Journey Friction Analysis"
+            />
+          )}
           <h1 className="text-3xl font-bold text-white mb-2">Established Users: Trigger Analysis</h1>
           <p className="text-gray-400 max-w-2xl">
             Drilling into: Price sensitivity, Competitor offers, Life events

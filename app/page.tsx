@@ -19,11 +19,14 @@ export default function Home() {
   const [analyseMode, setAnalyseMode] = useState<AnalyseMode>('overview');
   const [analyseFocus, setAnalyseFocus] = useState<string | null>(null);
   const [actionsFocus, setActionsFocus] = useState<string | null>(null);
+  const [navigationSource, setNavigationSource] = useState<'dashboard' | 'analyse' | null>(null);
+  
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
     if (tab !== 'analyse') {
       setAnalyseMode('overview');
       setAnalyseFocus(null);
+      setNavigationSource(null);
     }
     if (tab !== 'act') {
       setActionsFocus(null);
@@ -51,6 +54,7 @@ export default function Home() {
               {activeTab === 'dashboard' && (
                 <DashboardView
                   onNavigateAnalyse={(anchor, mode = 'overview') => {
+                    setNavigationSource('dashboard');
                     setAnalyseMode(mode);
                     setAnalyseFocus(anchor ?? null);
                     handleTabChange('analyse');
@@ -65,10 +69,24 @@ export default function Home() {
               {activeTab === 'analyse' && (
                 <AnalyseView
                   mode={analyseMode}
+                  navigationSource={navigationSource}
                   onLaunchPlaybook={() => handleTabChange('act')}
-                  onShowSegments={() => setAnalyseMode('segments')}
-                  onBackToOverview={() => setAnalyseMode('overview')}
-                  onNavigateToDrilldown={(mode) => setAnalyseMode(mode)}
+                  onShowSegments={() => {
+                    setNavigationSource('analyse');
+                    setAnalyseMode('segments');
+                  }}
+                  onBackToOverview={() => {
+                    setAnalyseMode('overview');
+                    setNavigationSource(null);
+                  }}
+                  onNavigateToDrilldown={(mode) => {
+                    // If navigating to drill-down from Analyse tab, keep source as 'analyse'
+                    if (navigationSource !== 'dashboard') {
+                      setNavigationSource('analyse');
+                    }
+                    setAnalyseMode(mode);
+                  }}
+                  onNavigateToDashboard={() => handleTabChange('dashboard')}
                   focus={analyseFocus}
                 />
               )}

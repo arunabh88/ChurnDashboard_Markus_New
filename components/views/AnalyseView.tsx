@@ -17,19 +17,23 @@ import { ProblemContextSummary } from '@/components/analyse/ProblemContextSummar
 
 interface AnalyseViewProps {
   mode: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
+  navigationSource?: 'dashboard' | 'analyse' | null;
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
   onNavigateToDrilldown?: (mode: 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers') => void;
+  onNavigateToDashboard?: () => void;
   focus?: string | null;
 }
 
 export function AnalyseView({
   mode,
+  navigationSource,
   onLaunchPlaybook,
   onShowSegments,
   onBackToOverview,
   onNavigateToDrilldown,
+  onNavigateToDashboard,
   focus,
 }: AnalyseViewProps) {
   const [riskThreshold] = useState<number>(70);
@@ -74,10 +78,22 @@ export function AnalyseView({
     );
   }
 
+  const handleBackToJourneySection = () => {
+    // Scroll to Journey Friction Analysis section
+    const journeySection = document.getElementById('analyse-journey');
+    if (journeySection) {
+      journeySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Reset to overview mode to show Journey Friction Analysis
+    onBackToOverview();
+  };
+
   if (mode === 'trial-triggers') {
     return (
       <TrialTriggersDrilldown
-        onBack={onBackToOverview}
+        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        navigationSource={navigationSource}
+        onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}
       />
     );
@@ -86,7 +102,9 @@ export function AnalyseView({
   if (mode === 'new-users-triggers') {
     return (
       <NewUsersTriggersDrilldown
-        onBack={onBackToOverview}
+        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        navigationSource={navigationSource}
+        onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}
       />
     );
@@ -95,7 +113,9 @@ export function AnalyseView({
   if (mode === 'established-users-triggers') {
     return (
       <EstablishedUsersTriggersDrilldown
-        onBack={onBackToOverview}
+        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        navigationSource={navigationSource}
+        onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}
       />
     );

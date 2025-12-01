@@ -11,9 +11,11 @@ import DecisionLayer from '@/components/DecisionLayer';
 import { AnalyseControls } from '@/components/analyse/AnalyseControls';
 import { ModelVsReal } from '@/components/analyse/ModelVsReal';
 import { TrialTriggersDrilldown } from '@/components/analyse/TrialTriggersDrilldown';
+import { NewUsersTriggersDrilldown } from '@/components/analyse/NewUsersTriggersDrilldown';
+import { EstablishedUsersTriggersDrilldown } from '@/components/analyse/EstablishedUsersTriggersDrilldown';
 
 interface AnalyseViewProps {
-  mode: 'overview' | 'segments' | 'trial-triggers';
+  mode: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
@@ -94,6 +96,24 @@ export function AnalyseView({
   if (mode === 'trial-triggers') {
     return (
       <TrialTriggersDrilldown
+        onBack={onBackToOverview}
+        onCreatePlaybook={() => onLaunchPlaybook()}
+      />
+    );
+  }
+
+  if (mode === 'new-users-triggers') {
+    return (
+      <NewUsersTriggersDrilldown
+        onBack={onBackToOverview}
+        onCreatePlaybook={() => onLaunchPlaybook()}
+      />
+    );
+  }
+
+  if (mode === 'established-users-triggers') {
+    return (
+      <EstablishedUsersTriggersDrilldown
         onBack={onBackToOverview}
         onCreatePlaybook={() => onLaunchPlaybook()}
       />

@@ -8,7 +8,7 @@ import { PriorityAlerts } from '@/components/dashboard/PriorityAlerts';
 const HeaderBar = dynamic(() => import('@/components/HeaderBar'), { ssr: false });
 
 interface DashboardViewProps {
-  onNavigateAnalyse: (anchor?: string | null, mode?: 'overview' | 'segments') => void;
+  onNavigateAnalyse: (anchor?: string | null, mode?: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers') => void;
   onNavigateActions: (anchor?: string | null) => void;
 }
 
@@ -32,6 +32,10 @@ export function DashboardView({ onNavigateAnalyse, onNavigateActions }: Dashboar
             onStageAction={(stageName) => {
               if (stageName === 'Trial Users') {
                 onNavigateAnalyse('trial-triggers', 'trial-triggers');
+              } else if (stageName === 'New Users') {
+                onNavigateAnalyse('new-users-triggers', 'new-users-triggers');
+              } else if (stageName === 'Established Users') {
+                onNavigateAnalyse('established-users-triggers', 'established-users-triggers');
               } else {
                 onNavigateAnalyse('journey', 'segments');
               }

@@ -22,41 +22,41 @@ export default function ActionCenter() {
   const actions: Action[] = [
     {
       id: '1',
-      title: 'Loyalty Discount',
-      description: 'Reward high-value subscribers ahead of renewal to prevent competitive switching.',
+      title: 'Offer Loyalty Discount',
+      description: 'Protect high-value subscribers with tailored loyalty credits ahead of renewal.',
       expectedLift: 12,
-      roi: '3.6×',
+      roi: '3.4×',
       targetSegment: 'High CLTV Established',
       icon: <Gift size={24} />,
       type: 'discount',
     },
     {
       id: '2',
-      title: 'Trial Re-engagement',
-      description: 'Serve AI-curated onboarding playlists and concierge nudges to revive trials.',
+      title: 'Launch Re-engagement Campaign',
+      description: 'Serve AI-curated content playlists to revive disengaged trial + new cohorts.',
       expectedLift: 18,
-      roi: '2.9×',
+      roi: '2.8×',
       targetSegment: 'Trial & New segments',
       icon: <Tv size={24} />,
       type: 'content',
     },
     {
       id: '3',
-      title: 'Flexible Plan Switch',
-      description: 'Provide personalised downgrade/upgrade paths to retain price-sensitive households.',
+      title: 'Introduce Ad-supported Plan',
+      description: 'Downgrade pathway to ad-supported tier to retain price-sensitive households.',
       expectedLift: 15,
-      roi: '2.5×',
+      roi: '2.6×',
       targetSegment: 'Value seekers · Broadband bundles',
       icon: <DollarSign size={24} />,
       type: 'pricing',
     },
     {
       id: '4',
-      title: 'Content Personalization',
-      description: 'Push AI-curated content journeys to boost session depth for low engagement cohorts.',
-      expectedLift: 10,
-      roi: '2.2×',
-      targetSegment: 'Low engagement streaming segments',
+      title: 'Trigger Exit Feedback',
+      description: 'Capture real-time churn reasons with one-tap survey and automation follow-ups.',
+      expectedLift: 8,
+      roi: '1.9×',
+      targetSegment: 'Churn-intent subscribers',
       icon: <MessageCircle size={24} />,
       type: 'feedback',
     },
@@ -145,7 +145,7 @@ export default function ActionCenter() {
                 className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white px-4 py-2 rounded-lg font-semibold action-center-button"
               >
                 <Play size={16} />
-                <span className="text-white">Configure Playbook</span>
+                <span className="text-white">Configure &amp; Launch</span>
               </motion.button>
             </div>
           </motion.div>

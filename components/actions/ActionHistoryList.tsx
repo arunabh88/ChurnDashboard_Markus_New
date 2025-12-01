@@ -14,7 +14,6 @@ interface ActionRecord {
   forecastLift: string;
   actualLift: string;
   roi: string;
-  revenueSaved: string;
   owner: string;
 }
 
@@ -36,7 +35,6 @@ const ACTION_HISTORY: ActionRecord[] = [
     forecastLift: '+5.0%',
     actualLift: '+5.4%',
     roi: '3.1×',
-    revenueSaved: '£320K',
     owner: 'Amelia Turner',
   },
   {
@@ -50,7 +48,6 @@ const ACTION_HISTORY: ActionRecord[] = [
     forecastLift: '+6.2%',
     actualLift: '+4.8%',
     roi: '2.4×',
-    revenueSaved: '£180K',
     owner: 'Nina Brooks',
   },
   {
@@ -64,7 +61,6 @@ const ACTION_HISTORY: ActionRecord[] = [
     forecastLift: '+3.8%',
     actualLift: '+4.6%',
     roi: '2.7×',
-    revenueSaved: '£210K',
     owner: 'Deepak Rao',
   },
   {
@@ -78,7 +74,6 @@ const ACTION_HISTORY: ActionRecord[] = [
     forecastLift: '+5.2%',
     actualLift: '—',
     roi: '2.1×',
-    revenueSaved: '—',
     owner: 'Priya Patel',
   },
 ];
@@ -89,11 +84,7 @@ const HEALTH_STYLES: Record<ActionRecord['statusLevel'], { dot: string; label: s
   'at-risk': { dot: 'bg-red-500', label: 'At risk' },
 };
 
-interface ActionHistoryListProps {
-  onReviewSegment?: (segment: string) => void;
-}
-
-export function ActionHistoryList({ onReviewSegment }: ActionHistoryListProps) {
+export function ActionHistoryList() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -126,9 +117,7 @@ export function ActionHistoryList({ onReviewSegment }: ActionHistoryListProps) {
               <th className="py-3 px-4 text-right">Expected</th>
               <th className="py-3 px-4 text-right">Actual</th>
               <th className="py-3 px-4 text-right">ROI</th>
-              <th className="py-3 px-4 text-right">Revenue Saved</th>
               <th className="py-3 px-4">Owner</th>
-              <th className="py-3 px-4 text-right">Analyse</th>
             </tr>
           </thead>
           <tbody>
@@ -164,16 +153,7 @@ export function ActionHistoryList({ onReviewSegment }: ActionHistoryListProps) {
                 <td className="py-4 px-4 text-right text-gray-200">{entry.expectedLift}</td>
                 <td className="py-4 px-4 text-right text-sky-200">{entry.actualLift}</td>
                 <td className="py-4 px-4 text-right text-emerald-300 font-semibold">{entry.roi}</td>
-                <td className="py-4 px-4 text-right text-emerald-200">{entry.revenueSaved}</td>
                 <td className="py-4 px-4 text-gray-300">{entry.owner}</td>
-                <td className="py-4 px-4 text-right">
-                  <button
-                    className="inline-flex items-center gap-1 rounded-lg border border-sky-500/30 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-100 hover:bg-sky-500/25 transition-colors"
-                    onClick={() => onReviewSegment?.(entry.segment)}
-                  >
-                    Review in Analyse
-                  </button>
-                </td>
               </motion.tr>
             ))}
           </tbody>

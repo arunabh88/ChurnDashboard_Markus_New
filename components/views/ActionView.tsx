@@ -11,11 +11,10 @@ import { CreateActionPlanWizard } from '@/components/actions/CreateActionPlanWiz
 
 interface ActionViewProps {
   onOpenNewAction: () => void;
-  onReviewSegment: (segment: string) => void;
   focus?: string | null;
 }
 
-export function ActionView({ onOpenNewAction, onReviewSegment, focus }: ActionViewProps) {
+export function ActionView({ onOpenNewAction, focus }: ActionViewProps) {
   const actionListRef = useRef<HTMLDivElement | null>(null);
   const [wizardOpen, setWizardOpen] = useState(false);
   const [wizardDefaultSegment, setWizardDefaultSegment] = useState<string | null>(null);
@@ -267,7 +266,7 @@ export function ActionView({ onOpenNewAction, onReviewSegment, focus }: ActionVi
       </motion.div>
 
       <div ref={actionListRef} id="actions-history">
-        <ActionHistoryList onReviewSegment={onReviewSegment} />
+        <ActionHistoryList />
       </div>
 
       <motion.div

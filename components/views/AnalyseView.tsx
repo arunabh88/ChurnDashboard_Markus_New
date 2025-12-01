@@ -8,7 +8,6 @@ import { JourneyLens } from '@/components/analyse/JourneyLens';
 import MultiSignalMatrix from '@/components/MultiSignalMatrix';
 import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
 import DecisionLayer from '@/components/DecisionLayer';
-import { AnalyseControls } from '@/components/analyse/AnalyseControls';
 import { ModelVsReal } from '@/components/analyse/ModelVsReal';
 import { TrialTriggersDrilldown } from '@/components/analyse/TrialTriggersDrilldown';
 import { NewUsersTriggersDrilldown } from '@/components/analyse/NewUsersTriggersDrilldown';
@@ -30,27 +29,7 @@ export function AnalyseView({
   onBackToOverview,
   focus,
 }: AnalyseViewProps) {
-  const [riskThreshold, setRiskThreshold] = useState<number>(70);
-
-  const savedViews = useMemo(
-    () => [
-      {
-        id: 'sports-trialists',
-        name: 'Sports trialists – week 0-4',
-        description: 'Focus on high-value sports audiences during onboarding.',
-        lastViewed: '2h ago',
-        filters: ['Sports bundle', 'Trial', 'UK', 'Mobile'],
-      },
-      {
-        id: 'loyalty-stable',
-        name: 'Loyalty renewals – price push',
-        description: 'Established subscribers reacting to price test in EMEA.',
-        lastViewed: 'Yesterday',
-        filters: ['Established', 'EMEA', 'Price action'],
-      },
-    ],
-    []
-  );
+  const [riskThreshold] = useState<number>(70);
 
   const insightCallouts = useMemo(
     () => [
@@ -60,11 +39,6 @@ export function AnalyseView({
     ],
     [riskThreshold]
   );
-
-  const handleLoadView = (view: (typeof savedViews)[number]) => {
-    // Placeholder callback; in production we’d hydrate filters/query state.
-    setRiskThreshold(view.id === 'sports-trialists' ? 75 : 60);
-  };
 
   useEffect(() => {
     if (!focus) return;
@@ -186,14 +160,6 @@ export function AnalyseView({
       <ProblemContextSummary
         onTakeAction={onLaunchPlaybook}
         onViewDetails={handleViewDetails}
-      />
-
-      <AnalyseControls
-        riskThreshold={riskThreshold}
-        onRiskThresholdChange={setRiskThreshold}
-        savedViews={savedViews}
-        onLoadSavedView={handleLoadView}
-        onLaunchPlaybook={onLaunchPlaybook}
       />
 
       {/* Section 1: Churn Signal Matrix - Highest Priority */}

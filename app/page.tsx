@@ -73,7 +73,15 @@ export default function Home() {
               )}
 
               {activeTab === 'act' && (
-                <ActionView onOpenNewAction={() => setCopilotOpen(true)} focus={actionsFocus} />
+                <ActionView
+                  onOpenNewAction={() => setCopilotOpen(true)}
+                  onReviewSegment={(segment) => {
+                    setAnalyseMode('segments');
+                    setAnalyseFocus(segment.toLowerCase());
+                    handleTabChange('analyse');
+                  }}
+                  focus={actionsFocus}
+                />
               )}
             </div>
 

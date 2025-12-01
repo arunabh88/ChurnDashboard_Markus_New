@@ -135,3 +135,4 @@ export default function Navigation({ activePage, onPageChange }: NavigationProps
   );
 }
 
+// 4 Navigation Items: Dashboard, Churn Analysis, Subscribers, Analytics

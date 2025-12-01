@@ -14,7 +14,7 @@ interface PerformanceAlert {
 }
 
 interface PerformanceAlertBannerProps {
-  alerts: PerformanceAlert[];
+  alerts?: PerformanceAlert[];
   onViewDetails?: (alertId: string) => void;
   onPauseUnderperforming?: () => void;
 }
@@ -42,10 +42,11 @@ const DEFAULT_ALERTS: PerformanceAlert[] = [
 ];
 
 export function PerformanceAlertBanner({
-  alerts = DEFAULT_ALERTS,
+  alerts,
   onViewDetails,
   onPauseUnderperforming,
 }: PerformanceAlertBannerProps) {
+  const displayAlerts = alerts || DEFAULT_ALERTS;
   const getAlertStyle = (type: string) => {
     switch (type) {
       case 'underperforming':
@@ -72,9 +73,9 @@ export function PerformanceAlertBanner({
     }
   };
 
-  const underperformingAlerts = alerts.filter((a) => a.type === 'underperforming');
-  const onTrackAlerts = alerts.filter((a) => a.type === 'on-track');
-  const atRiskAlerts = alerts.filter((a) => a.type === 'at-risk');
+  const underperformingAlerts = displayAlerts.filter((a) => a.type === 'underperforming');
+  const onTrackAlerts = displayAlerts.filter((a) => a.type === 'on-track');
+  const atRiskAlerts = displayAlerts.filter((a) => a.type === 'at-risk');
 
   return (
     <div className="space-y-3">

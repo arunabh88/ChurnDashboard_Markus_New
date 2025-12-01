@@ -14,7 +14,7 @@ interface PerformanceSummary {
 }
 
 interface ActionPerformanceDashboardProps {
-  summary: PerformanceSummary;
+  summary?: PerformanceSummary;
   onFilterChange?: (filter: string) => void;
   onViewAll?: () => void;
   onPauseUnderperforming?: () => void;
@@ -31,12 +31,13 @@ const DEFAULT_SUMMARY: PerformanceSummary = {
 };
 
 export function ActionPerformanceDashboard({
-  summary = DEFAULT_SUMMARY,
+  summary,
   onFilterChange,
   onViewAll,
   onPauseUnderperforming,
   onCloneWinning,
 }: ActionPerformanceDashboardProps) {
+  const displaySummary = summary || DEFAULT_SUMMARY;
   const [activeFilter, setActiveFilter] = useState<string>('all');
 
   const handleFilterChange = (filter: string) => {
@@ -47,28 +48,28 @@ export function ActionPerformanceDashboard({
   const summaryCards = [
     {
       label: 'Total Actions',
-      value: summary.totalActions.toString(),
+      value: displaySummary.totalActions.toString(),
       icon: <TrendingUp size={20} className="text-sky-400" />,
       bg: 'from-blue-500 to-cyan-500',
     },
     {
       label: 'On-Track',
-      value: `${summary.onTrack} (${Math.round((summary.onTrack / summary.totalActions) * 100)}%)`,
+      value: `${displaySummary.onTrack} (${Math.round((displaySummary.onTrack / displaySummary.totalActions) * 100)}%)`,
       icon: <CheckCircle size={20} className="text-emerald-400" />,
       bg: 'from-emerald-500 to-green-500',
-      highlight: summary.onTrack,
+      highlight: displaySummary.onTrack,
     },
     {
       label: 'Underperforming',
-      value: `${summary.underperforming} (${Math.round((summary.underperforming / summary.totalActions) * 100)}%)`,
+      value: `${displaySummary.underperforming} (${Math.round((displaySummary.underperforming / displaySummary.totalActions) * 100)}%)`,
       icon: <AlertTriangle size={20} className="text-red-400" />,
       bg: 'from-red-500 to-orange-500',
-      highlight: summary.underperforming,
+      highlight: displaySummary.underperforming,
       isWarning: true,
     },
     {
       label: 'At-Risk',
-      value: `${summary.atRisk} (${Math.round((summary.atRisk / summary.totalActions) * 100)}%)`,
+      value: `${displaySummary.atRisk} (${Math.round((displaySummary.atRisk / displaySummary.totalActions) * 100)}%)`,
       icon: <Clock size={20} className="text-amber-400" />,
       bg: 'from-amber-500 to-yellow-500',
     },
@@ -109,18 +110,18 @@ export function ActionPerformanceDashboard({
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <p className="text-xs text-gray-400 mb-1">Total Revenue Protected</p>
-                <p className="text-2xl font-bold text-white">{summary.totalRevenueProtected}</p>
+                <p className="text-2xl font-bold text-white">{displaySummary.totalRevenueProtected}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-400 mb-1">Average ROI</p>
-                <p className="text-2xl font-bold text-emerald-300">{summary.averageROI}</p>
+                <p className="text-2xl font-bold text-emerald-300">{displaySummary.averageROI}</p>
               </div>
             </div>
             <p className="mt-4 text-sm text-gray-300">
-              <span className="font-semibold text-white">Campaigns On-Track: {summary.onTrack}/{summary.totalActions} (75%)</span>
-              {summary.underperforming > 0 && (
+              <span className="font-semibold text-white">Campaigns On-Track: {displaySummary.onTrack}/{displaySummary.totalActions} (75%)</span>
+              {displaySummary.underperforming > 0 && (
                 <span className="ml-2 text-red-400">
-                  • Underperforming: {summary.underperforming}/{summary.totalActions} (highlighted)
+                  • Underperforming: {displaySummary.underperforming}/{displaySummary.totalActions} (highlighted)
                 </span>
               )}
             </p>
@@ -138,7 +139,7 @@ export function ActionPerformanceDashboard({
             <Filter size={16} />
             View All Campaigns
           </motion.button>
-          {summary.underperforming > 0 && onPauseUnderperforming && (
+          {displaySummary.underperforming > 0 && onPauseUnderperforming && (
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

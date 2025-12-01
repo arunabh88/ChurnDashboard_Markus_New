@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import { Filter, PlayCircle, Sparkles, Lightbulb } from 'lucide-react';
 import { KpiTrendOverview } from '@/components/analyse/KpiTrendOverview';
-import { JourneyLens } from '@/components/analyse/JourneyLens';
+import { JourneyDrilldownView } from '@/components/analyse/JourneyDrilldownView';
+import { CreateInterventionFlow } from '@/components/analyse/CreateInterventionFlow';
 import MultiSignalMatrix from '@/components/MultiSignalMatrix';
 import { DecisionSegmentsView } from '@/components/views/DecisionSegmentsView';
 import DecisionLayer from '@/components/DecisionLayer';
@@ -19,6 +20,7 @@ interface AnalyseViewProps {
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
+  onNavigateToDrilldown?: (mode: 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers') => void;
   focus?: string | null;
 }
 
@@ -27,9 +29,13 @@ export function AnalyseView({
   onLaunchPlaybook,
   onShowSegments,
   onBackToOverview,
+  onNavigateToDrilldown,
   focus,
 }: AnalyseViewProps) {
   const [riskThreshold] = useState<number>(70);
+  const [interventionFlowOpen, setInterventionFlowOpen] = useState(false);
+  const [interventionStage, setInterventionStage] = useState<string>('');
+  const [interventionTriggers, setInterventionTriggers] = useState<string[]>([]);
 
   const insightCallouts = useMemo(
     () => [
@@ -168,14 +174,25 @@ export function AnalyseView({
       </motion.div>
 
       {/* Section 2: Journey Friction Points */}
+      {/* Section 2: Journey Friction Points - Drill-Down View */}
       <motion.div id="analyse-journey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.14 }}>
-        <JourneyLens
-          onNavigateToPhase={(phase) => {
-            if (phase === 'Trial' || phase === 'New') {
-              onShowSegments();
+        <JourneyDrilldownView
+          onNavigateToDrilldown={(stage) => {
+            if (onNavigateToDrilldown) {
+              if (stage === 'trial') {
+                onNavigateToDrilldown('trial-triggers');
+              } else if (stage === 'new') {
+                onNavigateToDrilldown('new-users-triggers');
+              } else if (stage === 'established') {
+                onNavigateToDrilldown('established-users-triggers');
+              }
             }
           }}
-          onNavigateAction={onLaunchPlaybook}
+          onCreateIntervention={(stage, triggers) => {
+            setInterventionStage(stage);
+            setInterventionTriggers(triggers);
+            setInterventionFlowOpen(true);
+          }}
         />
       </motion.div>
 
@@ -231,6 +248,22 @@ export function AnalyseView({
           alternate cohort focus before pushing changes to Act.
         </p>
       </motion.div>
+
+      {/* Create Intervention Flow Modal */}
+      <CreateInterventionFlow
+        open={interventionFlowOpen}
+        onClose={() => {
+          setInterventionFlowOpen(false);
+          setInterventionStage('');
+          setInterventionTriggers([]);
+        }}
+        stage={interventionStage}
+        triggers={interventionTriggers}
+        onLaunchAction={() => {
+          // Navigate to Act tab with pre-filled context
+          onLaunchPlaybook();
+        }}
+      />
     </div>
   );
 }

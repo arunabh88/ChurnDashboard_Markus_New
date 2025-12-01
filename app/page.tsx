@@ -68,6 +68,7 @@ export default function Home() {
                   onLaunchPlaybook={() => handleTabChange('act')}
                   onShowSegments={() => setAnalyseMode('segments')}
                   onBackToOverview={() => setAnalyseMode('overview')}
+                  onNavigateToDrilldown={(mode) => setAnalyseMode(mode)}
                   focus={analyseFocus}
                 />
               )}

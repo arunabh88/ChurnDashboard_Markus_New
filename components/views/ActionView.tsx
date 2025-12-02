@@ -132,13 +132,16 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
 
       {/* Problem Context Summary - Tabular View */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        id="actions-problem-context"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08 }}
-        className="space-y-4"
       >
-        <h2 className="text-2xl font-bold text-white mb-1">Problem Context & Tackling Strategy</h2>
-        <div className="glass-card rounded-xl border border-sky-500/20 overflow-hidden">
+        <div className="glass-card rounded-xl p-6">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white mb-1">Problem Context & Tackling Strategy</h2>
+            <p className="text-gray-400">Key challenges and their corresponding retention strategies.</p>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-navy-900/50 border-b border-sky-500/20">

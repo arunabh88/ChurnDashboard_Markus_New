@@ -57,14 +57,17 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
   const problemContext = useMemo(
     () => [
       {
+        id: 'trial-churn',
         challenge: 'Trial churn spike: 2,100 users at risk',
         strategy: 'Focus: Onboarding playbooks for Trial segment',
       },
       {
+        id: 'price-sensitivity',
         challenge: 'Price sensitivity affecting 28,500 established users',
         strategy: 'Next: Loyalty programs for Established segment',
       },
       {
+        id: 'competitor-offers',
         challenge: 'Competitor offers impacting 18,900 subscribers',
         strategy: 'Monitor: Competitor response campaigns',
       },
@@ -134,24 +137,24 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
         transition={{ delay: 0.08 }}
         className="space-y-4"
       >
-        <p className="text-sm font-semibold uppercase tracking-wide text-sky-200">Problem Context & Tackling Strategy</p>
-        <div className="space-y-4">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-sky-200">Problem Context & Tackling Strategy</h2>
+        <div className="space-y-3">
           {problemContext.map((item, index) => (
             <motion.div
-              key={index}
+              key={item.id}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + index * 0.1 }}
-              className="group glass-card rounded-xl border border-sky-500/20 p-5 hover:border-sky-500/40 hover:shadow-[0_8px_24px_rgba(14,165,233,0.2)] transition-all"
+              transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
+              className="group glass-card rounded-xl border border-sky-500/20 p-4 lg:p-5 hover:border-sky-500/40 hover:shadow-[0_8px_24px_rgba(14,165,233,0.2)] transition-all duration-300"
             >
-              <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+              <div className="flex flex-col lg:flex-row lg:items-stretch gap-3 lg:gap-4">
                 {/* Challenge Section */}
-                <div className="flex-1 rounded-lg border border-red-500/30 bg-red-500/10 p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="rounded-lg border border-red-500/40 bg-red-500/20 p-2 flex-shrink-0">
-                      <AlertTriangle size={18} className="text-red-400" />
+                <div className="flex-1 rounded-lg border border-red-500/30 bg-red-500/10 p-3 lg:p-4">
+                  <div className="flex items-start gap-2.5 lg:gap-3">
+                    <div className="rounded-lg border border-red-500/40 bg-red-500/20 p-1.5 lg:p-2 flex-shrink-0">
+                      <AlertTriangle size={16} className="lg:w-[18px] lg:h-[18px] text-red-400" aria-hidden="true" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-red-300 mb-1">Challenge</p>
                       <p className="text-sm text-white leading-relaxed">{item.challenge}</p>
                     </div>
@@ -159,32 +162,34 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
                 </div>
 
                 {/* Connector Arrow */}
-                <div className="flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center justify-center flex-shrink-0 px-2">
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0.5 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15 + index * 0.1 }}
-                    className="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-red-500/20 to-sky-500/20 border border-sky-500/30"
+                    transition={{ delay: 0.15 + index * 0.08, duration: 0.3 }}
+                    className="hidden lg:flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-red-500/20 to-sky-500/20 border border-sky-500/30"
+                    aria-label="Connects challenge to strategy"
                   >
-                    <ArrowRight size={20} className="text-sky-400" />
+                    <ArrowRight size={18} className="lg:w-5 lg:h-5 text-sky-400" aria-hidden="true" />
                   </motion.div>
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0.5 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15 + index * 0.1 }}
+                    transition={{ delay: 0.15 + index * 0.08, duration: 0.3 }}
                     className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-red-500/20 to-sky-500/20 border border-sky-500/30"
+                    aria-label="Connects challenge to strategy"
                   >
-                    <ArrowRight size={16} className="text-sky-400 rotate-90" />
+                    <ArrowRight size={14} className="text-sky-400 rotate-90" aria-hidden="true" />
                   </motion.div>
                 </div>
 
                 {/* Strategy Section */}
-                <div className="flex-1 rounded-lg border border-sky-500/30 bg-sky-500/10 p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="rounded-lg border border-sky-500/40 bg-sky-500/20 p-2 flex-shrink-0">
-                      <Target size={18} className="text-sky-400" />
+                <div className="flex-1 rounded-lg border border-sky-500/30 bg-sky-500/10 p-3 lg:p-4">
+                  <div className="flex items-start gap-2.5 lg:gap-3">
+                    <div className="rounded-lg border border-sky-500/40 bg-sky-500/20 p-1.5 lg:p-2 flex-shrink-0">
+                      <Target size={16} className="lg:w-[18px] lg:h-[18px] text-sky-400" aria-hidden="true" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-sky-300 mb-1">Strategy</p>
                       <p className="text-sm text-white leading-relaxed">{item.strategy}</p>
                     </div>

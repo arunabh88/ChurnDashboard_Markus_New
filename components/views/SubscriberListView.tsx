@@ -189,31 +189,34 @@ export function SubscriberListView({ onBack, onNavigateToAction }: SubscriberLis
         className="glass-card rounded-xl p-6 border border-sky-500/20"
       >
         <div className="flex flex-col gap-4">
-          {/* Search Bar */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <input
-              type="text"
-              placeholder="Search by name, email, or subscriber ID..."
-              value={filters.searchQuery}
-              onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
-              className="w-full bg-navy-900/60 border border-sky-500/30 rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50"
-            />
-          </div>
-
-          {/* Filter Toggle */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            className="flex items-center justify-between p-3 rounded-lg border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/15 transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <Filter size={16} className="text-sky-300" />
-              <span className="text-sm font-semibold text-sky-200">Advanced Filters</span>
+          {/* Search Bar and Filter Toggle - Side by Side */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* Search Bar */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="text"
+                placeholder="Search by name, email, or subscriber ID..."
+                value={filters.searchQuery}
+                onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
+                className="w-full bg-navy-900/60 border border-sky-500/30 rounded-lg pl-10 pr-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50"
+              />
             </div>
-            {filtersOpen ? <ChevronUp size={16} className="text-sky-300" /> : <ChevronDown size={16} className="text-sky-300" />}
-          </motion.button>
+
+            {/* Filter Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => setFiltersOpen(!filtersOpen)}
+              className="flex items-center justify-between gap-2 px-4 py-2.5 rounded-lg border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/15 transition-colors whitespace-nowrap"
+            >
+              <div className="flex items-center gap-2">
+                <Filter size={16} className="text-sky-300" />
+                <span className="text-sm font-semibold text-sky-200">Advanced Filters</span>
+              </div>
+              {filtersOpen ? <ChevronUp size={16} className="text-sky-300" /> : <ChevronDown size={16} className="text-sky-300" />}
+            </motion.button>
+          </div>
 
           {/* Filter Panel */}
           {filtersOpen && (

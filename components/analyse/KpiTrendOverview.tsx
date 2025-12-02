@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Area,
@@ -17,7 +17,8 @@ interface KpiTrendOverviewProps {
   onFilterChange?: (filters: { region: string; plan: string; device: string; acquisition: string; range: string }) => void;
 }
 
-const churnTrend = [
+// Base data - will be filtered/transformed based on selected filters
+const baseChurnTrend = [
   { month: 'Nov', churn: 1.9, target: 1.7 },
   { month: 'Dec', churn: 1.8, target: 1.65 },
   { month: 'Jan', churn: 1.7, target: 1.6 },
@@ -25,14 +26,14 @@ const churnTrend = [
   { month: 'Mar', churn: 1.52, target: 1.5 },
 ];
 
-const segmentTrend = [
+const baseSegmentTrend = [
   { segment: 'Trial', churn: 6.2 },
   { segment: 'New', churn: 2.1 },
   { segment: 'Established', churn: 0.9 },
   { segment: 'Save First', churn: 3.8 },
 ];
 
-const cltvTrend = [
+const baseCltvTrend = [
   { month: 'Nov', cltv: 422, cac: 128 },
   { month: 'Dec', cltv: 438, cac: 130 },
   { month: 'Jan', cltv: 452, cac: 132 },
@@ -40,7 +41,7 @@ const cltvTrend = [
   { month: 'Mar', cltv: 468, cac: 136 },
 ];
 
-const engagementTrend = [
+const baseEngagementTrend = [
   { week: 'W1', drop: 11 },
   { week: 'W2', drop: 10 },
   { week: 'W3', drop: 13 },
@@ -48,7 +49,53 @@ const engagementTrend = [
   { week: 'W5', drop: 8 },
 ];
 
+// Filter multipliers to simulate different data based on filters
+const getFilterMultiplier = (
+  region: string,
+  plan: string,
+  device: string,
+  acquisition: string,
+  range: string
+) => {
+  let multiplier = 1;
+
+  // Region adjustments
+  if (region === 'EMEA') multiplier *= 1.1;
+  if (region === 'Americas') multiplier *= 0.95;
+  if (region === 'APAC') multiplier *= 1.15;
+
+  // Plan adjustments
+  if (plan === 'Sports') multiplier *= 1.2;
+  if (plan === 'Entertainment') multiplier *= 0.9;
+  if (plan === 'Broadband') multiplier *= 1.05;
+
+  // Device adjustments
+  if (device === 'Mobile') multiplier *= 1.1;
+  if (device === 'CTV') multiplier *= 0.85;
+  if (device === 'Web') multiplier *= 1.05;
+
+  // Acquisition adjustments
+  if (acquisition === 'Paid') multiplier *= 1.15;
+  if (acquisition === 'Organic') multiplier *= 0.9;
+  if (acquisition === 'Partner') multiplier *= 1.05;
+
+  // Range adjustments (affects data points shown)
+  if (range === '7 days') multiplier *= 1.3;
+  if (range === '30 days') multiplier *= 1.15;
+  if (range === '60 days') multiplier *= 1.05;
+
+  return multiplier;
+};
+
 export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
+  const [selectedFilters, setSelectedFilters] = useState({
+    region: 'Global',
+    plan: 'All plans',
+    device: 'All devices',
+    acquisition: 'All sources',
+    range: '90 days',
+  });
+
   const filters = useMemo(
     () => ({
       region: ['Global', 'EMEA', 'Americas', 'APAC'],
@@ -60,15 +107,65 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
     []
   );
 
-  const handleChange = (key: keyof typeof filters, value: string) => {
-    onFilterChange?.({
-      region: key === 'region' ? value : filters.region[0],
-      plan: key === 'plan' ? value : filters.plan[0],
-      device: key === 'device' ? value : filters.device[0],
-      acquisition: key === 'acquisition' ? value : filters.acquisition[0],
-      range: key === 'range' ? value : filters.range[0],
-    });
+  const handleChange = (key: keyof typeof selectedFilters, value: string) => {
+    const newFilters = { ...selectedFilters, [key]: value };
+    setSelectedFilters(newFilters);
+    onFilterChange?.(newFilters);
   };
+
+  // Calculate filtered data based on selected filters
+  const filteredData = useMemo(() => {
+    const multiplier = getFilterMultiplier(
+      selectedFilters.region,
+      selectedFilters.plan,
+      selectedFilters.device,
+      selectedFilters.acquisition,
+      selectedFilters.range
+    );
+
+    // Determine how many data points to show based on range
+    let dataPoints = 5;
+    if (selectedFilters.range === '7 days') dataPoints = 2;
+    else if (selectedFilters.range === '30 days') dataPoints = 3;
+    else if (selectedFilters.range === '60 days') dataPoints = 4;
+
+    // Filter churn trend data
+    const churnTrend = baseChurnTrend
+      .slice(-dataPoints)
+      .map((item) => ({
+        ...item,
+        churn: Number((item.churn * multiplier).toFixed(2)),
+        target: Number((item.target * (multiplier * 0.95)).toFixed(2)),
+      }));
+
+    // Filter segment trend data
+    const segmentTrend = baseSegmentTrend.map((item) => ({
+      ...item,
+      churn: Number((item.churn * multiplier).toFixed(1)),
+    }));
+
+    // Filter CLTV trend data
+    const cltvTrend = baseCltvTrend.slice(-dataPoints).map((item) => ({
+      ...item,
+      cltv: Number((item.cltv * multiplier).toFixed(0)),
+      cac: Number((item.cac * (multiplier * 0.8)).toFixed(0)),
+    }));
+
+    // Filter engagement trend data
+    const engagementTrend = baseEngagementTrend
+      .slice(-dataPoints)
+      .map((item) => ({
+        ...item,
+        drop: Number((item.drop * multiplier).toFixed(0)),
+      }));
+
+    return {
+      churnTrend,
+      segmentTrend,
+      cltvTrend,
+      engagementTrend,
+    };
+  }, [selectedFilters]);
 
   return (
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
@@ -81,43 +178,58 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         </div>
         <div className="flex flex-wrap gap-2">
           <select
+            value={selectedFilters.region}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('region', event.target.value)}
           >
             {filters.region.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={selectedFilters.plan}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('plan', event.target.value)}
           >
             {filters.plan.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={selectedFilters.device}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('device', event.target.value)}
           >
             {filters.device.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={selectedFilters.acquisition}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('acquisition', event.target.value)}
           >
             {filters.acquisition.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
           <select
+            value={selectedFilters.range}
             className="rounded-lg border border-sky-500/30 bg-navy-900/60 px-3 py-2 text-xs font-semibold text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/70"
             onChange={(event) => handleChange('range', event.target.value)}
           >
             {filters.range.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
         </div>
@@ -132,7 +244,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Churn vs target</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={churnTrend}>
+              <AreaChart data={filteredData.churnTrend}>
                 <defs>
                   <linearGradient id="churnActual" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.8} />
@@ -168,7 +280,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         >
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Segment churn snapshot</p>
           <div className="space-y-3">
-            {segmentTrend.map((row) => (
+            {filteredData.segmentTrend.map((row) => (
               <div key={row.segment} className="rounded-lg border border-sky-500/20 bg-navy-900/70 px-3 py-2">
                 <div className="flex items-center justify-between text-sm text-white">
                   <span>{row.segment}</span>
@@ -193,7 +305,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">CLTV vs CAC</p>
           <div className="h-48">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={cltvTrend}>
+              <AreaChart data={filteredData.cltvTrend}>
                 <defs>
                   <linearGradient id="cltvLine" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#f97316" stopOpacity={0.8} />
@@ -229,7 +341,7 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
         >
           <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-sky-200">Engagement drop (hours streamed)</p>
           <div className="space-y-2">
-            {engagementTrend.map((item) => (
+            {filteredData.engagementTrend.map((item) => (
               <div key={item.week} className="flex items-center justify-between text-xs text-gray-300">
                 <span className="text-white font-semibold">{item.week}</span>
                 <div className="relative h-1.5 w-3/4 rounded-full bg-slate-900/70">

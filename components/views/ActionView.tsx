@@ -130,74 +130,53 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
         }}
       />
 
-      {/* Problem Context Summary */}
+      {/* Problem Context Summary - Tabular View */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08 }}
         className="space-y-4"
       >
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-sky-200">Problem Context & Tackling Strategy</h2>
-        <div className="space-y-3">
-          {problemContext.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
-              className="group glass-card rounded-xl border border-sky-500/20 p-4 lg:p-5 hover:border-sky-500/40 hover:shadow-[0_8px_24px_rgba(14,165,233,0.2)] transition-all duration-300"
-            >
-              <div className="flex flex-col lg:flex-row lg:items-stretch gap-3 lg:gap-4">
-                {/* Challenge Section */}
-                <div className="flex-1 rounded-lg border border-red-500/30 bg-red-500/10 p-3 lg:p-4">
-                  <div className="flex items-start gap-2.5 lg:gap-3">
-                    <div className="rounded-lg border border-red-500/40 bg-red-500/20 p-1.5 lg:p-2 flex-shrink-0">
-                      <AlertTriangle size={16} className="lg:w-[18px] lg:h-[18px] text-red-400" aria-hidden="true" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-red-300 mb-1">Challenge</p>
-                      <p className="text-sm text-white leading-relaxed">{item.challenge}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Connector Arrow */}
-                <div className="flex items-center justify-center flex-shrink-0 px-2">
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0.5 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15 + index * 0.08, duration: 0.3 }}
-                    className="hidden lg:flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-red-500/20 to-sky-500/20 border border-sky-500/30"
-                    aria-label="Connects challenge to strategy"
+        <h2 className="text-2xl font-bold text-white mb-1">Problem Context & Tackling Strategy</h2>
+        <div className="glass-card rounded-xl border border-sky-500/20 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-navy-900/50 border-b border-sky-500/20">
+                <tr>
+                  <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Challenge</th>
+                  <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Strategy</th>
+                </tr>
+              </thead>
+              <tbody>
+                {problemContext.map((item, index) => (
+                  <motion.tr
+                    key={item.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 + index * 0.1 }}
+                    className="border-b border-sky-500/10 hover:bg-white/5 transition-colors"
                   >
-                    <ArrowRight size={18} className="lg:w-5 lg:h-5 text-sky-400" aria-hidden="true" />
-                  </motion.div>
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0.5 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15 + index * 0.08, duration: 0.3 }}
-                    className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-red-500/20 to-sky-500/20 border border-sky-500/30"
-                    aria-label="Connects challenge to strategy"
-                  >
-                    <ArrowRight size={14} className="text-sky-400 rotate-90" aria-hidden="true" />
-                  </motion.div>
-                </div>
-
-                {/* Strategy Section */}
-                <div className="flex-1 rounded-lg border border-sky-500/30 bg-sky-500/10 p-3 lg:p-4">
-                  <div className="flex items-start gap-2.5 lg:gap-3">
-                    <div className="rounded-lg border border-sky-500/40 bg-sky-500/20 p-1.5 lg:p-2 flex-shrink-0">
-                      <Target size={16} className="lg:w-[18px] lg:h-[18px] text-sky-400" aria-hidden="true" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-sky-300 mb-1">Strategy</p>
-                      <p className="text-sm text-white leading-relaxed">{item.strategy}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                    <td className="py-4 px-4">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-lg border border-red-500/40 bg-red-500/20 p-2 flex-shrink-0">
+                          <AlertTriangle size={16} className="text-red-400" />
+                        </div>
+                        <p className="text-sm text-white leading-relaxed">{item.challenge}</p>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-lg border border-sky-500/40 bg-sky-500/20 p-2 flex-shrink-0">
+                          <Target size={16} className="text-sky-400" />
+                        </div>
+                        <p className="text-sm text-white leading-relaxed">{item.strategy}</p>
+                      </div>
+                    </td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </motion.div>
 

@@ -193,7 +193,7 @@ export function ActionView({ onOpenNewAction, focus, onReviewSegment }: ActionVi
             className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-4 shadow-[0_0_24px_rgba(56,189,248,0.12)]"
           >
             <div className="flex items-center gap-3">
-              <div className="rounded-lg border border-sky-500/40 bg-sky-500/15 p-2">{tile.icon}</div>
+              <div className="rounded-lg border border-sky-500/40 bg-sky-500/15 p-2 [&>svg]:text-white">{tile.icon}</div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">{tile.label}</p>
                 <p className="text-lg font-bold text-white">{tile.value}</p>

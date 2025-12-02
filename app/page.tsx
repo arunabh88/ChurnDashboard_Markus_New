@@ -24,6 +24,10 @@ export default function Home() {
   const [subscribersView, setSubscribersView] = useState(false);
   
   const handleTabChange = (tab: TabKey) => {
+    // Close subscribers view when navigating to a different tab
+    if (subscribersView) {
+      setSubscribersView(false);
+    }
     setActiveTab(tab);
     if (tab !== 'analyse') {
       setAnalyseMode('overview');

@@ -33,10 +33,14 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
           {/* Left Section - Logo & Brand */}
           <div className="flex items-center gap-8">
             {/* Sky TV Logo */}
-            <motion.div
+            <motion.button
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onTabChange('dashboard')}
+              className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+              aria-label="Go to Dashboard"
             >
               <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-600 rounded-lg flex items-center justify-center sky-tv-icon-container">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="sky-tv-icon">
@@ -49,7 +53,7 @@ export default function Navigation({ activeTab, onTabChange, copilotOpen, onTogg
                 <h1 className="text-xl font-bold text-white">Sky TV</h1>
                 <p className="text-xs text-gray-400">Retention Intelligence</p>
               </div>
-            </motion.div>
+            </motion.button>
 
             {/* Navigation Items */}
             <div className="hidden lg:flex items-center gap-2">

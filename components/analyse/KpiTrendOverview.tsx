@@ -74,8 +74,8 @@ export function KpiTrendOverview({ onFilterChange }: KpiTrendOverviewProps) {
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">KPI & Trend Overview</p>
-          <p className="mt-1 text-sm text-gray-400">
+          <h2 className="text-2xl font-bold text-white mb-1">KPI & Trend Overview</h2>
+          <p className="text-gray-400">
             Compare churn, segment health, and value trends with consistent filters before drilling into cohorts.
           </p>
         </div>

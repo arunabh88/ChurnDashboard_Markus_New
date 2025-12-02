@@ -10,6 +10,10 @@ import { DashboardView } from '@/components/views/DashboardView';
 import { AnalyseView } from '@/components/views/AnalyseView';
 import { ActionView } from '@/components/views/ActionView';
 import { SubscriberListView } from '@/components/views/SubscriberListView';
+import { ChurnRateDeepDive } from '@/components/views/ChurnRateDeepDive';
+import { HighRiskSubscribersDeepDive } from '@/components/views/HighRiskSubscribersDeepDive';
+import { EarlyLifecycleChurnDeepDive } from '@/components/views/EarlyLifecycleChurnDeepDive';
+import { CltvCacDeepDive } from '@/components/views/CltvCacDeepDive';
 
 type TabKey = 'dashboard' | 'analyse' | 'act';
 type AnalyseMode = 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
@@ -22,11 +26,27 @@ export default function Home() {
   const [actionsFocus, setActionsFocus] = useState<string | null>(null);
   const [navigationSource, setNavigationSource] = useState<'dashboard' | 'analyse' | null>(null);
   const [subscribersView, setSubscribersView] = useState(false);
+  const [churnRateView, setChurnRateView] = useState(false);
+  const [highRiskView, setHighRiskView] = useState(false);
+  const [earlyLifecycleView, setEarlyLifecycleView] = useState(false);
+  const [cltvCacView, setCltvCacView] = useState(false);
   
   const handleTabChange = (tab: TabKey) => {
-    // Close subscribers view when navigating to a different tab
+    // Close all deep dive views when navigating to a different tab
     if (subscribersView) {
       setSubscribersView(false);
+    }
+    if (churnRateView) {
+      setChurnRateView(false);
+    }
+    if (highRiskView) {
+      setHighRiskView(false);
+    }
+    if (earlyLifecycleView) {
+      setEarlyLifecycleView(false);
+    }
+    if (cltvCacView) {
+      setCltvCacView(false);
     }
     setActiveTab(tab);
     if (tab !== 'analyse') {
@@ -70,6 +90,61 @@ export default function Home() {
                     handleTabChange('act');
                   }}
                 />
+              ) : churnRateView ? (
+                <ChurnRateDeepDive
+                  onBack={() => {
+                    setChurnRateView(false);
+                    setActiveTab('dashboard');
+                  }}
+                  onNavigateToAction={(action, context) => {
+                    setActionsFocus(action);
+                    handleTabChange('act');
+                  }}
+                  onNavigateToAnalyse={() => {
+                    setNavigationSource('dashboard');
+                    setAnalyseMode('overview');
+                    setAnalyseFocus('monthly-churn');
+                    handleTabChange('analyse');
+                  }}
+                />
+              ) : highRiskView ? (
+                <HighRiskSubscribersDeepDive
+                  onBack={() => {
+                    setHighRiskView(false);
+                    setActiveTab('dashboard');
+                  }}
+                  onNavigateToAction={(action, subscribers) => {
+                    setActionsFocus(action);
+                    handleTabChange('act');
+                  }}
+                />
+              ) : earlyLifecycleView ? (
+                <EarlyLifecycleChurnDeepDive
+                  onBack={() => {
+                    setEarlyLifecycleView(false);
+                    setActiveTab('dashboard');
+                  }}
+                  onNavigateToAction={(action, context) => {
+                    setActionsFocus(action);
+                    handleTabChange('act');
+                  }}
+                  onNavigateToDrilldown={(mode) => {
+                    setNavigationSource('dashboard');
+                    setAnalyseMode(mode);
+                    handleTabChange('analyse');
+                  }}
+                />
+              ) : cltvCacView ? (
+                <CltvCacDeepDive
+                  onBack={() => {
+                    setCltvCacView(false);
+                    setActiveTab('dashboard');
+                  }}
+                  onNavigateToAction={(action, context) => {
+                    setActionsFocus(action);
+                    handleTabChange('act');
+                  }}
+                />
               ) : activeTab === 'dashboard' ? (
                 <DashboardView
                   onNavigateAnalyse={(anchor, mode = 'overview') => {
@@ -84,6 +159,18 @@ export default function Home() {
                   }}
                   onNavigateSubscribers={() => {
                     setSubscribersView(true);
+                  }}
+                  onNavigateChurnRate={() => {
+                    setChurnRateView(true);
+                  }}
+                  onNavigateHighRisk={() => {
+                    setHighRiskView(true);
+                  }}
+                  onNavigateEarlyLifecycle={() => {
+                    setEarlyLifecycleView(true);
+                  }}
+                  onNavigateCltvCac={() => {
+                    setCltvCacView(true);
                   }}
                 />
               ) : activeTab === 'analyse' ? (

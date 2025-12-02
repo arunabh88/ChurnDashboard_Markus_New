@@ -11,9 +11,21 @@ interface DashboardViewProps {
   onNavigateAnalyse: (anchor?: string | null, mode?: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers') => void;
   onNavigateActions: (anchor?: string | null) => void;
   onNavigateSubscribers?: () => void;
+  onNavigateChurnRate?: () => void;
+  onNavigateHighRisk?: () => void;
+  onNavigateEarlyLifecycle?: () => void;
+  onNavigateCltvCac?: () => void;
 }
 
-export function DashboardView({ onNavigateAnalyse, onNavigateActions, onNavigateSubscribers }: DashboardViewProps) {
+export function DashboardView({
+  onNavigateAnalyse,
+  onNavigateActions,
+  onNavigateSubscribers,
+  onNavigateChurnRate,
+  onNavigateHighRisk,
+  onNavigateEarlyLifecycle,
+  onNavigateCltvCac,
+}: DashboardViewProps) {
   return (
     <div className="space-y-10">
       <HeaderBar
@@ -21,6 +33,10 @@ export function DashboardView({ onNavigateAnalyse, onNavigateActions, onNavigate
           onNavigateAnalyse(filterId, 'overview');
         }}
         onNavigateSubscribers={onNavigateSubscribers}
+        onNavigateChurnRate={onNavigateChurnRate}
+        onNavigateHighRisk={onNavigateHighRisk}
+        onNavigateEarlyLifecycle={onNavigateEarlyLifecycle}
+        onNavigateCltvCac={onNavigateCltvCac}
       />
 
       <div className="space-y-8">

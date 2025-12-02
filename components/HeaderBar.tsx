@@ -16,6 +16,10 @@ interface MetricCardProps {
   filterId: string;
   onNavigateAnalyse?: (filterId: string) => void;
   onNavigateSubscribers?: () => void;
+  onNavigateChurnRate?: () => void;
+  onNavigateHighRisk?: () => void;
+  onNavigateEarlyLifecycle?: () => void;
+  onNavigateCltvCac?: () => void;
 }
 
 const MetricCard = ({
@@ -29,6 +33,10 @@ const MetricCard = ({
   filterId,
   onNavigateAnalyse,
   onNavigateSubscribers,
+  onNavigateChurnRate,
+  onNavigateHighRisk,
+  onNavigateEarlyLifecycle,
+  onNavigateCltvCac,
 }: MetricCardProps) => {
   const isPositive = change > 0;
   const isNegativeMetric = title.includes('Risk') || title.includes('Churn');
@@ -43,6 +51,14 @@ const MetricCard = ({
       onClick={() => {
         if (filterId === 'total-subscribers' && onNavigateSubscribers) {
           onNavigateSubscribers();
+        } else if (filterId === 'monthly-churn' && onNavigateChurnRate) {
+          onNavigateChurnRate();
+        } else if (filterId === 'high-risk' && onNavigateHighRisk) {
+          onNavigateHighRisk();
+        } else if (filterId === 'early-lifecycle' && onNavigateEarlyLifecycle) {
+          onNavigateEarlyLifecycle();
+        } else if (filterId === 'cltv-cac' && onNavigateCltvCac) {
+          onNavigateCltvCac();
         } else {
           onNavigateAnalyse?.(filterId);
         }
@@ -52,6 +68,14 @@ const MetricCard = ({
           event.preventDefault();
           if (filterId === 'total-subscribers' && onNavigateSubscribers) {
             onNavigateSubscribers();
+          } else if (filterId === 'monthly-churn' && onNavigateChurnRate) {
+            onNavigateChurnRate();
+          } else if (filterId === 'high-risk' && onNavigateHighRisk) {
+            onNavigateHighRisk();
+          } else if (filterId === 'early-lifecycle' && onNavigateEarlyLifecycle) {
+            onNavigateEarlyLifecycle();
+          } else if (filterId === 'cltv-cac' && onNavigateCltvCac) {
+            onNavigateCltvCac();
           } else {
             onNavigateAnalyse?.(filterId);
           }
@@ -100,9 +124,20 @@ const MetricCard = ({
 interface HeaderBarProps {
   onNavigateAnalyse?: (filterId: string) => void;
   onNavigateSubscribers?: () => void;
+  onNavigateChurnRate?: () => void;
+  onNavigateHighRisk?: () => void;
+  onNavigateEarlyLifecycle?: () => void;
+  onNavigateCltvCac?: () => void;
 }
 
-export default function HeaderBar({ onNavigateAnalyse, onNavigateSubscribers }: HeaderBarProps) {
+export default function HeaderBar({
+  onNavigateAnalyse,
+  onNavigateSubscribers,
+  onNavigateChurnRate,
+  onNavigateHighRisk,
+  onNavigateEarlyLifecycle,
+  onNavigateCltvCac,
+}: HeaderBarProps) {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -182,7 +217,15 @@ export default function HeaderBar({ onNavigateAnalyse, onNavigateSubscribers }: 
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <MetricCard {...metric} onNavigateAnalyse={onNavigateAnalyse} onNavigateSubscribers={onNavigateSubscribers} />
+            <MetricCard
+              {...metric}
+              onNavigateAnalyse={onNavigateAnalyse}
+              onNavigateSubscribers={onNavigateSubscribers}
+              onNavigateChurnRate={onNavigateChurnRate}
+              onNavigateHighRisk={onNavigateHighRisk}
+              onNavigateEarlyLifecycle={onNavigateEarlyLifecycle}
+              onNavigateCltvCac={onNavigateCltvCac}
+            />
           </motion.div>
         ))}
       </div>

@@ -36,10 +36,9 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
           prompt:
             "You're in diagnostics mode. Ask me to explain churn spikes, surface signal drivers, compare segments, or create actions for specific triggers.",
           quickActions: [
-            { label: 'Explain this signal', icon: <TrendingUp size={16} /> },
-            { label: "What's driving churn in Trial segment?", icon: <Eye size={16} /> },
-            { label: 'Create action for this segment', icon: <Sparkles size={16} /> },
-            { label: 'Compare segment performance', icon: <UserPlus size={16} /> },
+            { label: 'Explain churn signal drivers', icon: <TrendingUp size={16} /> },
+            { label: 'Analyze Trial segment churn', icon: <Eye size={16} /> },
+            { label: 'Create intervention campaign', icon: <Sparkles size={16} /> },
           ],
         };
       case 'act':
@@ -47,10 +46,9 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
           prompt:
             "Ready to execute. Ask why campaigns are underperforming, recommend playbooks, clone winning campaigns, or review performance trends.",
           quickActions: [
-            { label: 'Why is this campaign underperforming?', icon: <TrendingUp size={16} /> },
-            { label: 'Recommend playbook for Trial segment', icon: <Sparkles size={16} /> },
-            { label: 'Clone and optimize Loyalty Discount', icon: <User size={16} /> },
-            { label: 'Review performance trends', icon: <Eye size={16} /> },
+            { label: 'Analyze campaign performance', icon: <TrendingUp size={16} /> },
+            { label: 'Recommend retention playbook', icon: <Sparkles size={16} /> },
+            { label: 'Clone winning campaign', icon: <User size={16} /> },
           ],
         };
       default:
@@ -58,9 +56,9 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
           prompt:
             "Hi! I'm your Retention AI Agent. I can help identify at-risk subscribers and suggest targeted retention strategies. What would you like to explore?",
           quickActions: [
-            { label: 'Show trial-phase risks', icon: <TrendingUp size={16} /> },
-            { label: 'High-value churners', icon: <User size={16} /> },
-            { label: 'Content engagement gaps', icon: <Eye size={16} /> },
+            { label: 'Identify trial-phase risks', icon: <TrendingUp size={16} /> },
+            { label: 'Find high-value churners', icon: <User size={16} /> },
+            { label: 'Analyze engagement gaps', icon: <Eye size={16} /> },
           ],
         };
     }
@@ -153,10 +151,6 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
           id: `${Date.now()}-ai`,
           role: 'ai',
           content: generateAIResponse(trimmed),
-          actions: config.quickActions.map(({ label }) => ({
-            label,
-            onClick: () => submitMessage(label),
-          })),
         };
         setMessages((prev) => [...prev, aiResponse]);
         setIsTyping(false);
@@ -170,12 +164,8 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
       id: 'intro',
       role: 'ai',
       content: config.prompt,
-      actions: config.quickActions.map(({ label }) => ({
-        label,
-        onClick: () => submitMessage(label),
-      })),
     }),
-    [config, submitMessage]
+    [config]
   );
 
   useEffect(() => {
@@ -264,22 +254,6 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
                     : 'bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-500/30'
                 }`}>
                   <p className="text-gray-200 text-sm leading-relaxed">{message.content}</p>
-                  
-                  {/* Action Buttons */}
-                  {message.actions && message.role === 'ai' && (
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      {message.actions.map((action, idx) => (
-                        <motion.button
-                          key={idx}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="text-xs bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 px-3 py-1.5 rounded-lg border border-sky-500/30 transition-colors"
-                        >
-                          {action.label}
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
             </motion.div>
@@ -319,18 +293,18 @@ export default function RetentionCopilot({ onClose, context }: RetentionCopilotP
         )}
       </div>
 
-      {/* Quick Actions */}
-      <div className="flex gap-2 mb-3">
+      {/* Quick Actions - Stacked Vertically */}
+      <div className="flex flex-col gap-2 mb-3">
         {config.quickActions.map((action, idx) => (
           <motion.button
             key={idx}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => submitMessage(action.label)}
-            className="flex items-center gap-2 text-xs bg-navy-900/50 border border-sky-500/20 text-sky-300 px-3 py-2 rounded-lg hover:bg-sky-500/10 transition-colors"
+            className="flex items-center gap-2 text-sm bg-navy-900/50 border border-sky-500/20 text-sky-300 px-4 py-3 rounded-lg hover:bg-sky-500/10 transition-colors w-full text-left"
           >
             {action.icon}
-            {action.label}
+            <span className="flex-1">{action.label}</span>
           </motion.button>
         ))}
       </div>

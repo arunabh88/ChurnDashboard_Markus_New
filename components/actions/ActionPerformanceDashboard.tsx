@@ -107,7 +107,11 @@ export function ActionPerformanceDashboard({
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-bold text-white mb-1">Active Campaigns Summary</h2>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
+              <div>
+                <p className="text-xs text-gray-400 mb-1">Active Campaigns</p>
+                <p className="text-2xl font-bold text-white">{displaySummary.totalActions}</p>
+              </div>
               <div>
                 <p className="text-xs text-gray-400 mb-1">Total Revenue Protected</p>
                 <p className="text-2xl font-bold text-white">{displaySummary.totalRevenueProtected}</p>

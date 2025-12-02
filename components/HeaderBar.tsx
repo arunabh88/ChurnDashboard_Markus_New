@@ -15,6 +15,7 @@ interface MetricCardProps {
   gradient: string;
   filterId: string;
   onNavigateAnalyse?: (filterId: string) => void;
+  onNavigateSubscribers?: () => void;
 }
 
 const MetricCard = ({
@@ -27,6 +28,7 @@ const MetricCard = ({
   gradient,
   filterId,
   onNavigateAnalyse,
+  onNavigateSubscribers,
 }: MetricCardProps) => {
   const isPositive = change > 0;
   const isNegativeMetric = title.includes('Risk') || title.includes('Churn');
@@ -38,11 +40,21 @@ const MetricCard = ({
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(14, 165, 233, 0.4)' }}
       whileTap={{ scale: 0.98 }}
-      onClick={() => onNavigateAnalyse?.(filterId)}
+      onClick={() => {
+        if (filterId === 'total-subscribers' && onNavigateSubscribers) {
+          onNavigateSubscribers();
+        } else {
+          onNavigateAnalyse?.(filterId);
+        }
+      }}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          onNavigateAnalyse?.(filterId);
+          if (filterId === 'total-subscribers' && onNavigateSubscribers) {
+            onNavigateSubscribers();
+          } else {
+            onNavigateAnalyse?.(filterId);
+          }
         }
       }}
       role="button"
@@ -87,9 +99,10 @@ const MetricCard = ({
 
 interface HeaderBarProps {
   onNavigateAnalyse?: (filterId: string) => void;
+  onNavigateSubscribers?: () => void;
 }
 
-export default function HeaderBar({ onNavigateAnalyse }: HeaderBarProps) {
+export default function HeaderBar({ onNavigateAnalyse, onNavigateSubscribers }: HeaderBarProps) {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -169,7 +182,7 @@ export default function HeaderBar({ onNavigateAnalyse }: HeaderBarProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <MetricCard {...metric} onNavigateAnalyse={onNavigateAnalyse} />
+            <MetricCard {...metric} onNavigateAnalyse={onNavigateAnalyse} onNavigateSubscribers={onNavigateSubscribers} />
           </motion.div>
         ))}
       </div>

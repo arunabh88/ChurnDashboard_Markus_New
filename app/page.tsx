@@ -9,6 +9,7 @@ const RetentionCopilot = dynamic(() => import('@/components/RetentionCopilot'), 
 import { DashboardView } from '@/components/views/DashboardView';
 import { AnalyseView } from '@/components/views/AnalyseView';
 import { ActionView } from '@/components/views/ActionView';
+import { SubscriberListView } from '@/components/views/SubscriberListView';
 
 type TabKey = 'dashboard' | 'analyse' | 'act';
 type AnalyseMode = 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
@@ -20,6 +21,7 @@ export default function Home() {
   const [analyseFocus, setAnalyseFocus] = useState<string | null>(null);
   const [actionsFocus, setActionsFocus] = useState<string | null>(null);
   const [navigationSource, setNavigationSource] = useState<'dashboard' | 'analyse' | null>(null);
+  const [subscribersView, setSubscribersView] = useState(false);
   
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
@@ -51,7 +53,20 @@ export default function Home() {
         <div className="px-4 md:px-8 pb-12">
           <div className={gridLayoutClass}>
             <div className={contentColumnClass}>
-              {activeTab === 'dashboard' && (
+              {subscribersView ? (
+                <SubscriberListView
+                  onBack={() => {
+                    setSubscribersView(false);
+                    setActiveTab('dashboard');
+                  }}
+                  onNavigateToAction={(action, subscribers) => {
+                    console.log('Navigate to action:', action, subscribers);
+                    // Navigate to Action tab with pre-filled data
+                    setActionsFocus(action);
+                    handleTabChange('act');
+                  }}
+                />
+              ) : activeTab === 'dashboard' ? (
                 <DashboardView
                   onNavigateAnalyse={(anchor, mode = 'overview') => {
                     setNavigationSource('dashboard');
@@ -63,10 +78,11 @@ export default function Home() {
                     setActionsFocus(anchor ?? null);
                     handleTabChange('act');
                   }}
+                  onNavigateSubscribers={() => {
+                    setSubscribersView(true);
+                  }}
                 />
-              )}
-
-              {activeTab === 'analyse' && (
+              ) : activeTab === 'analyse' ? (
                 <AnalyseView
                   mode={analyseMode}
                   navigationSource={navigationSource}
@@ -89,9 +105,7 @@ export default function Home() {
                   onNavigateToDashboard={() => handleTabChange('dashboard')}
                   focus={analyseFocus}
                 />
-              )}
-
-              {activeTab === 'act' && (
+              ) : activeTab === 'act' ? (
                 <ActionView
                   onOpenNewAction={() => setCopilotOpen(true)}
                   focus={actionsFocus}
@@ -100,7 +114,7 @@ export default function Home() {
                     handleTabChange('analyse');
                   }}
                 />
-              )}
+              ) : null}
             </div>
 
                     {copilotOpen && (

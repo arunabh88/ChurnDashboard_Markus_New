@@ -10,15 +10,17 @@ const HeaderBar = dynamic(() => import('@/components/HeaderBar'), { ssr: false }
 interface DashboardViewProps {
   onNavigateAnalyse: (anchor?: string | null, mode?: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers') => void;
   onNavigateActions: (anchor?: string | null) => void;
+  onNavigateSubscribers?: () => void;
 }
 
-export function DashboardView({ onNavigateAnalyse, onNavigateActions }: DashboardViewProps) {
+export function DashboardView({ onNavigateAnalyse, onNavigateActions, onNavigateSubscribers }: DashboardViewProps) {
   return (
     <div className="space-y-10">
       <HeaderBar
         onNavigateAnalyse={(filterId) => {
           onNavigateAnalyse(filterId, 'overview');
         }}
+        onNavigateSubscribers={onNavigateSubscribers}
       />
 
       <div className="space-y-8">

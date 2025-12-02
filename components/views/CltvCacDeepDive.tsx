@@ -89,7 +89,7 @@ export function CltvCacDeepDive({ onBack, onNavigateToAction }: CltvCacDeepDiveP
     { label: 'Avg CLTV', value: `$${stats.avgCltv}`, icon: <TrendingUp size={18} className="text-green-400" />, color: 'text-green-400' },
     { label: 'Avg CAC', value: `$${stats.avgCac}`, icon: <TrendingDown size={18} className="text-orange-400" />, color: 'text-orange-400' },
     { label: 'Target Ratio', value: `${stats.targetRatio}×`, icon: <Target size={18} className="text-emerald-400" />, color: 'text-emerald-400' },
-    { label: 'Gap', value: `${stats.gap > 0 ? '+' : ''}${stats.gap}×`, icon: <BarChart3 size={18} className={parseFloat(stats.gap) < 0 ? 'text-red-400' : 'text-green-400'} />, color: parseFloat(stats.gap) < 0 ? 'text-red-400' : 'text-green-400' },
+    { label: 'Gap', value: `${parseFloat(stats.gap) > 0 ? '+' : ''}${stats.gap}×`, icon: <BarChart3 size={18} className={parseFloat(stats.gap) < 0 ? 'text-red-400' : 'text-green-400'} />, color: parseFloat(stats.gap) < 0 ? 'text-red-400' : 'text-green-400' },
   ];
 
   const filterFields: FilterField[] = [
@@ -269,7 +269,7 @@ export function CltvCacDeepDive({ onBack, onNavigateToAction }: CltvCacDeepDiveP
 
       {/* Filters and Search */}
       <FilterPanel
-        filters={filters}
+        filters={filters as unknown as Record<string, string>}
         filterFields={filterFields}
         onFilterChange={(key, value) => handleFilterChange(key as keyof CltvCacFilters, value)}
         onClearAll={() => {

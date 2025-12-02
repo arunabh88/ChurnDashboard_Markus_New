@@ -234,7 +234,7 @@ export function HighRiskSubscribersDeepDive({ onBack, onNavigateToAction }: High
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => onNavigateToAction?.('campaign', { segment: 'high-risk' })}
+            onClick={() => onNavigateToAction?.('campaign', [])}
             className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors"
           >
             <PlayCircle size={16} />
@@ -325,7 +325,7 @@ export function HighRiskSubscribersDeepDive({ onBack, onNavigateToAction }: High
 
       {/* Filters and Search */}
       <FilterPanel
-        filters={filters}
+        filters={filters as unknown as Record<string, string>}
         filterFields={filterFields}
         onFilterChange={(key, value) => handleFilterChange(key as keyof HighRiskFilters, value)}
         onClearAll={() => {

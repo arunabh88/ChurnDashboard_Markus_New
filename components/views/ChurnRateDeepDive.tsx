@@ -251,7 +251,7 @@ export function ChurnRateDeepDive({ onBack, onNavigateToAction, onNavigateToAnal
 
       {/* Filters and Search */}
       <FilterPanel
-        filters={filters}
+        filters={filters as unknown as Record<string, string>}
         filterFields={filterFields}
         onFilterChange={(key, value) => handleFilterChange(key as keyof ChurnFilters, value)}
         onClearAll={() => {

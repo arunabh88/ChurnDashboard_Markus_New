@@ -289,7 +289,7 @@ export function EarlyLifecycleChurnDeepDive({
 
       {/* Filters and Search */}
       <FilterPanel
-        filters={filters}
+        filters={filters as unknown as Record<string, string>}
         filterFields={filterFields}
         onFilterChange={(key, value) => handleFilterChange(key as keyof EarlyLifecycleFilters, value)}
         onClearAll={() => {

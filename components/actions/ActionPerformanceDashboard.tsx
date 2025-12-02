@@ -106,7 +106,7 @@ export function ActionPerformanceDashboard({
       <div className="glass-card rounded-xl border border-sky-500/20 p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-sky-200 mb-3">Active Campaigns Summary</p>
+            <h2 className="text-2xl font-bold text-white mb-1">Active Campaigns Summary</h2>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <p className="text-xs text-gray-400 mb-1">Total Revenue Protected</p>

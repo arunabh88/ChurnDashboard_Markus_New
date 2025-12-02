@@ -29,8 +29,8 @@ export function ModelVsReal({ onTakeAction }: ModelVsRealProps = {}) {
     <div className="glass-card space-y-6 rounded-2xl border border-sky-500/30 p-6 shadow-[0_18px_40px_rgba(8,47,73,0.28)]">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">Model vs Real</p>
-          <p className="mt-1 text-sm text-gray-400">
+          <h2 className="text-2xl font-bold text-white mb-1">Model vs Real</h2>
+          <p className="text-gray-400">
             Validate model quality before triggering interventions. Check accuracy, drift, and drivers.
           </p>
         </div>

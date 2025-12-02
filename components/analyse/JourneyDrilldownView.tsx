@@ -100,8 +100,8 @@ export function JourneyDrilldownView({ onNavigateToDrilldown, onCreateInterventi
       {/* Header Section */}
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-sky-200">Journey Friction Analysis</p>
-          <p className="mt-1 text-sm text-gray-400">
+          <h2 className="text-2xl font-bold text-white mb-1">Journey Friction Analysis</h2>
+          <p className="text-gray-400">
             Drill into specific stages to identify churn triggers and create targeted interventions
           </p>
         </div>

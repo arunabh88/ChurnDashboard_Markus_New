@@ -78,7 +78,6 @@ export function EarlyLifecycleChurnDeepDive({
 
   const summaryStats = [
     { label: 'Early Churn Rate', value: `${stats.churnRate}%`, icon: <TrendingDown size={18} className="text-red-400" />, color: 'text-red-400' },
-    { label: 'Total Affected', value: stats.total.toLocaleString(), icon: <Users size={18} className="text-sky-400" /> },
     { label: 'Revenue at Risk', value: `$${(stats.revenueAtRisk / 1000).toFixed(0)}K`, icon: <DollarSign size={18} className="text-yellow-400" />, color: 'text-yellow-400' },
     { label: 'Avg Days to Churn', value: `${stats.avgDaysToChurn.toFixed(0)} days`, icon: <Clock size={18} className="text-orange-400" />, color: 'text-orange-400' },
     { label: 'Trend', value: '↑ 8%', icon: <TrendingDown size={18} className="text-red-400" />, color: 'text-red-400', trend: 'up' as const },
@@ -193,7 +192,7 @@ export function EarlyLifecycleChurnDeepDive({
       </motion.div>
 
       {/* Summary Stats Bar */}
-      <SummaryStatsBar stats={summaryStats} columns={5} />
+      <SummaryStatsBar stats={summaryStats} columns={4} />
 
       {/* Charts Section */}
       <div className="grid gap-4 lg:grid-cols-2">

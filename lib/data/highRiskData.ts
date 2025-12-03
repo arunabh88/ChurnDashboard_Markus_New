@@ -230,13 +230,14 @@ export function filterHighRiskData(
 }
 
 export function getHighRiskStats(subscribers: HighRiskSubscriber[]) {
+  const total = subscribers.length;
   return {
-    total: subscribers.length,
+    total,
     critical: subscribers.filter((s) => s.riskLevel === 'Critical').length,
     high: subscribers.filter((s) => s.riskLevel === 'High').length,
     medium: subscribers.filter((s) => s.riskLevel === 'Medium').length,
     revenueAtRisk: subscribers.reduce((sum, s) => sum + s.ltv, 0),
-    avgChurnProbability: subscribers.reduce((sum, s) => sum + s.churnProbability, 0) / subscribers.length,
+    avgChurnProbability: total > 0 ? subscribers.reduce((sum, s) => sum + s.churnProbability, 0) / total : 0, // Prevent division by zero
   };
 }
 

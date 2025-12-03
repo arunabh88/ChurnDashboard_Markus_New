@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Users, AlertTriangle, DollarSign, Sparkles, Sun, Moon } from 'lucide-react';
 import { useTheme } from '@/app/providers';
 import { useState, useEffect } from 'react';
+import { formatChange, type MetricType } from '@/lib/utils';
 
 interface MetricCardProps {
   title: string;
   value: string;
   change: number;
+  metricType: MetricType;
   icon: React.ReactNode;
   hasAIInsight?: boolean;
   tooltip?: string;
@@ -26,6 +28,7 @@ const MetricCard = ({
   title,
   value,
   change,
+  metricType,
   icon,
   hasAIInsight,
   tooltip,
@@ -38,9 +41,8 @@ const MetricCard = ({
   onNavigateEarlyLifecycle,
   onNavigateCltvCac,
 }: MetricCardProps) => {
-  const isPositive = change > 0;
-  const isNegativeMetric = title.includes('Risk') || title.includes('Churn');
-  const trendColor = isNegativeMetric ? (isPositive ? 'text-red-400' : 'text-green-400') : (isPositive ? 'text-green-400' : 'text-red-400');
+  const changeDisplay = formatChange(change, metricType);
+  const TrendIcon = changeDisplay.icon === 'up' ? TrendingUp : changeDisplay.icon === 'down' ? TrendingDown : null;
 
   return (
     <motion.div
@@ -89,9 +91,9 @@ const MetricCard = ({
         <div className={`p-3 rounded-lg bg-gradient-to-br ${gradient} kpi-icon-wrapper`}>
           {icon}
         </div>
-        <div className={`flex items-center gap-1 ${trendColor}`}>
-          {isNegativeMetric ? (isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />) : (isPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />)}
-          <span className="text-sm font-semibold">{Math.abs(change)}%</span>
+        <div className={`flex items-center gap-1 ${changeDisplay.color}`}>
+          {TrendIcon && <TrendIcon size={16} />}
+          <span className="text-sm font-semibold">{changeDisplay.value}</span>
         </div>
       </div>
       
@@ -150,6 +152,7 @@ export default function HeaderBar({
       title: 'Total Subscribers',
       value: '2.1M',
       change: 3,
+      metricType: 'subscribers' as MetricType,
       icon: <Users size={24} />,
       hasAIInsight: false,
       gradient: 'from-blue-500 to-cyan-500',
@@ -159,6 +162,7 @@ export default function HeaderBar({
       title: 'Monthly Churn Rate',
       value: '1.52%',
       change: 4,
+      metricType: 'churn' as MetricType,
       icon: <TrendingDown size={24} />,
       hasAIInsight: true,
       tooltip: 'Target 1.45%. Monitor billing drop-offs in week 3.',
@@ -169,6 +173,7 @@ export default function HeaderBar({
       title: 'High-Risk Subscribers',
       value: '32.4K',
       change: 5,
+      metricType: 'risk' as MetricType,
       icon: <AlertTriangle size={24} />,
       hasAIInsight: true,
       tooltip: 'Churn rising in first 45 days. Personalize onboarding.',
@@ -179,6 +184,7 @@ export default function HeaderBar({
       title: 'Early Lifecycle Churn',
       value: '16.3%',
       change: 3,
+      metricType: 'churn' as MetricType,
       icon: <Sparkles size={24} />,
       hasAIInsight: true,
       tooltip: '80% of churners show inactivity in first 6 weeks.',
@@ -189,6 +195,7 @@ export default function HeaderBar({
       title: 'Avg CLTV / CAC',
       value: '3.4×',
       change: 5,
+      metricType: 'roi' as MetricType,
       icon: <DollarSign size={24} />,
       hasAIInsight: false,
       gradient: 'from-green-500 to-emerald-500',

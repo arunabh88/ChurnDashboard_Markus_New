@@ -53,13 +53,15 @@ export function ChurnRateDeepDive({ onBack, onNavigateToAction, onNavigateToAnal
   const targetChurnRate = 1.45;
   const gap = currentChurnRate - targetChurnRate;
   const monthlyChurned = 32160;
+  const gapValue = gap >= 0 ? `+${gap.toFixed(2)}%` : `${gap.toFixed(2)}%`; // Explicit sign
+  const gapColor = gap > 0 ? 'text-red-400' : gap < 0 ? 'text-green-400' : 'text-gray-400'; // Red if above target (bad), green if below (good)
 
   const stats = [
     { label: 'Current Churn Rate', value: `${currentChurnRate}%`, icon: <TrendingDown size={18} className="text-red-400" />, color: 'text-red-400' },
     { label: 'Target Churn Rate', value: `${targetChurnRate}%`, icon: <Target size={18} className="text-green-400" />, color: 'text-green-400' },
-    { label: 'Gap from Target', value: `+${gap.toFixed(2)}%`, icon: <BarChart3 size={18} className="text-orange-400" />, color: 'text-orange-400', trend: 'up' as const, trendValue: 'Above target' },
+    { label: 'Gap from Target', value: gapValue, icon: <BarChart3 size={18} className={gapColor} />, color: gapColor, trend: gap > 0 ? 'up' as const : 'down' as const, trendValue: gap > 0 ? 'Above target' : gap < 0 ? 'Below target' : 'On target' },
     { label: 'Monthly Churned', value: monthlyChurned.toLocaleString(), icon: <Users size={18} className="text-sky-400" /> },
-    { label: 'Trend', value: '↑ 4%', icon: <TrendingDown size={18} className="text-red-400" />, color: 'text-red-400', trend: 'up' as const },
+    { label: 'Trend', value: '+4%', icon: <TrendingDown size={18} className="text-red-400" />, color: 'text-red-400', trend: 'up' as const },
   ];
 
   const filterFields: FilterField[] = [

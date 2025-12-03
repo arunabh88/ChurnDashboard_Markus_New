@@ -228,11 +228,12 @@ export function filterEarlyLifecycleData(
 }
 
 export function getEarlyLifecycleStats(subscribers: EarlyLifecycleSubscriber[]) {
+  const total = subscribers.length;
   return {
-    total: subscribers.length,
+    total,
     churnRate: 16.3,
     revenueAtRisk: subscribers.reduce((sum, s) => sum + s.ltv, 0),
-    avgDaysToChurn: subscribers.reduce((sum, s) => sum + s.daysActive, 0) / subscribers.length,
+    avgDaysToChurn: total > 0 ? subscribers.reduce((sum, s) => sum + s.daysActive, 0) / total : 0, // Prevent division by zero
   };
 }
 

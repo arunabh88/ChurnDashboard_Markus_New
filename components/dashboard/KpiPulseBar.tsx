@@ -22,8 +22,8 @@ export function KpiPulseBar({ onNavigateAnalyse }: KpiPulseBarProps) {
     {
       id: 'total-subs',
       label: 'Total Subscribers',
-      value: '2.31M',
-      sublabel: '+1.8% vs last month',
+      value: '2.1M',
+      sublabel: '+3% vs last month',
       icon: <Users size={18} />,
       onClick: () => onNavigateAnalyse('total-subscribers'),
     },

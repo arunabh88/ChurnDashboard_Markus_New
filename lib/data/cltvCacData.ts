@@ -153,17 +153,31 @@ export function filterCltvCacData(
 export function getCltvCacStats(segments: SegmentPerformance[]) {
   const totalRevenue = segments.reduce((sum, s) => sum + s.revenue, 0);
   const totalSubscribers = segments.reduce((sum, s) => sum + s.subscriberCount, 0);
+  
+  // Prevent division by zero
+  if (totalSubscribers === 0) {
+    return {
+      currentRatio: '0.0',
+      avgCltv: '0',
+      avgCac: '0',
+      targetRatio: '3.5',
+      gap: '-3.5',
+      totalRevenue: 0,
+    };
+  }
+  
   const avgCltv = segments.reduce((sum, s) => sum + s.avgCltv * s.subscriberCount, 0) / totalSubscribers;
   const avgCac = segments.reduce((sum, s) => sum + s.avgCac * s.subscriberCount, 0) / totalSubscribers;
-  const currentRatio = avgCltv / avgCac;
+  const currentRatio = avgCac > 0 ? avgCltv / avgCac : 0;
   const targetRatio = 3.5;
+  const gap = currentRatio - targetRatio;
 
   return {
     currentRatio: currentRatio.toFixed(1),
     avgCltv: avgCltv.toFixed(0),
     avgCac: avgCac.toFixed(0),
     targetRatio: targetRatio.toFixed(1),
-    gap: (currentRatio - targetRatio).toFixed(2),
+    gap: gap >= 0 ? `+${gap.toFixed(2)}` : gap.toFixed(2), // Add explicit sign
     totalRevenue,
   };
 }

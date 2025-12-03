@@ -25,7 +25,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
   const { onStageAction } = props;
   const [hoveredStage, setHoveredStage] = useState<string | null>(null);
   
-  const totalSubscribers = 3000000; // 3M
+  const totalSubscribers = 2100000; // 2.1M - consistent with HeaderBar
   const dailyInflow = {
     trials: 100,
     toNew: 30,
@@ -36,34 +36,34 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
     {
       name: 'Trial Users',
       days: '30 days',
-      subscribers: 3000, // 3K
+      subscribers: 3000, // 3K - current trial users
       churnRate: 70,
       riskLevel: 'high',
       engagementScore: 45,
       triggers: ['Onboarding confusion', 'Content misalignment', 'Device setup issues'],
-      retentionRate: 30,
+      retentionRate: 30, // 100% - 70% churn = 30% retention
       actionLabel: 'Analyze',
     },
     {
       name: 'New Users',
       days: '90 days',
-      subscribers: 2190, // 2.19K
+      subscribers: 210000, // 210K - recent converts (0-90 days)
       churnRate: 20,
       riskLevel: 'medium',
       engagementScore: 69,
       triggers: ['Drop in engagement', 'No favorite content', 'Single device usage'],
-      retentionRate: 65,
+      retentionRate: 80, // 100% - 20% churn = 80% retention
       actionLabel: 'Analyze',
     },
     {
       name: 'Established Users',
       days: 'Ongoing',
-      subscribers: 1290000, // 1.29M
+      subscribers: 1887000, // 1.887M - established users (90+ days) = 2.1M - 3K - 210K
       churnRate: 0.85,
       riskLevel: 'low',
       engagementScore: 84,
       triggers: ['Price sensitivity', 'Competitor offers', 'Life events'],
-      retentionRate: 99.15,
+      retentionRate: 99.15, // 100% - 0.85% churn = 99.15% retention
       actionLabel: 'Analyze',
     },
   ];

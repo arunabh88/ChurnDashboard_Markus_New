@@ -369,7 +369,7 @@ export function CreateActionPlanWizard({
                       </div>
 
                       {showAIOffers && aiOffers.length > 0 && (
-                        <div className="space-y-3">
+                        <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2">
                           {aiOffers.map((aiOffer, index) => (
                             <motion.div
                               key={index}

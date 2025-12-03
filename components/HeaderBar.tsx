@@ -187,7 +187,7 @@ export default function HeaderBar({
     {
       title: 'Early Lifecycle Churn',
       value: '18.5%',
-      change: 3,
+      change: 8,
       metricType: 'churn' as MetricType,
       icon: <Sparkles size={24} />,
       hasAIInsight: true,

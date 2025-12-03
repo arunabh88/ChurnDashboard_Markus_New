@@ -231,7 +231,7 @@ export function getEarlyLifecycleStats(subscribers: EarlyLifecycleSubscriber[]) 
   const total = subscribers.length;
   return {
     total,
-    churnRate: 16.3,
+    churnRate: 18.5,
     revenueAtRisk: subscribers.reduce((sum, s) => sum + s.ltv, 0),
     avgDaysToChurn: total > 0 ? subscribers.reduce((sum, s) => sum + s.daysActive, 0) / total : 0, // Prevent division by zero
   };

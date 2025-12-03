@@ -37,11 +37,11 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
       name: 'Trial Users',
       days: '30 days',
       subscribers: 3000, // 3K - current trial users
-      churnRate: 70,
+      churnRate: 72,
       riskLevel: 'high',
       engagementScore: 45,
       triggers: ['Onboarding confusion', 'Content misalignment', 'Device setup issues'],
-      retentionRate: 30, // 100% - 70% churn = 30% retention
+      retentionRate: 28, // 100% - 72% churn = 28% retention
       actionLabel: 'Analyze',
     },
     {
@@ -75,7 +75,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
   const targetChurn = 0.57;
   
   const churnInsights = {
-    'Trial Users': 'High churn (70%) driven by onboarding confusion and content misalignment.',
+    'Trial Users': 'High churn (72%) driven by onboarding confusion and content misalignment.',
     'New Users': 'Moderate churn (20%) due to drop in engagement after trial period.',
     'Established Users': 'Stable base with 0.85% monthly churn. Focus on loyalty program retention. Target: <0.57%',
   };
@@ -192,7 +192,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
               />
               <text x="165" y="130" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold">Trial Users</text>
               <text x="165" y="165" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold">{formatSubscribers(stages[0].subscribers)}</text>
-              <text x="165" y="195" textAnchor="middle" fill="white" fontSize="11">30 days | 70% churn</text>
+              <text x="165" y="195" textAnchor="middle" fill="white" fontSize="11">30 days | 72% churn</text>
               
               {/* Churn Leak Arrow */}
               <motion.g
@@ -200,7 +200,7 @@ export default function JourneyMap(props: JourneyMapProps = {}) {
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <path d="M 165 270 L 165 305" stroke="#ef4444" strokeWidth="2" markerEnd="url(#arrowRed)" opacity="0.6"/>
-                <text x="165" y="320" textAnchor="middle" fill="#ef4444" fontSize="10">70% leak</text>
+                <text x="165" y="320" textAnchor="middle" fill="#ef4444" fontSize="10">72% leak</text>
               </motion.g>
             </motion.g>
 

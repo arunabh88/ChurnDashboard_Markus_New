@@ -64,9 +64,9 @@ export function EarlyLifecycleChurnDeepDive({
   };
 
   const timelineData = [
-    { period: '0-30 days', churned: 18600, churnRate: 6.2 },
-    { period: '31-60 days', churned: 12000, churnRate: 4.1 },
-    { period: '61-90 days', churned: 8000, churnRate: 2.8 },
+    { period: '0-30 days', churned: 21000, churnRate: 7.0 },
+    { period: '31-60 days', churned: 13500, churnRate: 4.6 },
+    { period: '61-90 days', churned: 9000, churnRate: 3.2 },
   ];
 
   const summaryStats = [

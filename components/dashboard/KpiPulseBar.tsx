@@ -46,7 +46,7 @@ export function KpiPulseBar({ onNavigateAnalyse }: KpiPulseBarProps) {
     {
       id: 'early-churn',
       label: 'Early Lifecycle Churn',
-      value: '16.3%',
+      value: '18.5%',
       sublabel: '0-90 day window',
       icon: <Sparkles size={18} />,
       onClick: () => onNavigateAnalyse('early-lifecycle'),

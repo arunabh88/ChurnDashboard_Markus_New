@@ -74,13 +74,23 @@ export function CreateActionPlanWizard({
   defaultSegment,
 }: CreateActionPlanWizardProps) {
   const [step, setStep] = useState(0);
-  const [segment, setSegment] = useState<string>('trial');
+  const [segment, setSegment] = useState<string>(defaultSegment || 'trial');
   const [playbook, setPlaybook] = useState<string>('loyalty-discount');
-  const [offer, setOffer] = useState({
-    incentive: '$15 loyalty credit',
-    message: 'Keep enjoying Sky. Renew today and unlock loyalty pricing.',
-    guardrail: 'Target churn risk >65%, CLTV > $250',
-  });
+  
+  // Helper function to get offer for playbook/segment combination
+  const getOfferForPlaybookSegment = (playbookId: string, segmentId: string) => {
+    const defaultOffer = getDefaultOfferForPlaybook(playbookId, segmentId);
+    return defaultOffer || {
+      incentive: '$15 loyalty credit',
+      message: 'Keep enjoying Sky. Renew today and unlock loyalty pricing.',
+      guardrail: 'Target churn risk >65%, CLTV > $250',
+    };
+  };
+  
+  // Initialize offer state based on initial playbook/segment values
+  const [offer, setOffer] = useState(() => 
+    getOfferForPlaybookSegment('loyalty-discount', defaultSegment || 'trial')
+  );
   const [schedule, setSchedule] = useState({
     start: 'Immediate (today)',
     channel: 'Email + in-app',
@@ -103,13 +113,11 @@ export function CreateActionPlanWizard({
     }
   }, [open]);
 
-  // Update offer when playbook or segment changes
+  // Update offer when playbook or segment changes, or when wizard opens
   useEffect(() => {
     if (playbook && segment) {
-      const defaultOffer = getDefaultOfferForPlaybook(playbook, segment);
-      if (defaultOffer) {
-        setOffer(defaultOffer);
-      }
+      const updatedOffer = getOfferForPlaybookSegment(playbook, segment);
+      setOffer(updatedOffer);
     }
   }, [playbook, segment]);
 

@@ -14,7 +14,7 @@ export interface StatItem {
 
 interface SummaryStatsBarProps {
   stats: StatItem[];
-  columns?: 2 | 3 | 4 | 5;
+  columns?: 2 | 3 | 4 | 5 | 6;
 }
 
 export function SummaryStatsBar({ stats, columns = 5 }: SummaryStatsBarProps) {
@@ -23,6 +23,7 @@ export function SummaryStatsBar({ stats, columns = 5 }: SummaryStatsBarProps) {
     3: 'md:grid-cols-3',
     4: 'md:grid-cols-4',
     5: 'md:grid-cols-5',
+    6: 'md:grid-cols-6',
   };
 
   return (

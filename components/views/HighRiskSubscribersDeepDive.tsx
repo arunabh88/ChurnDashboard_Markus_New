@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, AlertTriangle, TrendingUp, DollarSign, Users, PlayCircle, Shield } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, TrendingUp, DollarSign, Users, PlayCircle, Shield, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import {
   highRiskSubscribers,
@@ -112,8 +112,9 @@ export function HighRiskSubscribersDeepDive({ onBack, onNavigateToAction }: High
 
   const summaryStats = [
     { label: 'Total High-Risk', value: stats.total.toLocaleString(), icon: <AlertTriangle size={18} className="text-red-400" />, color: 'text-red-400' },
-    { label: 'Critical Risk', value: stats.critical, icon: <AlertTriangle size={18} className="text-red-400" />, color: 'text-red-400' },
-    { label: 'High Risk', value: stats.high, icon: <TrendingUp size={18} className="text-orange-400" />, color: 'text-orange-400' },
+    { label: 'Critical Risk', value: stats.critical.toLocaleString(), icon: <AlertTriangle size={18} className="text-red-400" />, color: 'text-red-400' },
+    { label: 'High Risk', value: stats.high.toLocaleString(), icon: <TrendingUp size={18} className="text-orange-400" />, color: 'text-orange-400' },
+    { label: 'Medium Risk', value: stats.medium.toLocaleString(), icon: <AlertCircle size={18} className="text-yellow-400" />, color: 'text-yellow-400' },
     { label: 'Revenue at Risk', value: `$${(stats.revenueAtRisk / 1000).toFixed(0)}K`, icon: <DollarSign size={18} className="text-yellow-400" />, color: 'text-yellow-400' },
     { label: 'Avg Churn Probability', value: `${stats.avgChurnProbability.toFixed(0)}%`, icon: <Shield size={18} className="text-sky-400" /> },
   ];
@@ -244,7 +245,7 @@ export function HighRiskSubscribersDeepDive({ onBack, onNavigateToAction }: High
       </motion.div>
 
       {/* Summary Stats Bar */}
-      <SummaryStatsBar stats={summaryStats} columns={5} />
+      <SummaryStatsBar stats={summaryStats} columns={6} />
 
       {/* Charts Section */}
       <div className="grid gap-4 lg:grid-cols-2">

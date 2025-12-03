@@ -17,7 +17,7 @@ import { ProblemContextSummary } from '@/components/analyse/ProblemContextSummar
 
 interface AnalyseViewProps {
   mode: 'overview' | 'segments' | 'trial-triggers' | 'new-users-triggers' | 'established-users-triggers';
-  navigationSource?: 'dashboard' | 'analyse' | null;
+  navigationSource?: 'dashboard' | 'analyse' | 'early-lifecycle' | null;
   onLaunchPlaybook: () => void;
   onShowSegments: () => void;
   onBackToOverview: () => void;
@@ -88,10 +88,23 @@ export function AnalyseView({
     onBackToOverview();
   };
 
+  // Determine back handler based on navigation source
+  const getBackHandler = () => {
+    if (navigationSource === 'early-lifecycle') {
+      // Return to Early Lifecycle Churn Deep Dive
+      return onBackToOverview;
+    } else if (navigationSource === 'dashboard') {
+      return onBackToOverview;
+    } else {
+      // From Analyse tab - go back to Journey section
+      return handleBackToJourneySection;
+    }
+  };
+
   if (mode === 'trial-triggers') {
     return (
       <TrialTriggersDrilldown
-        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        onBack={getBackHandler()}
         navigationSource={navigationSource}
         onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}
@@ -102,7 +115,7 @@ export function AnalyseView({
   if (mode === 'new-users-triggers') {
     return (
       <NewUsersTriggersDrilldown
-        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        onBack={getBackHandler()}
         navigationSource={navigationSource}
         onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}
@@ -113,7 +126,7 @@ export function AnalyseView({
   if (mode === 'established-users-triggers') {
     return (
       <EstablishedUsersTriggersDrilldown
-        onBack={navigationSource === 'dashboard' ? onBackToOverview : handleBackToJourneySection}
+        onBack={getBackHandler()}
         navigationSource={navigationSource}
         onNavigateToDashboard={onNavigateToDashboard}
         onCreatePlaybook={() => onLaunchPlaybook()}

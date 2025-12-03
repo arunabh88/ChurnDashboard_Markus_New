@@ -24,7 +24,7 @@ export default function Home() {
   const [analyseMode, setAnalyseMode] = useState<AnalyseMode>('overview');
   const [analyseFocus, setAnalyseFocus] = useState<string | null>(null);
   const [actionsFocus, setActionsFocus] = useState<string | null>(null);
-  const [navigationSource, setNavigationSource] = useState<'dashboard' | 'analyse' | null>(null);
+  const [navigationSource, setNavigationSource] = useState<'dashboard' | 'analyse' | 'early-lifecycle' | null>(null);
   const [subscribersView, setSubscribersView] = useState(false);
   const [churnRateView, setChurnRateView] = useState(false);
   const [highRiskView, setHighRiskView] = useState(false);
@@ -129,7 +129,7 @@ export default function Home() {
                     handleTabChange('act');
                   }}
                   onNavigateToDrilldown={(mode) => {
-                    setNavigationSource('dashboard');
+                    setNavigationSource('early-lifecycle');
                     setAnalyseMode(mode);
                     handleTabChange('analyse');
                   }}
@@ -183,12 +183,19 @@ export default function Home() {
                     setAnalyseMode('segments');
                   }}
                   onBackToOverview={() => {
-                    setAnalyseMode('overview');
-                    setNavigationSource(null);
+                    if (navigationSource === 'early-lifecycle') {
+                      // Return to Early Lifecycle Churn Deep Dive
+                      setEarlyLifecycleView(true);
+                      setNavigationSource(null);
+                      setAnalyseMode('overview');
+                    } else {
+                      setAnalyseMode('overview');
+                      setNavigationSource(null);
+                    }
                   }}
                   onNavigateToDrilldown={(mode) => {
                     // If navigating to drill-down from Analyse tab, keep source as 'analyse'
-                    if (navigationSource !== 'dashboard') {
+                    if (navigationSource !== 'dashboard' && navigationSource !== 'early-lifecycle') {
                       setNavigationSource('analyse');
                     }
                     setAnalyseMode(mode);

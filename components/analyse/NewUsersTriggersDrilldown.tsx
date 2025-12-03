@@ -25,7 +25,7 @@ import {
 
 interface NewUsersTriggersDrilldownProps {
   onBack: () => void;
-  navigationSource?: 'dashboard' | 'analyse' | null;
+  navigationSource?: 'dashboard' | 'analyse' | 'early-lifecycle' | null;
   onNavigateToDashboard?: () => void;
   onCreatePlaybook: (triggers: string[]) => void;
 }
@@ -65,7 +65,13 @@ export function NewUsersTriggersDrilldown({ onBack, navigationSource, onNavigate
         className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
       >
         <div>
-          {navigationSource === 'dashboard' ? (
+          {navigationSource === 'early-lifecycle' ? (
+            <Breadcrumb
+              variant="back-button"
+              onBack={onBack}
+              backLabel="Back to Early Lifecycle Churn Analysis"
+            />
+          ) : navigationSource === 'dashboard' ? (
             <Breadcrumb
               items={[
                 { label: 'Dashboard', onClick: onNavigateToDashboard || onBack },

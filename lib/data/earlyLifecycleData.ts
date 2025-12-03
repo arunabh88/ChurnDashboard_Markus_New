@@ -169,6 +169,57 @@ export interface EarlyLifecycleFilters {
   searchQuery: string;
 }
 
+/**
+ * Map city name to regional category
+ * @param city - The city name from subscriber data
+ * @returns Regional category (EMEA, Americas, or APAC)
+ */
+export function getRegionFromCity(city: string): 'EMEA' | 'Americas' | 'APAC' {
+  const emeaCities = [
+    'London',
+    'Manchester',
+    'Birmingham',
+    'Leeds',
+    'Glasgow',
+    'Liverpool',
+    'Bristol',
+    'Edinburgh',
+    'Newcastle',
+    'Cardiff',
+  ];
+  
+  const americasCities = [
+    'New York',
+    'Los Angeles',
+    'Chicago',
+    'Houston',
+    'Toronto',
+    'Vancouver',
+    'Mexico City',
+    'São Paulo',
+    'Buenos Aires',
+  ];
+  
+  const apacCities = [
+    'Sydney',
+    'Melbourne',
+    'Singapore',
+    'Hong Kong',
+    'Tokyo',
+    'Seoul',
+    'Mumbai',
+    'Bangalore',
+    'Shanghai',
+  ];
+  
+  if (emeaCities.includes(city)) return 'EMEA';
+  if (americasCities.includes(city)) return 'Americas';
+  if (apacCities.includes(city)) return 'APAC';
+  
+  // Default to EMEA for UK cities
+  return 'EMEA';
+}
+
 export function filterEarlyLifecycleData(
   subscribers: EarlyLifecycleSubscriber[],
   filters: EarlyLifecycleFilters
@@ -194,7 +245,10 @@ export function filterEarlyLifecycleData(
 
     // Region filter
     if (filters.region !== 'All' && filters.region !== 'Global') {
-      // Map region logic if needed
+      const subscriberRegion = getRegionFromCity(sub.region);
+      if (subscriberRegion !== filters.region) {
+        return false;
+      }
     }
 
     // Sign-up date range filter
@@ -235,5 +289,51 @@ export function getEarlyLifecycleStats(subscribers: EarlyLifecycleSubscriber[]) 
     revenueAtRisk: subscribers.reduce((sum, s) => sum + s.ltv, 0),
     avgDaysToChurn: total > 0 ? subscribers.reduce((sum, s) => sum + s.daysActive, 0) / total : 0, // Prevent division by zero
   };
+}
+
+/**
+ * Get trigger data grouped by region for chart visualization
+ * @param subscribers - Array of early lifecycle subscribers
+ * @returns Array of region data with trigger counts
+ */
+export function getTriggerDataByRegion(subscribers: EarlyLifecycleSubscriber[]) {
+  const regionMap: Record<string, Record<string, number>> = {};
+  
+  // Initialize all regions
+  const regions: ('EMEA' | 'Americas' | 'APAC')[] = ['EMEA', 'Americas', 'APAC'];
+  const triggerTypes = [
+    'Onboarding confusion',
+    'Content misalignment',
+    'Device setup issues',
+    'Engagement drop',
+    'Billing confusion',
+  ];
+  
+  // Initialize region map
+  regions.forEach((region) => {
+    regionMap[region] = {};
+    triggerTypes.forEach((trigger) => {
+      regionMap[region][trigger] = 0;
+    });
+  });
+  
+  // Count triggers by region
+  subscribers.forEach((sub) => {
+    const region = getRegionFromCity(sub.region);
+    sub.triggers.forEach((trigger) => {
+      if (regionMap[region][trigger] !== undefined) {
+        regionMap[region][trigger]++;
+      }
+    });
+  });
+  
+  // Transform to chart data format
+  return regions.map((region) => {
+    const data: Record<string, string | number> = { region };
+    triggerTypes.forEach((trigger) => {
+      data[trigger] = regionMap[region][trigger] || 0;
+    });
+    return data;
+  });
 }
 

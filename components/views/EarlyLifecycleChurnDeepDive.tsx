@@ -10,6 +10,8 @@ import {
   lifecycleSegments,
   filterEarlyLifecycleData,
   getEarlyLifecycleStats,
+  getRegionFromCity,
+  getTriggerDataByRegion,
   EarlyLifecycleFilters,
   EarlyLifecycleSubscriber,
 } from '@/lib/data/earlyLifecycleData';
@@ -53,6 +55,11 @@ export function EarlyLifecycleChurnDeepDive({
   }, [filteredSubscribers, currentPage]);
 
   const totalPages = Math.ceil(filteredSubscribers.length / itemsPerPage);
+
+  // Calculate trigger data by region for chart
+  const regionTriggerData = useMemo(() => {
+    return getTriggerDataByRegion(filteredSubscribers);
+  }, [filteredSubscribers]);
 
   const handleFilterChange = (key: keyof EarlyLifecycleFilters, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -248,6 +255,41 @@ export function EarlyLifecycleChurnDeepDive({
         </motion.div>
       </div>
 
+      {/* Churn Triggers by Region Chart */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="glass-card rounded-xl border border-sky-500/20 p-6"
+      >
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-sky-200 mb-4">Churn Triggers by Region</h3>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={regionTriggerData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#1E3A5F" />
+              <XAxis dataKey="region" stroke="#94a3b8" />
+              <YAxis stroke="#94a3b8" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#0f172a',
+                  border: '1px solid rgba(56,189,248,0.35)',
+                  borderRadius: '12px',
+                }}
+              />
+              <Legend />
+              <Bar dataKey="Onboarding confusion" stackId="a" fill="#a855f7" name="Onboarding confusion" />
+              <Bar dataKey="Content misalignment" stackId="a" fill="#ec4899" name="Content misalignment" />
+              <Bar dataKey="Device setup issues" stackId="a" fill="#f97316" name="Device setup issues" />
+              <Bar dataKey="Engagement drop" stackId="a" fill="#eab308" name="Engagement drop" />
+              <Bar dataKey="Billing confusion" stackId="a" fill="#3b82f6" name="Billing confusion" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <p className="mt-4 text-xs text-gray-400 text-center">
+          Shows distribution of churn triggers across regions. Stacked bars represent total trigger counts per region.
+        </p>
+      </motion.div>
+
       {/* Segment Breakdown */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -328,6 +370,7 @@ export function EarlyLifecycleChurnDeepDive({
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Subscriber ID</th>
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Name & Email</th>
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Plan</th>
+                    <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Region</th>
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Days Active</th>
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Churn Risk</th>
                     <th className="text-left text-gray-400 font-medium py-4 px-4 text-sm">Triggers</th>
@@ -352,6 +395,10 @@ export function EarlyLifecycleChurnDeepDive({
                         </div>
                       </td>
                       <td className="py-4 px-4 text-gray-300 text-sm">{sub.plan}</td>
+                      <td className="py-4 px-4">
+                        <div className="text-gray-300 text-sm">{getRegionFromCity(sub.region)}</div>
+                        <div className="text-gray-500 text-xs">{sub.region}</div>
+                      </td>
                       <td className="py-4 px-4 text-gray-300 text-sm">{sub.daysActive} days</td>
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-2">

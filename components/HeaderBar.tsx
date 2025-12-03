@@ -85,7 +85,11 @@ const MetricCard = ({
       }}
       role="button"
       tabIndex={0}
-      className="glass-card relative flex h-[210px] cursor-pointer flex-col overflow-hidden rounded-xl p-6 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 group"
+      className={`glass-card relative flex h-[210px] cursor-pointer flex-col overflow-hidden rounded-xl p-6 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 group ${
+        filterId === 'monthly-churn' || filterId === 'high-risk' || filterId === 'early-lifecycle'
+          ? 'border-2 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+          : 'border border-sky-500/20'
+      }`}
     >
       <div className="flex items-start justify-between mb-3">
         <div className={`p-3 rounded-lg bg-gradient-to-br ${gradient} kpi-icon-wrapper`}>

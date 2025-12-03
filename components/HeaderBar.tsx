@@ -49,7 +49,11 @@ const MetricCard = ({
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        boxShadow: 'none'
+      }}
       whileHover={{ 
         scale: 1.02, 
         boxShadow: isFocusCard 
@@ -57,6 +61,7 @@ const MetricCard = ({
           : '0 0 25px rgba(14, 165, 233, 0.4)' 
       }}
       whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2 }}
       onClick={() => {
         if (filterId === 'total-subscribers' && onNavigateSubscribers) {
           onNavigateSubscribers();
@@ -94,7 +99,7 @@ const MetricCard = ({
       tabIndex={0}
       className={`glass-card relative flex h-[210px] cursor-pointer flex-col overflow-hidden rounded-xl p-6 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 group ${
         isFocusCard
-          ? '!border-2 !border-red-500 focus-card-red-glow'
+          ? '!border-2 !border-red-500'
           : ''
       }`}
       style={

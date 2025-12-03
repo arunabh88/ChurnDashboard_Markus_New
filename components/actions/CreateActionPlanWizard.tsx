@@ -13,6 +13,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
+import { getDefaultOfferForPlaybook, getIncentiveOptions } from '@/lib/data/playbookOffers';
 
 interface CreateActionPlanWizardProps {
   open: boolean;
@@ -101,6 +102,16 @@ export function CreateActionPlanWizard({
       setStep(0);
     }
   }, [open]);
+
+  // Update offer when playbook or segment changes
+  useEffect(() => {
+    if (playbook && segment) {
+      const defaultOffer = getDefaultOfferForPlaybook(playbook, segment);
+      if (defaultOffer) {
+        setOffer(defaultOffer);
+      }
+    }
+  }, [playbook, segment]);
 
   const selectedSegment = useMemo(() => SEGMENTS.find((entry) => entry.id === segment), [segment]);
   const selectedPlaybook = useMemo(() => PLAYBOOKS.find((entry) => entry.id === playbook), [playbook]);
@@ -253,11 +264,31 @@ export function CreateActionPlanWizard({
                     <div className="grid gap-3 md:grid-cols-2">
                       <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-wide text-sky-200">
                         Incentive
-                        <input
-                          value={offer.incentive}
-                          onChange={(event) => setOffer((prev) => ({ ...prev, incentive: event.target.value }))}
-                          className="rounded-lg border border-sky-500/30 bg-slate-900/60 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-sky-400/70"
-                        />
+                        {(() => {
+                          const incentiveOptions = getIncentiveOptions(playbook, segment);
+                          if (incentiveOptions.length > 1) {
+                            return (
+                              <select
+                                value={offer.incentive}
+                                onChange={(event) => setOffer((prev) => ({ ...prev, incentive: event.target.value }))}
+                                className="rounded-lg border border-sky-500/30 bg-slate-900/60 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+                              >
+                                {incentiveOptions.map((option) => (
+                                  <option key={option} value={option}>
+                                    {option}
+                                  </option>
+                                ))}
+                              </select>
+                            );
+                          }
+                          return (
+                            <input
+                              value={offer.incentive}
+                              onChange={(event) => setOffer((prev) => ({ ...prev, incentive: event.target.value }))}
+                              className="rounded-lg border border-sky-500/30 bg-slate-900/60 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-sky-400/70"
+                            />
+                          );
+                        })()}
                       </label>
                       <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-wide text-sky-200">
                         Guardrail criteria

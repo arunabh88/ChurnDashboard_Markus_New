@@ -13,7 +13,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { getDefaultOfferForPlaybook, getIncentiveOptions } from '@/lib/data/playbookOffers';
+import { getDefaultOfferForPlaybook, getIncentiveOptions, generateAIOffers, type AIOfferVariation } from '@/lib/data/playbookOffers';
 
 interface CreateActionPlanWizardProps {
   open: boolean;
@@ -96,6 +96,9 @@ export function CreateActionPlanWizard({
     channel: 'Email + in-app',
     cadence: '2 touches over 7 days',
   });
+  const [aiOffers, setAiOffers] = useState<AIOfferVariation[]>([]);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [showAIOffers, setShowAIOffers] = useState(false);
 
   const isLastStep = step === STEPS.length - 1;
 
@@ -317,6 +320,114 @@ export function CreateActionPlanWizard({
                     </label>
                     <div className="rounded-lg border border-sky-500/20 bg-sky-500/10 p-4 text-xs text-sky-100">
                       <p>Einstein Copilot will automatically test incentive elasticity and adjust for ROI guardrails.</p>
+                    </div>
+
+                    {/* AI-Generated Offer Suggestions */}
+                    <div className="mt-6 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Sparkles size={18} className="text-sky-400" />
+                          <h4 className="text-sm font-semibold text-white">AI-Generated Offer Suggestions</h4>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (!showAIOffers) {
+                              setIsGeneratingAI(true);
+                              // Simulate AI generation delay
+                              setTimeout(() => {
+                                const generated = generateAIOffers(playbook, segment, offer);
+                                setAiOffers(generated);
+                                setIsGeneratingAI(false);
+                                setShowAIOffers(true);
+                              }, 800);
+                            } else {
+                              setShowAIOffers(false);
+                            }
+                          }}
+                          disabled={isGeneratingAI}
+                          className="inline-flex items-center gap-2 rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-semibold text-sky-200 hover:bg-sky-500/25 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {isGeneratingAI ? (
+                            <>
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                className="h-3 w-3 border-2 border-sky-400 border-t-transparent rounded-full"
+                              />
+                              Generating...
+                            </>
+                          ) : showAIOffers ? (
+                            'Hide Suggestions'
+                          ) : (
+                            <>
+                              <Sparkles size={14} />
+                              Generate AI Offers
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {showAIOffers && aiOffers.length > 0 && (
+                        <div className="space-y-3">
+                          {aiOffers.map((aiOffer, index) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="rounded-lg border border-purple-500/30 bg-gradient-to-r from-purple-500/10 to-pink-500/10 p-4"
+                            >
+                              <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1 space-y-2">
+                                  <div className="flex items-center gap-2">
+                                    <Sparkles size={14} className="text-purple-400" />
+                                    <span className="text-xs font-semibold text-purple-300">AI Suggestion {index + 1}</span>
+                                    {aiOffer.expectedLift && (
+                                      <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-2 py-0.5 text-xs text-emerald-300">
+                                        Lift {aiOffer.expectedLift}
+                                      </span>
+                                    )}
+                                    {aiOffer.expectedROI && (
+                                      <span className="rounded-full border border-sky-500/40 bg-sky-500/10 px-2 py-0.5 text-xs text-sky-200">
+                                        ROI {aiOffer.expectedROI}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="text-xs text-gray-300 space-y-1">
+                                    <p><span className="font-semibold text-white">Incentive:</span> {aiOffer.incentive}</p>
+                                    <p><span className="font-semibold text-white">Message:</span> {aiOffer.message}</p>
+                                    <p><span className="font-semibold text-white">Guardrail:</span> {aiOffer.guardrail}</p>
+                                    {aiOffer.reasoning && (
+                                      <p className="text-purple-300/80 italic mt-2">💡 {aiOffer.reasoning}</p>
+                                    )}
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOffer({
+                                      incentive: aiOffer.incentive,
+                                      message: aiOffer.message,
+                                      guardrail: aiOffer.guardrail,
+                                    });
+                                  }}
+                                  className="inline-flex items-center gap-1.5 rounded-lg border border-purple-500/40 bg-purple-500/20 px-3 py-1.5 text-xs font-semibold text-purple-200 hover:bg-purple-500/30 transition-colors whitespace-nowrap"
+                                >
+                                  <CheckCircle size={14} />
+                                  Use this offer
+                                </button>
+                              </div>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+
+                      {showAIOffers && aiOffers.length === 0 && !isGeneratingAI && (
+                        <div className="rounded-lg border border-sky-500/20 bg-sky-500/10 p-4 text-xs text-sky-100 text-center">
+                          <p>No AI suggestions available for this combination. Try customizing the offer manually.</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

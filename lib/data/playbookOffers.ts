@@ -154,17 +154,248 @@ export function getIncentiveOptions(playbookId: string, segmentId: string): stri
   const defaultOffer = getDefaultOfferForPlaybook(playbookId, segmentId);
   if (!defaultOffer) return [];
   
-  // For Onboarding Personalisation + Trial, return the alternative options
-  if (playbookId === 'onboarding-personalisation' && segmentId === 'trial') {
-    return [
+  const key = `${playbookId}-${segmentId}`;
+  
+  // Define incentive options for each combination
+  const incentiveOptionsMap: Record<string, string[]> = {
+    // Onboarding Personalisation
+    'onboarding-personalisation-trial': [
       '7-day extended trial + Premium content preview',
       'Personalized onboarding concierge + Device setup assistance',
       'AI-curated content playlist + Watchlist builder tutorial',
       'Premium sports channel preview (7 days) + Multi-device setup guide',
-    ];
+    ],
+    'onboarding-personalisation-new': [
+      'Personalized content discovery + Advanced features tutorial',
+      'Content recommendations + Multi-device setup',
+      'Advanced features tutorial + Personalized dashboard',
+      'Multi-device setup + Content discovery guide',
+    ],
+    'onboarding-personalisation-high-cltv': [
+      'Premium feature access + VIP concierge onboarding',
+      'VIP concierge onboarding + Exclusive content tour',
+      'Exclusive content tour + Personalized dashboard',
+      'Personalized dashboard + Premium feature access',
+    ],
+    'onboarding-personalisation-sports-fans': [
+      'Sports content deep-dive + Multi-screen setup guide',
+      'Multi-screen setup + Live match guide',
+      'Live match guide + Sports app tutorial',
+      'Sports app tutorial + Sports content deep-dive',
+    ],
+    
+    // Loyalty Discount
+    'loyalty-discount-trial': [
+      '$15 loyalty credit',
+      '$20 credit + 1 month free',
+      'Graduated discount tier',
+      'Early renewal bonus',
+    ],
+    'loyalty-discount-new': [
+      '$20 loyalty credit + 1 month free',
+      '$25 credit + 2 months free',
+      'Loyalty tier upgrade',
+      'Referral bonus',
+    ],
+    'loyalty-discount-high-cltv': [
+      'Graduated discount with loyalty credit for high-value subscribers',
+      'VIP pricing',
+      'Annual plan discount',
+      'Premium feature bundle',
+    ],
+    'loyalty-discount-sports-fans': [
+      'Sports package discount + Early renewal bonus',
+      'Early renewal bonus',
+      'Multi-sport bundle',
+      'Exclusive sports content access',
+    ],
+    
+    // Content Playlist Re-engagement
+    'content-playlist-trial': [
+      'Curated content playlist + Watchlist builder tutorial',
+      'AI recommendations + Favorites builder',
+      'Genre-specific playlist',
+      'Trending content access',
+    ],
+    'content-playlist-new': [
+      'Curated content playlists via push/email for dormant users',
+      'New releases playlist',
+      'Personalized recommendations',
+      'Multi-genre discovery',
+    ],
+    'content-playlist-high-cltv': [
+      'Exclusive premium content playlist + Early access',
+      'Early access content',
+      'Curated collections',
+      'VIP content library',
+    ],
+    'content-playlist-sports-fans': [
+      'Sports highlights playlist + Match replay access',
+      'Match replay access',
+      'Live event reminders',
+      'Sports documentary collection',
+    ],
+    
+    // Downgrade to Ad-supported
+    'downgrade-ad-supported-trial': [
+      'Ad-supported tier preview + Flexible plan options',
+      'Flexible plan options',
+      'Pay-as-you-go option',
+      'Basic tier with upgrade path',
+    ],
+    'downgrade-ad-supported-new': [
+      'Offer lower-cost ad-supported tier before cancellation intent',
+      'Lower-cost retention plan',
+      'Flexible billing',
+      'Core content retention',
+    ],
+    'downgrade-ad-supported-high-cltv': [
+      'Flexible pricing options + Premium feature retention',
+      'Premium feature retention',
+      'Annual discount option',
+      'Custom plan negotiation',
+    ],
+    'downgrade-ad-supported-sports-fans': [
+      'Sports-focused ad-supported plan + Core sports retention',
+      'Core sports retention',
+      'Flexible sports package',
+      'Basic sports access',
+    ],
+  };
+  
+  // Return options for this combination, or fallback to default
+  return incentiveOptionsMap[key] || [defaultOffer.incentive];
+}
+
+export interface AIOfferVariation extends PlaybookOffer {
+  expectedLift?: string;
+  expectedROI?: string;
+  reasoning?: string;
+}
+
+/**
+ * Generate AI-generated offer variations for a playbook + segment combination
+ * @param playbookId - The ID of the selected playbook
+ * @param segmentId - The ID of the selected segment
+ * @param currentOffer - The current offer configuration (optional, for context)
+ * @returns Array of 2-3 AI-generated offer variations
+ */
+export function generateAIOffers(
+  playbookId: string,
+  segmentId: string,
+  currentOffer?: PlaybookOffer
+): AIOfferVariation[] {
+  const key = `${playbookId}-${segmentId}`;
+  const defaultOffer = getDefaultOfferForPlaybook(playbookId, segmentId) || currentOffer;
+  
+  if (!defaultOffer) return [];
+  
+  // AI-generated variations for each combination
+  const aiVariationsMap: Record<string, AIOfferVariation[]> = {
+    // Onboarding Personalisation + Trial
+    'onboarding-personalisation-trial': [
+      {
+        incentive: 'Extended 10-day trial + Premium content unlock',
+        message: "Hi! We noticed you're exploring Sky TV. Let's make sure you get the most out of your trial. We're extending your trial by 10 days and unlocking premium content so you can experience everything we offer. Plus, get personalized setup help from our team.",
+        guardrail: 'Target users with engagement <35%, days active <8, or device setup issues. Exclude users who have watched >6 hours or completed onboarding.',
+        expectedLift: '+9.2%',
+        expectedROI: '3.1×',
+        reasoning: 'Extended trial period addresses time constraint concerns while premium unlock increases perceived value.',
+      },
+      {
+        incentive: 'AI-powered content discovery + One-on-one onboarding call',
+        message: "Welcome to Sky TV! We want to ensure you find content you'll love. Our AI will curate personalized recommendations just for you, and our onboarding specialist is available for a free 15-minute call to help you get started. Let's make your Sky TV experience amazing!",
+        guardrail: 'Target users with engagement <40%, no favorites saved, or content watched <2 hours. Exclude users who have scheduled onboarding call.',
+        expectedLift: '+8.7%',
+        expectedROI: '2.8×',
+        reasoning: 'Personalized human touch combined with AI recommendations addresses both onboarding confusion and content discovery.',
+      },
+    ],
+    
+    // Loyalty Discount + Trial
+    'loyalty-discount-trial': [
+      {
+        incentive: '$18 loyalty credit + Early renewal bonus',
+        message: 'You\'re doing great with Sky TV! Renew now and save $18 with our loyalty credit, plus get an early renewal bonus. Continue enjoying premium entertainment at a special price.',
+        guardrail: 'Target churn risk >60%, CLTV > $200, days active >15. Exclude users with payment issues.',
+        expectedLift: '+6.8%',
+        expectedROI: '3.6×',
+        reasoning: 'Slightly higher credit amount with early renewal bonus creates urgency and increases perceived value.',
+      },
+      {
+        incentive: 'Graduated loyalty tier + $15 credit',
+        message: 'Join our loyalty program! Renew today and unlock tier benefits plus a $15 credit. The longer you stay, the more you save. Start your loyalty journey now.',
+        guardrail: 'Target churn risk >65%, CLTV > $250, engagement score >30. Exclude users already in loyalty program.',
+        expectedLift: '+7.1%',
+        expectedROI: '3.4×',
+        reasoning: 'Loyalty tier structure creates long-term value perception beyond immediate discount.',
+      },
+    ],
+    
+    // Content Playlist + Trial
+    'content-playlist-trial': [
+      {
+        incentive: 'AI-curated binge-worthy playlist + Watchlist tutorial',
+        message: 'Discover your next favorite show! We\'ve created a personalized playlist of binge-worthy content based on your viewing patterns. Plus, learn how to build your perfect watchlist to never miss great content again.',
+        guardrail: 'Target users with content watched <4 hours, engagement <40%, or no watchlist. Exclude users with active watchlist.',
+        expectedLift: '+5.8%',
+        expectedROI: '2.7×',
+        reasoning: 'Binge-worthy framing increases engagement appeal while tutorial addresses onboarding needs.',
+      },
+      {
+        incentive: 'Trending now playlist + Genre discovery guide',
+        message: 'Stay in the loop! Get access to our "Trending Now" playlist featuring the most popular content, plus a guide to discovering new genres you might love. There\'s always something great to watch on Sky TV.',
+        guardrail: 'Target users with content diversity <2 genres, engagement <35%, or days since last watch >3. Exclude users with diverse viewing.',
+        expectedLift: '+5.4%',
+        expectedROI: '2.6×',
+        reasoning: 'Trending content creates FOMO while genre guide helps users discover new interests.',
+      },
+    ],
+    
+    // Downgrade Ad-supported + Trial
+    'downgrade-ad-supported-trial': [
+      {
+        incentive: 'Flexible ad-supported plan + Easy upgrade path',
+        message: 'We understand budget matters. Try our flexible ad-supported plan at a lower cost - you can always upgrade later with no penalties. Keep enjoying Sky TV content that fits your budget.',
+        guardrail: 'Target users with price sensitivity >60%, engagement <30%, or trial days >18. Exclude users who have expressed premium interest.',
+        expectedLift: '+4.8%',
+        expectedROI: '2.5×',
+        reasoning: 'Flexible framing with upgrade path reduces commitment anxiety while maintaining retention.',
+      },
+      {
+        incentive: 'Basic tier preview + Premium upgrade incentive',
+        message: 'Explore our basic tier with ads - it\'s more affordable and still gives you access to great content. Plus, if you upgrade to premium within 30 days, we\'ll credit your first month. Try it risk-free!',
+        guardrail: 'Target users with price sensitivity >65%, engagement <25%, or payment method issues. Exclude users with premium subscription history.',
+        expectedLift: '+4.5%',
+        expectedROI: '2.4×',
+        reasoning: 'Preview model with upgrade incentive maintains engagement while addressing price concerns.',
+      },
+    ],
+  };
+  
+  // Return AI variations for this combination, or generate generic ones
+  if (aiVariationsMap[key]) {
+    return aiVariationsMap[key];
   }
   
-  // For other combinations, return just the default incentive
-  return [defaultOffer.incentive];
+  // Generate generic AI variations if none exist
+  return [
+    {
+      incentive: `${defaultOffer.incentive} (Optimized)`,
+      message: `${defaultOffer.message} This offer has been optimized based on similar successful campaigns.`,
+      guardrail: defaultOffer.guardrail,
+      expectedLift: '+5.0%',
+      expectedROI: '2.5×',
+      reasoning: 'AI-optimized based on historical performance data for similar segments.',
+    },
+    {
+      incentive: `${defaultOffer.incentive} (Enhanced)`,
+      message: `${defaultOffer.message} Enhanced with best practices from top-performing retention campaigns.`,
+      guardrail: defaultOffer.guardrail,
+      expectedLift: '+5.5%',
+      expectedROI: '2.7×',
+      reasoning: 'Enhanced version incorporating industry best practices and A/B test results.',
+    },
+  ];
 }
 

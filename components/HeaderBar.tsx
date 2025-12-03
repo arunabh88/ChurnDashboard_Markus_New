@@ -44,11 +44,18 @@ const MetricCard = ({
   const changeDisplay = formatChange(change, metricType);
   const TrendIcon = changeDisplay.icon === 'up' ? TrendingUp : changeDisplay.icon === 'down' ? TrendingDown : null;
 
+  const isFocusCard = filterId === 'monthly-churn' || filterId === 'high-risk' || filterId === 'early-lifecycle';
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02, boxShadow: '0 0 25px rgba(14, 165, 233, 0.4)' }}
+      whileHover={{ 
+        scale: 1.02, 
+        boxShadow: isFocusCard 
+          ? '0 0 25px rgba(239, 68, 68, 0.6)' 
+          : '0 0 25px rgba(14, 165, 233, 0.4)' 
+      }}
       whileTap={{ scale: 0.98 }}
       onClick={() => {
         if (filterId === 'total-subscribers' && onNavigateSubscribers) {
@@ -86,8 +93,8 @@ const MetricCard = ({
       role="button"
       tabIndex={0}
       className={`glass-card relative flex h-[210px] cursor-pointer flex-col overflow-hidden rounded-xl p-6 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70 group ${
-        filterId === 'monthly-churn' || filterId === 'high-risk' || filterId === 'early-lifecycle'
-          ? '!border-2 !border-red-500'
+        isFocusCard
+          ? '!border-2 !border-red-500 focus-card-red-glow'
           : ''
       }`}
       style={
